@@ -1,0 +1,37 @@
+.main-footer{
+    background-color: $color_block_palet2;
+    color: #fff;
+    padding-top: 30px;
+    padding-bottom: 15px;
+    text-align: center;
+
+    .link{
+        margin-bottom: 20px;
+
+        a{
+            font-size: 2rem;
+        }
+    }
+
+    .sociaux{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        li{
+            margin-right:30px;
+
+            &:last-child{
+                margin-right: 0px;
+            }
+
+            i{
+                font-size: 3rem;
+            }
+        }
+    }
+
+    .legal-wrapper{
+        margin-top: 20px;
+    }
+}

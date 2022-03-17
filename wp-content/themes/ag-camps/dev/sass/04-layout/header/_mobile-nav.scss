@@ -1,0 +1,54 @@
+.navbar-wrapper{
+    .mobile-menu{
+        display: none;
+
+        @include media-screen($bk_mobile){
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: rgba(255,255,255,0.94);
+            border-top: 2px solid #000;
+            border-bottom: 5px solid $color_block_palet2;
+            max-height: 80vh;
+            overflow-y: scroll;
+            padding-left: 100px;
+            padding-top: 50px;
+            padding-bottom: 25px;
+
+            .menu-item{
+                margin-bottom: 20px;
+
+                a{
+                    font-size: 1.6rem;
+                    &:hover{
+                        color: $color_block_palet1;
+                    }
+                }
+            }
+
+            .sociaux{
+                display: flex;
+                align-items: center;
+                color: #9c9c9c;
+
+                li{
+                    padding: 0 20px;
+
+                    a{
+                        &:hover{
+                            color: #000;
+                        }
+                    }
+                }
+
+                
+            }
+
+            &.open{
+                display: block;
+            }
+        }
+
+    }
+}

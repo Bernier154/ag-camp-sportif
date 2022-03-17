@@ -1,0 +1,62 @@
+.social-links-menu {
+  @include clearfix;
+
+  &, a {
+    margin: 0;
+  }
+}
+
+.icon {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+#menu-social-links-menu {
+  a {
+    @include button(false, $primary, $hover-footer, $white, solid);
+    padding: 1rem;
+    border-radius: 2rem;
+  }
+
+  .menu-item:last-child {
+    a {
+      margin: 0;
+    }
+  }
+}
+
+@include breakpoint(small only) {
+  .footer-social-menu {
+    .social-links-menu {
+      .menu-item {
+        @include iconFooter;
+      }
+    }
+  }
+}
+
+@include breakpoint(medium) {
+  .footer-social-menu {
+    text-align: center;
+    position: relative;
+  }
+  .social-links-menu {
+    a {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+@include breakpoint(xlarge) {
+  .footer-social-menu {
+    .social-links-menu {
+      .menu-item {
+        @include iconFooter;
+      }
+    }
+  }
+
+  .social-links-menu, .menu-social-links-menu-container, .social-navigation {
+    width: 100%;
+  }
+}

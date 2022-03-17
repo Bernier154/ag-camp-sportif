@@ -1,0 +1,17 @@
+a {
+	text-decoration: none;
+	transition: color 0.5s ease;
+	color: inherit;
+
+	// &:visited {
+	// 	color: $color__link-visited;
+	// }
+	&:hover,
+	&:focus,
+	&:active {
+		color: $color_block_palet1;
+	}
+
+}
+
+

@@ -1,0 +1,86 @@
+
+.comment-navigation,
+.posts-navigation,
+.post-navigation {
+
+	.site-main & {
+		margin: 0 0 1.5em;
+		overflow: hidden;
+	}
+
+	.nav-previous {
+		float: left;
+		width: 50%;
+	}
+
+	.nav-next {
+		float: right;
+		text-align: right;
+		width: 50%;
+	}
+}
+
+.alignleft {
+	display: inline;
+	float: left;
+	margin-right: 1.5em;
+}
+
+.alignright {
+	display: inline;
+	float: right;
+	margin-left: 1.5em;
+}
+
+.aligncenter {
+	clear: both;
+	@include center-block;
+}
+
+/// Valider la pertinence de ce fichier, les clearfix ne sont pas nécessaire avec les flexbox.
+
+.clear:before,
+.clear:after,
+.entry-content:before,
+.entry-content:after,
+.comment-content:before,
+.comment-content:after,
+.site-header:before,
+.site-header:after,
+.site-content:before,
+.site-content:after,
+.site-footer:before,
+.site-footer:after {
+	@include clearfix;
+}
+
+.clear:after,
+.entry-content:after,
+.comment-content:after,
+.site-header:after,
+.site-content:after,
+.site-footer:after {
+	@include clearfix-after;
+}
+
+
+.entry-content{
+	margin-top: 83px; // height de la navbar
+
+	@include media-screen($bk_mobile){
+		margin-top: 0;
+	}
+}
+
+
+.section-anchor{
+	margin-top: -83px;
+	&:before{
+		display: block;
+		content: " ";
+		width: 100%;
+		height: 83px;
+		visibility: hidden;
+		pointer-events: none;
+	}
+}

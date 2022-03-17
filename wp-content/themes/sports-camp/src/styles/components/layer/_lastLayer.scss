@@ -1,0 +1,26 @@
+.widget.widget_text{
+  background-color:$primary;
+  width:100%;
+  padding: 6rem 0 6rem 0;
+
+  .widget-title{
+    color:$white;
+    text-align:center;
+    font-size:1.3rem;
+    text-transform:initial;
+    margin-bottom:1rem;
+    letter-spacing:0.2rem;
+  }
+}
+.mission-content{
+  color:white;
+  text-align:center;
+  width:90%;
+  margin:0 auto;
+}
+@include breakpoint(medium){
+  .widget.widget_text .widget-title{
+    font-size:1.5rem;
+    letter-spacing:0.2rem;
+  }
+}

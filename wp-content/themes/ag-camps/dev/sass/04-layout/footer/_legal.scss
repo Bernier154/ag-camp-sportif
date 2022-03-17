@@ -1,0 +1,18 @@
+.site-info{
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+    border-top: 1px solid #6d6f6f;
+
+
+    .legal{
+        color: #cccccc;
+        font-size: 14px;
+    }
+
+    a{
+        &:hover{
+            color: #fff;
+        }
+    }
+}

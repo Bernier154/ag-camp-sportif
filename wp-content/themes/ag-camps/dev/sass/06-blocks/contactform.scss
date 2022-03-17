@@ -1,0 +1,149 @@
+@import '../01-config/var';
+@import '../01-config/mixins';
+
+.section-contact{
+    background-color: $color_block_palet1;
+    color: #fff; 
+    padding-top: 85px;
+    padding-bottom: 45px;
+    position: relative;
+    overflow: hidden;
+
+    h2{
+        text-align: center;
+        margin-bottom: 50px;
+        font-weight: 600;
+
+        &:after{
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    .grid-wrapper{
+        display: flex;
+
+        @include media-screen($bk_mobile){
+            flex-wrap: wrap;
+        }
+
+        .left-row{
+            width: 30%;
+            padding-right: 15px;
+
+            @include media-screen($bk_mobile){
+                width: 60%;
+                margin: 0 auto;
+                margin-bottom: 50px;
+            }
+
+            .svg-wrapper{
+                svg{
+                    max-width: 250px;
+                }
+                *{
+                    opacity: 1;
+                }
+            }
+        }
+        .right-row{
+            width: 70%;
+            padding-left: 15px;
+
+            @include media-screen($bk_mobile){
+                width: 100%;
+            }
+        }
+    }
+
+    .svg-wrapper-bg{
+        position: absolute;
+        bottom: 0;
+        right: -100px;
+        z-index: 1;
+        pointer-events: none;
+        top: 0;
+        width: 100%;
+        left: 0;
+
+        .parallax-svg-wrapper{
+            height: 100%;
+        }
+
+        svg{
+            max-height: 200%;
+            opacity: 0.15;
+
+            @include media-screen($bk_mobile){
+                max-height: none;
+                height: 100%;
+            }
+        }
+    }
+
+    .form-wrapper{
+        display: flex;
+        flex-wrap: wrap;
+
+        
+
+        input{
+            width: 100%;
+            color: #fff;
+        }
+
+        input[type=submit]{
+            width: auto;
+            color: $color_block_palet1;
+            margin-left: 50px;
+
+            &:hover{
+                color: #fff;
+            }
+        }
+
+        label{
+            padding-left: 15px;
+        }
+
+        textarea{
+            height: 100px;
+            color: #fff;
+        }
+
+        .form-element{
+            width: 50%;
+            padding-right: 15px;
+            margin-bottom: 50px;
+
+            @include media-screen(1000px){
+                width: 100%;
+            }
+        }
+
+        .form-element-double{
+            width: 100%;
+            padding-right: 15px;
+            margin-bottom: 50px;
+        }
+    }
+
+    .ajax-loader.is-active{
+        background-image: none;
+        position: relative;
+        width: 100%;
+        text-align: center;
+        z-index: 9;
+        height: 0;
+
+        &:after{
+            content: '\f110';
+            font-family: "Font Awesome 5 pro";
+            animation: fa-spin 2s linear infinite;
+            display: block;
+            margin-top: 10px;
+            color: #fff;
+            margin-right: 5px;
+        }
+    }
+}

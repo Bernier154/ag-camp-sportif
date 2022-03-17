@@ -1,0 +1,15 @@
+@import '01-config/var';
+@import '01-config/mixins';
+
+@import '05-shop/components/components';
+@import '05-shop/components/widget';
+
+@import '05-shop/products-list/up-sell';
+@import '05-shop/products-list/cross-sale';
+@import '05-shop/products-list/filters';
+@import '05-shop/products-list/main-shop';
+
+@import '05-shop/tables';
+@import '05-shop/single-product';
+@import '05-shop/my-account';
+@import '05-shop/checkout';

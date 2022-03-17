@@ -1,0 +1,49 @@
+.sticky {
+	display: block;
+}
+
+.updated:not(.published) {
+	display: none;
+}
+
+.page-links {
+	clear: both;
+	margin: 0 0 1.5em;
+}
+
+.has-color-1-background-color{
+	background-color: $color_block_palet1;
+}
+.has-color-2-background-color{
+	background-color: $color_block_palet2;
+}
+.has-color-3-background-color{
+	background-color: $color_block_palet3;
+}
+
+.has-color-1-color{
+	color: $color_block_palet1;
+}
+.has-color-2-color{
+	color: $color_block_palet2;
+}
+.has-color-3-color{
+	color: $color_block_palet3;
+}
+.has-color-4-color{
+	color: $color_block_palet4;
+}
+.has-color-5-color{
+	color: $color_block_palet5;
+}
+.has-color-4-background-color{
+	background-color: $color_block_palet4;
+}
+.has-color-5-background-color{
+	background-color: $color_block_palet5;
+}
+
+#main{
+	padding: 0;
+	margin: 0 auto;
+}

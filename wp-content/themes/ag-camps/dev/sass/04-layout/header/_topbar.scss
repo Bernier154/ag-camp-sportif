@@ -1,0 +1,19 @@
+.topbar-wrapper{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $color_block_palet2;
+
+    @include media-screen($bk_mobile){
+        display: none;
+    }
+
+    .content{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: $color_block_palet2;
+        font-weight: 400;
+    }
+
+
+}

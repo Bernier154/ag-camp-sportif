@@ -1,0 +1,28 @@
+.media-separator{
+  @include xy-grid-container();
+  @include xy-grid;
+
+}
+.media-list{
+  padding:1rem 0 5rem 0
+}
+.media-item{
+  margin-bottom:1rem;
+}
+.media-separator-title{
+  @include xy-cell(12);
+  margin:3rem auto 3rem auto;
+  text-align:center;
+  font-size:1.3rem;
+  font-weight:700;
+  color:$gray-layer;
+}
+@include breakpoint(xlarge){
+  .media-item{
+    @include xy-cell(6);
+    margin-bottom:1rem;
+  }
+  .media-separator-title{
+    font-size:1.5rem;
+  }
+}

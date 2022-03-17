@@ -1,0 +1,51 @@
+@import '../01-config/var';
+@import '../01-config/mixins';
+
+.section-parallax-wrapper{
+    position: relative;
+
+    figure{
+        height: 500px;
+
+        @include media-screen($bk_mobile){
+            height: 400px;
+        }
+
+        img{
+            @include media-screen($bk_mobile){
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    .content-on-image{
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        transform: translateY(-50%);
+        text-align: center;
+        z-index: 5;
+        color: #fff;
+
+        h2{
+            margin: 0;
+            font-weight: 300;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.25);
+
+            &:after{
+                display: none;
+            }
+
+            strong{
+                font-weight: 600;
+            }
+        }
+
+        .arrow-wrapper{
+            margin-top: 60px;
+        }
+    }
+}

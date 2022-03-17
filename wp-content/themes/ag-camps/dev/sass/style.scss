@@ -1,0 +1,57 @@
+// import config 
+@import '01-config/var';
+@import '01-config/mixins';
+@import '01-config/utils';
+
+@import "normalize";
+
+// import typo
+@import '02-typo/heading';
+@import '02-typo/text';
+
+// import component
+@import '03-components/buttons';
+@import '03-components/comments';
+@import '03-components/forms';
+@import '03-components/images';
+@import '03-components/links';
+@import '03-components/lists';
+@import '03-components/popups';
+@import '03-components/sociaux';
+@import '03-components/tables';
+@import '03-components/widget';
+
+// import layout
+@import '04-layout/banner/home-banner';
+@import '04-layout/banner/main-banner';
+
+@import '04-layout/content/grid';
+@import '04-layout/content/sidebar';
+@import '04-layout/content/posts';
+
+@import '04-layout/footer/legal';
+@import '04-layout/footer/main-footer';
+
+@import '04-layout/header/mobile-nav';
+@import '04-layout/header/navbar';
+@import '04-layout/header/topbar';
+
+
+@import '06-blocks/general-blocks-style';
+// montre la page quand loadé
+#page{visibility:visible;}
+
+#wpadminbar{
+    display: none;
+}
+
+html,body{
+    margin-top: 0 !important;
+}
+
+
+
+
+
+
+

@@ -1,0 +1,32 @@
+// Config
+@import 'config/functions';
+@import 'config/mixins';
+@import 'config/foundation';
+@import 'config/variable';
+@import 'config/fonts';
+
+// Vendor
+@import 'vendor/foundation';
+
+// Components
+@import 'components/common/reset';
+@import 'components/header/nav';
+@import 'components/header/jumbotron';
+@import 'components/layer/common';
+@import 'components/layer/activities';
+@import 'components/layer/lastLayer';
+@import 'components/footer/base';
+@import 'components/footer/contact-info';
+@import 'components/footer/social-nav';
+@import 'components/footer/nav';
+@import 'components/footer/contact-section';
+@import 'components/footer/logo';
+@import 'components/page/activities/activity';
+@import 'components/page/activity/info';
+@import 'components/page/ourTeam/base';
+@import 'components/page/ourTeam/layer1';
+@import 'components/page/media/gallery';
+
+
+// Layouts
+@import 'layouts/global';

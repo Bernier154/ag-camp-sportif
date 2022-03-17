@@ -1,0 +1,19 @@
+h1, h2, h3, h4, h5, h6 {
+	clear: both;
+	margin-top: 0;
+	font-family: "Montserrat";
+}
+p+h2{
+	margin-top: -20px;
+}
+
+h2{
+	font-size: 4.8rem;
+	font-weight: 800;
+	@include letter-spacing(25);
+	margin-bottom: 40px !important;
+}
+
+h3{
+	font-size: 4rem;
+}

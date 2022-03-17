@@ -1,0 +1,12 @@
+@mixin border($color, $dir) {
+    border#{if($dir, '-' + $dir, '')}: 1px solid $color;
+}
+@mixin iconFooter{
+    margin-left: 0;
+    width: 30%;
+    float: left;
+    margin-right: .3rem;
+}
+@mixin trianglePosition(){
+
+}

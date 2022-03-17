@@ -1,0 +1,29 @@
+.custom-logo-link {
+  padding-right: 0;
+}
+.footer-logo .custom-logo-link .custom-logo {
+  max-width:11em;
+  height:auto;
+}
+@include breakpoint(medium) {
+  .footer-col.footer-logo {
+    position: relative;
+    padding-left: 0;
+
+    .custom-logo-link {
+      display: block;
+    }
+  }
+}
+@include breakpoint(large){
+  .footer-logo .custom-logo-link .custom-logo {
+    max-width:12em;
+  }
+}
+@include breakpoint(xlarge){
+  .footer-logo .custom-logo-link .custom-logo {
+    max-width:15em;
+  }
+}
+
+

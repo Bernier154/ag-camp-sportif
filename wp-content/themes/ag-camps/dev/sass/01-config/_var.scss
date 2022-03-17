@@ -1,0 +1,89 @@
+/*
+    couleur 
+*/
+
+$default_secondary_color: #000; // utilisé pour styler les liens dans le init
+$default_main_color: #FFF; // Utilisé couleur des liens en hover dans le init
+
+// settup des couleurs pour guttenberg (il faut mettre les mêmes valeurs dans la fonctione php)
+$color_block_palet1 : #ce4141;
+$color_block_palet2 : #212121;
+$color_block_palet3 : #363636;
+$color_block_palet4 : #fff;
+$color_block_palet5 : #000;
+
+ 
+$color__background-body: #fff; // couleur du body
+$color__background-screen: #f1f1f1; // background-color on focus pour la .screen-reader-text
+$color__background-hr: #ccc; // background-color hr
+$color__background-pre: #eee; // background-color pre
+$color__background-ins: #fff9c0; // background pour mark et ins
+
+$color__text-screen: #21759b; // color de .screen-reader-text on focus
+$color__text-input: #666; // color de tous les input
+$color__text-input-focus: #111; // color de tous les input on focus
+$color__link: royalblue; // color link // sert aussi pour les étoiles WC et le background de .ui-slider-range
+$color__link-visited: purple; // color link on visited
+$color__link-hover: midnightblue; // color link on hover/active/focus 
+$color__text-main: #404040; // color de body, input, select, optgroup, textarea
+
+$color__background-button: #e6e6e6; // background-color de button, input button, input reset, input submit
+$color__background-button-hover: transparent; // background-color au hover de button, input button, input reset, input submit
+$color__border-button: #ccc #ccc #bbb; // color des button, input button reset submit
+$color__border-button-hover: #ccc #bbb #aaa; // color hover des button, input button reset submit
+$color__border-button-focus: #aaa #bbb #bbb; // color button on focus et active
+$color__border-input: #ccc; // couleur de la bordure des inputs 
+$color__border-abbr: #666; // couleur de la border-bottom des abbr, acronym
+
+$color__select_arrow : str-slice(#{$color__text-input}, 2); // Couleur de la flèche des select.
+
+/*
+    colonne 
+*/
+
+//la variable colonne permet de déterminer la largeur
+$columns: ( 
+	1: 100%,
+	2: 50%,
+	3: 33.33%,
+	4: 25%,
+	5: 20%,
+	6: 16.66%,
+	7: 14.28%,
+	8: 12.5%,
+	9: 11.11%
+);
+
+$columns__margin: 3.8%; // la marge des colonnes
+
+
+/*
+    structure
+*/
+
+$site__content-max-width: 1200px; // max width du contenu.
+$site__content-wide-max-width: 1700px; // max width du contenu wide.
+$site__gutter: 15px; // espace gauche et droite pour le contenu.
+$size__site-main: 100%; // width du .content-area
+$size__site-sidebar: 25%; // width du sidebar
+
+
+/*
+    font
+*/
+
+$font__main: 'Montserrat', cursive; // font family pour body, button, input, select, optgroup, textearea
+$font__code: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace; // font pour code, kbd, tt, var
+$font__pre: "Courier 10 Pitch", Courier, monospace; // font family pour pre
+$font__line-height-body: 1.5; // line-height de body, button, input, select, optgroup, textearea
+$font__line-height-pre: 1.6; // line-height des pre
+
+
+$bk_mobile : 768px;
+
+$woocommerce__color-error: #e2401c;
+$woocommerce__color-success: #0f834d;
+$woocommerce__color-info: #3D9CD2;
+
+
+

@@ -1,0 +1,203 @@
+.wp-block-cover.up-negative-margin{
+    margin-top: -150px;
+
+    p{
+        margin: 0;
+        margin-top: 150px;
+    }
+}
+
+.both-title-border{
+    margin-bottom: 0;
+
+    &:before,&:after{
+        content: '';
+        display: block;
+        height: 7px;
+        width: 80%;
+        background-color: $color_block_palet1;
+        border-radius: 5px;
+    }
+
+    &:before{
+        margin-bottom: 30px;
+    }
+
+    &:after{
+        margin-top: 30px;
+    }
+    
+}
+
+.bottom-title-border{
+    &:after{
+        content: '';
+        display: block;
+        height: 7px;
+        width: 80%;
+        background-color: $color_block_palet1;
+        border-radius: 5px;
+        margin-top: 30px;
+    }
+}
+
+.wp-block-columns{
+    margin-bottom: 0;
+}
+
+.wp-block-spacer{
+    @include media-screen($bk_mobile){
+        max-height: 50px;
+    }
+}
+
+.add-special-dot{
+    &:after{
+        content: '...';
+        display: block;
+        color: $color_block_palet1;
+        @include line-height(23,36);
+        font-size: 3.6rem;
+    }
+}
+
+.entry-content .wp-block-columns{
+    padding: 0;
+}
+
+.entry-content .wp-block-columns p{
+    
+    &.has-text-align-center{
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+.wp-block-columns .wp-block-image{
+    height: 480px;
+   
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.8;
+    }
+}
+
+// options 
+.wp-block-columns.cols-special-margin{
+    margin-top: 12px;
+
+    .wp-block-column{
+        margin: 0;
+        padding-bottom: 50px;
+
+        @include media-screen($bk_mobile,min){
+            &:nth-child(2){
+                margin-left: 12px;
+                margin-right: 12px;
+            }
+        }
+
+        @include media-screen($bk_mobile){
+            margin-bottom: 12px;
+        }
+
+        
+    }
+
+    .wp-block-cover{
+
+        min-height: 430px;
+
+        @include media-screen($bk_mobile){
+            min-height: 350px;
+        }
+
+        p{
+           font-size: 4rem;
+           font-weight: 700; 
+           text-transform: uppercase;
+
+           @include media-screen($bk_mobile){
+               font-size: 3rem;
+           }
+
+           &:after{
+               content: '';
+               display: block;
+               width: 60px;
+               height: 3px;
+               margin: 0 auto;
+               margin-top: 20px;
+               background-color: #fff;
+           }
+        }
+    }
+
+    .wp-block-column{
+        &:first-child{
+            animation-delay: 0.5s;
+
+            & + .wp-block-column{
+                animation-delay: 0.9s;
+
+                & + .wp-block-column{
+                    animation-delay: 1.3s;
+                }
+            }
+        }
+    }
+}
+
+.wp-block-columns{
+    overflow: hidden;
+}
+
+.logo-triangle.wp-block-column,.logo-un-bromont.wp-block-column{
+    p{
+        &:after{
+            content: '\f063';
+            display: block;
+            font-family: "Font Awesome 5 pro";
+            margin-top: 50px;
+            color: #fff;
+            font-size: 3rem;
+            font-weight: 300;
+        }
+    }
+}
+
+
+.wp-block-columns{
+    .wp-block-column{
+        margin-left: 0;
+
+        h2,p{
+            padding-left: 30px;
+            padding-right: 15px;
+        }
+
+        .wp-block-button__link{
+            margin-left: 30px;
+            margin-right: 10px;
+        }
+    }
+}
+
+.wp-block-embed__wrapper{
+    margin-bottom: 100px;
+}
+
+.site-main-wrapper{
+    .wp-block-columns.has-background{
+        padding: 0;
+    }
+}
+
+.wp-block-image{
+    background-color: $color_block_palet1;
+    img{
+        opacity: 0.75;
+    }
+}

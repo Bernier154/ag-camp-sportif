@@ -1,0 +1,9 @@
+diff a/wp-content/themes/sports-camp/archive.php b/wp-content/themes/sports-camp/archive.php	(rejected hunks)
+@@ -9,6 +9,7 @@
+     $$plural = $wp_query;
+     ?>
+     <section class="section section-<?= $queryObjectName ?>">
++        <?php include(locate_template('template-parts/' . $queryObjectName . '/list.php')); ?>
+     </section>
+ 
+ <?php else : ?>

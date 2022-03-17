@@ -1,0 +1,54 @@
+.main-menu-menu {
+  display: block;
+  background: none;
+  border-top: 0;
+  padding: 0;
+  margin: 0;
+
+  .menu-item {
+    border-bottom: none;
+
+    &:last-child {
+      a {
+        padding-bottom: 0;
+      }
+    }
+  }
+
+  a {
+    text-align: center;
+    padding-bottom: $footer-padding-menu;
+    display: block;
+    font-size: 1rem;
+
+    &:hover {
+      color: $hover-footer;
+    }
+  }
+}
+
+@include breakpoint(medium) {
+  .main-menu-menu {
+    .menu-item {
+      width: 100%;
+    }
+
+    a {
+      text-align: left;
+      font-size: 1rem;
+    }
+  }
+}
+
+@include breakpoint(large) {
+  .main-menu-menu {
+    a {
+      font-size: 1.2rem;
+    }
+  }
+
+  .contact-info-name {
+    margin-bottom: 1rem;
+    font-size: .8rem;
+  }
+}
