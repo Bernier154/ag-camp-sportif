@@ -127,15 +127,17 @@ class NF_Admin_Notices
                     // Admin notice display output
                     echo '<div class="update-nag nf-admin-notice">';
                     echo '<div class="nf-notice-logo"></div>';
-                    echo ' <p class="nf-notice-title">';
+                    echo '<div class="nf-notice-container">';
+                    echo '<div class="nf-notice-title">';
                     echo esc_html( $admin_display_title );
-                    echo ' </p>';
+                    echo '</div>';
                     echo ' <p class="nf-notice-body">';
                     echo $admin_display_msg;
                     echo ' </p>';
-                    echo '<ul class="nf-notice-body nf-red">
+                    echo '<ul class="nf-notice-links">
                           ' . $admin_display_link . '
                         </ul>';
+                    echo '</div>';
                     if ( $admin_can_dismiss ) {
                         echo '<a href="' . wp_nonce_url( esc_attr( $query_str ) ) . '" class="dashicons dashicons-dismiss"></a>';
                     }
@@ -175,7 +177,7 @@ class NF_Admin_Notices
                 exit;
             }
             $admin_notices_option = get_option( 'nf_admin_notice', array() );
-            $admin_notices_option[ $_GET[ 'nf_admin_notice_ignore' ] ][ 'dismissed' ] = 1;
+            $admin_notices_option[ WPN_Helper::sanitize_text_field($_GET[ 'nf_admin_notice_ignore' ]) ][ 'dismissed' ] = 1;
             update_option( 'nf_admin_notice', $admin_notices_option );
             $query_str = remove_query_arg( array( 'nf_admin_notice_ignore', '_wpnonce' ) );
             wp_safe_redirect( $query_str );
@@ -193,12 +195,12 @@ class NF_Admin_Notices
 
             $current_date = current_time( "n/j/Y" );
             $date_array = explode( '/', $current_date );
-            $interval = ( isset( $_GET[ 'nf_int' ] ) ? $_GET[ 'nf_int' ] : 14 );
+            $interval = ( isset( $_GET[ 'nf_int' ] ) ? intval($_GET[ 'nf_int' ]) : 14 );
             $date_array[1] += $interval;
             $new_start = date( "n/j/Y", mktime( 0, 0, 0, $date_array[0], $date_array[1], $date_array[2] ) );
 
-            $admin_notices_option[ $_GET[ 'nf_admin_notice_temp_ignore' ] ][ 'start' ] = $new_start;
-            $admin_notices_option[ $_GET[ 'nf_admin_notice_temp_ignore' ] ][ 'dismissed' ] = 0;
+            $admin_notices_option[ WPN_Helper::sanitize_text_field($_GET[ 'nf_admin_notice_temp_ignore' ]) ][ 'start' ] = $new_start;
+            $admin_notices_option[ WPN_Helper::sanitize_text_field($_GET[ 'nf_admin_notice_temp_ignore' ]) ][ 'dismissed' ] = 0;
             update_option( 'nf_admin_notice', $admin_notices_option );
             $query_str = remove_query_arg( array( 'nf_admin_notice_temp_ignore', 'nf_int' ) );
             wp_redirect( $query_str );

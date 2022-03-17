@@ -2,6 +2,8 @@
 
 final class NF_Display_Render
 {
+    protected static $render_instance_count = array();
+
     protected static $loaded_templates = array(
         'app-layout',
         'app-before-form',
@@ -25,7 +27,7 @@ final class NF_Display_Render
         'field-null'
     );
 
-    protected static $use_test_values = FALSE;
+    public static $use_test_values = FALSE;
 
     protected static $form_uses_recaptcha      = array();
     protected static $form_uses_datepicker     = array();
@@ -81,6 +83,9 @@ final class NF_Display_Render
             unset( $settings[ $name ] );
         }
 
+        // Remove the embed_form setting to avoid pagebuilder conflicts.
+        $settings[ 'embed_form' ] = '';
+
         $settings = array_merge( Ninja_Forms::config( 'i18nFrontEnd' ), $settings );
         $settings = apply_filters( 'ninja_forms_display_form_settings', $settings, $form_id );
 
@@ -91,22 +96,34 @@ final class NF_Display_Render
             return;
         }
 
-        if( $form->get_setting( 'sub_limit_number' ) ){
-            $subs = Ninja_Forms()->form( $form_id )->get_subs();
-
-            // TODO: Optimize Query
+        if( $form->get_setting( 'sub_limit_number' ) && ! empty($form->get_setting( 'sub_limit_number' )) ){
             global $wpdb;
-            $count = 0;
-            $subs = $wpdb->get_results( "SELECT post_id FROM " . $wpdb->postmeta . " WHERE `meta_key` = '_form_id' AND `meta_value` = $form_id" );
-            foreach( $subs as $sub ){
-                if( 'publish' == get_post_status( $sub->post_id ) ) $count++;
-            }
+            $result = $wpdb->get_row( "SELECT COUNT(DISTINCT(p.ID)) AS count FROM `$wpdb->posts` AS p
+            LEFT JOIN `$wpdb->postmeta` AS m
+            ON p.ID = m.post_id
+            WHERE m.meta_key = '_form_id'
+            AND m.meta_value = $form_id
+            AND p.post_status = 'publish'");
 
-            if( $count >= $form->get_setting( 'sub_limit_number' ) ) {
+            if( intval( $result->count ) >= $form->get_setting( 'sub_limit_number' ) ) {
                 echo do_shortcode( apply_filters( 'nf_sub_limit_reached_msg', $form->get_setting( 'sub_limit_msg' ), $form_id ));
                 return;
             }
         }
+
+        // Get our maintenance value out of the DB.
+        $maintenance = WPN_Helper::form_in_maintenance( $form_id );
+
+        // If maintenance isn't empty and the bool is set to 1 then..
+        if( true == $maintenance ) {
+            // Set a filterable maintenance message and echo it out.
+            $maintenance_msg = apply_filters( 'nf_maintenance_message', esc_html__( 'This form is currently undergoing maintenance. Please try again later.', 'ninja-forms' ) );
+            echo $maintenance_msg;
+
+            // bail.
+            return false;
+        }
+
 
         if( ! apply_filters( 'ninja_forms_display_show_form', true, $form_id, $form ) ) return;
 
@@ -115,7 +132,7 @@ final class NF_Display_Render
         $form->update_setting( 'currency_symbol', ( isset( $currency_symbol[ $currency ] ) ) ? $currency_symbol[ $currency ] : '' );
 
         $title = apply_filters( 'ninja_forms_form_title', $form->get_setting( 'title' ), $form_id );
-        $form->update_setting( 'title', $title );
+        $form->update_setting( 'title', esc_html( $title ) );
 
         $before_form = apply_filters( 'ninja_forms_display_before_form', '', $form_id );
         $form->update_setting( 'beforeForm', $before_form );
@@ -133,7 +150,7 @@ final class NF_Display_Render
         $fields = array();
 
         if( empty( $form_fields ) ){
-            echo __( 'No Fields Found.', 'ninja-forms' );
+            echo esc_html__( 'No Fields Found.', 'ninja-forms' );
         } else {
 
             // TODO: Replace unique field key checks with a refactored model/factory.
@@ -237,6 +254,8 @@ final class NF_Display_Render
                 }
 
                 $settings = $field[ 'settings' ];
+                // Scrub any values that might be stored in data. Defaults will set these later.
+                $settings['value'] = '';
                 foreach ($settings as $key => $setting) {
                     if (is_numeric($setting) && 'custom_mask' != $key )
                     	$settings[$key] =
@@ -263,12 +282,14 @@ final class NF_Display_Render
                     if ($default_value) {
                         $settings['value'] = $default_value;
 
-                        ob_start();
-                        do_shortcode( $settings['value'] );
-                        $ob = ob_get_clean();
+                        if( ! is_array( $default_value ) ) {
+                            ob_start();
+                            do_shortcode( $settings['value'] );
+                            $ob = ob_get_clean();
 
-                        if( ! $ob ) {
-                            $settings['value'] = do_shortcode( $settings['value'] );
+                            if( ! $ob ) {
+                                $settings['value'] = do_shortcode( $settings['value'] );
+                            }
                         }
                     }
                 }
@@ -293,6 +314,7 @@ final class NF_Display_Render
                     $settings[ 'product_price' ] = str_replace( '||', '.', $settings[ 'product_price' ] );
 
                 } elseif ('total' == $settings['type'] && isset($settings['value'])) {
+                    if ( empty( $settings['value'] ) ) $settings['value'] = 0;
                     $settings['value'] = number_format($settings['value'], 2);
                 }
 
@@ -305,22 +327,22 @@ final class NF_Display_Render
                 if( 'recaptcha' == $field[ 'settings' ][ 'type' ] ){
                     array_push( self::$form_uses_recaptcha, $form_id );
                 }
-                if( 'date' == $field[ 'settings' ][ 'type' ] ){
+                if( 'date' == $field[ 'settings' ][ 'type' ] || self::checkRepeaterChildType($field, 'date') ){
                     array_push( self::$form_uses_datepicker, $form_id );
                 }
-                if( 'starrating' == $field[ 'settings' ][ 'type' ] ){
+                if( 'starrating' == $field[ 'settings' ][ 'type' ] || self::checkRepeaterChildType($field, "starrating")){
                     array_push( self::$form_uses_starrating, $form_id );
                 }
-                if( isset( $field[ 'settings' ][ 'mask' ] ) && $field[ 'settings' ][ 'mask' ] ){
+                if( isset( $field[ 'settings' ][ 'mask' ] ) && $field[ 'settings' ][ 'mask' ] || self::checkRepeaterChildSetting($field, "mask", null) ){
                     array_push( self::$form_uses_inputmask, $form_id );
                 }
-                if( isset( $field[ 'settings' ][ 'mask' ] ) && 'currency' == $field[ 'settings' ][ 'mask' ] ){
+                if( isset( $field[ 'settings' ][ 'mask' ] ) && 'currency' == $field[ 'settings' ][ 'mask' ] || self::checkRepeaterChildSetting($field, "mask", "currency") ){
                     array_push( self::$form_uses_currencymask, $form_id );
                 }
-                if( isset( $field[ 'settings' ][ 'textarea_rte' ] ) && $field[ 'settings' ][ 'textarea_rte' ] ){
+                if( isset( $field[ 'settings' ][ 'textarea_rte' ] ) && $field[ 'settings' ][ 'textarea_rte' ] || self::checkRepeaterChildSetting($field, "textarea_rte", null) ){
                     array_push( self::$form_uses_rte, $form_id );
                 }
-                if( isset( $field[ 'settings' ][ 'textarea_media' ] ) && $field[ 'settings' ][ 'textarea_media' ] ){
+                if( isset( $field[ 'settings' ][ 'textarea_media' ] ) && $field[ 'settings' ][ 'textarea_media' ] || self::checkRepeaterChildSetting($field, "textarea_media", null) ){
                     array_push( self::$form_uses_textarea_media, $form_id );
                 }
                 // strip all tags except image tags
@@ -336,7 +358,22 @@ final class NF_Display_Render
             }
         }
 
-        $fields = apply_filters( 'ninja_forms_display_fields', $fields );
+        $fields = apply_filters( 'ninja_forms_display_fields', $fields, $form_id );
+
+        if(!isset($_GET['nf_preview_form'])){
+            /* Render Instance Fix */
+            $instance_id = $form_id;
+            if( ! isset(self::$render_instance_count[$form_id]) ) self::$render_instance_count[$form_id] = 0;
+            if(self::$render_instance_count[$form_id]) {
+                $instance_id .= '_' . self::$render_instance_count[$form_id];
+                foreach( $fields as $id => $field ) {
+                    $fields[$id]['id'] .= '_' . self::$render_instance_count[$form_id];
+                }
+            }
+            self::$render_instance_count[$form_id]++;
+            $form_id = $instance_id;
+            /* END Render Instance Fix */
+        }
 
         // Output Form Container
         do_action( 'ninja_forms_before_container', $form_id, $form->get_settings(), $form_fields );
@@ -349,6 +386,33 @@ final class NF_Display_Render
         <script>var formDisplay=1;var nfForms=nfForms||[];var form=[];form.id='<?php echo $form_id; ?>';form.settings=<?php echo wp_json_encode( $form->get_settings() ); ?>;form.fields=<?php echo wp_json_encode( $fields ); ?>;nfForms.push(form);</script>
         <?php
         self::enqueue_scripts( $form_id );
+    }
+
+    public static function checkRepeaterChildType($field, $type)
+    {
+        $return = [];
+        if($field["settings"]["type"] === "repeater" && !empty($field["settings"]["fields"])){
+            foreach($field["settings"]["fields"] as $child){
+                array_push( $return, isset( $child[ 'type' ] ) &&  $type === $child[ 'type' ] );
+            }
+        }
+        return in_array(true, $return, true);
+    }
+
+    public static function checkRepeaterChildSetting($field, $setting, $value)
+    {
+        $return = [];
+        if($field["settings"]["type"] === "repeater" && !empty($field["settings"]["fields"])){
+            foreach($field["settings"]["fields"] as $child){
+                if( $value !== null ){
+                    array_push( $return, isset( $child[ $setting ] ) && $value === $child[ $setting ] );
+                } else {
+                    array_push( $return, isset( $child[ $setting ] ) && $child[ $setting ] );
+                }
+                
+            }
+        }
+        return in_array(true, $return, true);
     }
 
     public static function localize_preview( $form_id )
@@ -375,6 +439,8 @@ final class NF_Display_Render
         $form[ 'settings' ] = array_merge( Ninja_Forms::config( 'i18nFrontEnd' ), $form[ 'settings' ] );
         $form[ 'settings' ] = apply_filters( 'ninja_forms_display_form_settings', $form[ 'settings' ], $form_id );
 
+        // Remove the embed_form setting to avoid pagebuilder conflicts.
+        $form[ 'settings' ][ 'embed_form' ] = '';
 
         $form[ 'settings' ][ 'is_preview' ] = TRUE;
 
@@ -397,11 +463,13 @@ final class NF_Display_Render
         $fields = array();
 
         if( empty( $form['fields'] ) ){
-            echo __( 'No Fields Found.', 'ninja-forms' );
+            echo esc_html__( 'No Fields Found.', 'ninja-forms' );
         } else {
             foreach ($form['fields'] as $field_id => $field) {
 
                 $field_type = $field['settings']['type'];
+                // Scrub any values that might be stored in data. Defaults will set these later.
+                $field['settings']['value'] = '';
 
                 if( ! isset( Ninja_Forms()->fields[ $field_type ] ) ) continue;
                 if( ! apply_filters( 'ninja_forms_preview_display_type_' . $field_type, TRUE ) ) continue;
@@ -462,12 +530,14 @@ final class NF_Display_Render
                     if ($default_value) {
                         $field['settings']['value'] = $default_value;
 
-                        ob_start();
-                        do_shortcode( $field['settings']['value'] );
-                        $ob = ob_get_clean();
+                        if( ! is_array( $default_value ) ) {
+                            ob_start();
+                            do_shortcode( $field['settings']['value'] );
+                            $ob = ob_get_clean();
 
-                        if( ! $ob ) {
-                            $field['settings']['value'] = do_shortcode( $field['settings']['value'] );
+                            if( ! $ob ) {
+                                $field['settings']['value'] = do_shortcode( $field['settings']['value'] );
+                            }
                         }
                     }
                 }
@@ -537,7 +607,7 @@ final class NF_Display_Render
         }
 
         if( $is_preview || in_array( $form_id, self::$form_uses_datepicker ) ) {
-            wp_enqueue_style( 'pikaday-responsive', $css_dir . 'pikaday-package.css', $ver );
+            wp_enqueue_style( 'nf-flatpickr', $css_dir . 'flatpickr.css', $ver );
             wp_enqueue_script('nf-front-end--datepicker', $js_dir . 'front-end--datepicker.min.js', array( 'jquery', 'nf-front-end' ), $ver );
         }
 
@@ -590,6 +660,9 @@ final class NF_Display_Render
         }
 
         wp_localize_script( 'nf-front-end', 'nfFrontEnd', $data );
+        wp_localize_script( 'nf-front-end', 'nfRepeater', array(
+            'add_repeater_child_field_text' => __( 'Add ', 'ninja-forms' )
+        ));
 
         do_action( 'ninja_forms_enqueue_scripts', array( 'form_id' => $form_id ) );
 
@@ -616,7 +689,7 @@ final class NF_Display_Render
         }
     }
 
-    protected static function load_template( $file_name = '' )
+    public static function load_template( $file_name = '' )
     {
         if( ! $file_name ) return;
 
@@ -645,14 +718,6 @@ final class NF_Display_Render
                 }
             }
         }
-
-        ?>
-        <script>
-            var post_max_size = '<?php echo WPN_Helper::string_to_bytes( ini_get('post_max_size') ); ?>';
-            var upload_max_filesize = '<?php echo WPN_Helper::string_to_bytes( ini_get( 'upload_max_filesize' ) ); ?>';
-            var wp_memory_limit = '<?php echo WPN_Helper::string_to_bytes( WP_MEMORY_LIMIT ); ?>';
-        </script>
-        <?php
 
         // Action to Output Custom Templates
         do_action( 'ninja_forms_output_templates' );

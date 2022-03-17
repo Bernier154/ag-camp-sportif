@@ -23,7 +23,7 @@ class NF_Fields_ListState extends NF_Abstracts_List
     {
         parent::__construct();
 
-        $this->_nicename = __( 'US States', 'ninja-forms' );
+        $this->_nicename = esc_html__( 'US States', 'ninja-forms' );
 
         $this->_settings[ 'options' ][ 'value' ] = $this->get_options();
     }
@@ -32,6 +32,16 @@ class NF_Fields_ListState extends NF_Abstracts_List
     {
         $order = 0;
         $options = array();
+        // Option to have no state selected by default.
+        $options[] = array(
+            'label' => '- ' . esc_html__( 'Select State', 'ninja-forms' ) . ' -',
+            'value' => '',
+	        'calc' => '',
+	        'selected' => 0,
+	        'order' => $order,
+        );
+        $order++;
+
         foreach( Ninja_Forms()->config( 'StateList' ) as $label => $value ){
             $options[] = array(
                 'label'  => $label,

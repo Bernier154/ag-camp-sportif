@@ -8,10 +8,12 @@ class NF_AJAX_Controllers_Form extends NF_Abstracts_Controller
     {
         add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
 
+        // All Ajax call here are handled in this file
         add_action( 'wp_ajax_nf_ajax_get_new_nonce', array( $this, 'get_new_nonce' ) );
-	    add_action( 'wp_ajax_nopriv_nf_ajax_get_new_nonce', array( $this, 'get_new_nonce' ) );
+        add_action( 'wp_ajax_nopriv_nf_ajax_get_new_nonce', array( $this, 'get_new_nonce' ) );
         add_action( 'wp_ajax_nf_save_form',   array( $this, 'save' )   );
         add_action( 'wp_ajax_nf_delete_form', array( $this, 'delete' ) );
+        add_action( 'wp_ajax_nf_remove_maintenance_mode', array( $this, 'remove_maintenance_mode' ) );
     }
 
     public function plugins_loaded()
@@ -21,10 +23,16 @@ class NF_AJAX_Controllers_Form extends NF_Abstracts_Controller
 
     public function save()
     {
+        // Does the current user have admin privileges
+        if (!current_user_can(apply_filters('ninja_forms_admin_all_forms_capabilities', 'manage_options'))) {
+            $this->_data['errors'] = esc_html__('Access denied. You must have admin privileges to view this data.', 'ninja-forms');
+            $this->_respond();
+        }
+
         check_ajax_referer( 'ninja_forms_builder_nonce', 'security' );
 
         if( ! isset( $_POST[ 'form' ] ) ){
-            $this->_errors[] = __( 'Form Not Found', 'ninja-forms' );
+            $this->_errors[] = esc_html__( 'Form Not Found', 'ninja-forms' );
             $this->_respond();
         }
 
@@ -136,7 +144,34 @@ class NF_AJAX_Controllers_Form extends NF_Abstracts_Controller
 
     public function delete()
     {
+        // Does the current user have admin privileges
+        if (!current_user_can(apply_filters('ninja_forms_admin_all_forms_capabilities', 'manage_options'))) {
+            $this->_data['errors'] = esc_html__('Access denied. You must have admin privileges to view this data.', 'ninja-forms');
+            $this->_respond();
+        }
+
         check_ajax_referer( 'ninja_forms_builder_nonce', 'security' );
+
+        $this->_respond();
+    }
+
+    /**
+     * This function will take all form out of maintenance mode( in case some
+     * are still in maintenance mode after some required updates )
+     * 
+     * @since 3.4.0
+     */
+    public function remove_maintenance_mode() {
+
+        // Does the current user have admin privileges
+        if (!current_user_can(apply_filters('ninja_forms_admin_all_forms_capabilities', 'manage_options'))) {
+            $this->_data['errors'] = esc_html__('Access denied. You must have admin privileges to view this data.', 'ninja-forms');
+            $this->_respond();
+        }
+
+        check_ajax_referer( 'ninja_forms_settings_nonce', 'security' );
+
+        WPN_Helper::set_forms_maintenance_mode();
 
         $this->_respond();
     }

@@ -13,7 +13,7 @@ OAuth::getInstance()->setup();
 add_action( 'wp_ajax_nf_services', function(){
   $services = apply_filters( 'ninja_forms_services', [
     'ninja-forms-addon-manager' => [
-      'name' => __( 'Add-on Manager (Beta)', 'ninja-mail' ),
+      'name' => esc_html__( 'Add-on Manager (Beta)', 'ninja-mail' ),
       'slug' => 'ninja-forms-addon-manager',
       'installPath' => 'ninja-forms-addon-manager/ninja-forms-addon-manager.php',
       'description' => 'Install any purchased Ninja Forms add-ons with a single click. No need to download a file or copy/paste a license key! <strong>* Won\'t work on a local dev environment.</strong>',
@@ -38,38 +38,26 @@ add_action( 'wp_ajax_nf_services', function(){
       </div>
       ',
     ],
-
-    'ninja-mail' => [
-      'name' => __( 'Ninja Mail - Transactional Email', 'ninja-mail' ),
-      'slug' => 'ninja-mail',
-      'installPath' => 'ninja-mail/ninja-mail.php',
-      'description' => 'Increase Email Deliverability with a dedicated email service by Ninja Forms for only $5/month/site.',
+    'sendwp' => [
+      'name' => esc_html__( 'SendWP - Transactional Email', 'ninja-forms' ),
+      'slug' => 'sendwp',
+      'installPath' => 'sendwp/sendwp.php',
+      'description' => 'SendWP makes getting emails delivered as simple as a few clicks. So you can relax, knowing those important emails are being delivered on time.',
       'enabled' => null,
-      'setupButtonText' => 'Signup',
-      'learnMoreTitle' => 'Improve Ninja Forms Email Reliability!',
       'learnMore' => '
-      <div style="padding:20px;">
-        <h2>Frustrated that Ninja Forms email isn’t being received?</h2>
-        <p>Form submission notifications not hitting your inbox? Some of your visitors getting form feedback via email, others not? By default, your WordPress site sends emails through your web host, which can be unreliable. Your host has spent lots of time and money optimizing to serve your pages, not send your emails.</p>
-        <h3>Sign up for Ninja Mail today, and never deal with form email issues again!</h3>
-        <p>Ninja Mail is a transactional email service that removes your web host from the email equation.</p>
-        <ul style="list-style-type:initial;margin-left: 20px;">
-          <li>Sends email through dedicated email service, increasing email deliverability.</li>
-          <li>Keeps form submission emails out of spam by using a trusted email provider.</li>
-          <li>On a shared web host? Don’t worry about emails being rejected because of blocked IP addresses.</li>
-          <li><strong>Only $5/month. Free 14-day trial. Cancel anytime!</strong></li>
-        </ul>
-        <br />
-        <button style="display:block;width:100%;text-align:center;" class="nf-button primary" onclick="Backbone.Radio.channel( \'dashboard\' ).request( \'install:service\', \'ninja-mail\' );var spinner = document.createElement(\'span\'); spinner.classList.add(\'dashicons\', \'dashicons-update\', \'dashicons-update-spin\'); this.innerHTML = spinner.outerHTML; console.log( spinner )">SIGNUP FOR NINJA MAIL NOW!</button>
-      </div>
+        <div>
+          <h2>Getting WordPress email into an inbox just got a lot easier</h2>
+          <p>SendWP makes getting emails delivered as simple as a few clicks. So you can relax, knowing those important emails are being delivered on time.</p>
+          <button style="display:block;width:100%;text-align:center;" class="nf-button primary" onclick="Backbone.Radio.channel( \'dashboard\' ).request( \'install:service\', \'sendwp\' );var spinner = document.createElement(\'span\'); spinner.classList.add(\'dashicons\', \'dashicons-update\', \'dashicons-update-spin\'); this.innerHTML = spinner.outerHTML; console.log( spinner )">Signup for SendWP</button>
+        </div>
       ',
-    ],
+    ]
   ] );
   wp_die( json_encode( [ 'data' => array_values( $services ) ] ) );
 });
 
 add_action( 'admin_enqueue_scripts', function() {
-  wp_localize_script( 'nf-dashboard', 'nfPromotions', 'YOLO' );
+  wp_localize_script( 'nf-dashboard', 'nfPromotions', array() );
 });
 
 add_action( 'wp_ajax_nf_services_install', function() {
@@ -82,10 +70,17 @@ add_action( 'wp_ajax_nf_services_install', function() {
   // });
 
   if ( ! current_user_can('install_plugins') )
-    die( json_encode( [ 'error' => __( 'Sorry, you are not allowed to install plugins on this site.' ) ] ) );
+    die( json_encode( [ 'error' => esc_html__( 'Sorry, you are not allowed to install plugins on this site.', 'ninja-forms' ) ] ) );
 
-  $plugin = $_REQUEST[ 'plugin' ];
-  $install_path = $_REQUEST[ 'install_path' ];
+  if ( ! isset($_REQUEST['security']) || empty($_REQUEST['security']) || ! wp_verify_nonce($_REQUEST['security'], 'ninja_forms_dashboard_nonce') )
+    die( json_encode( [ 'error' => esc_html__( 'Invalid nonce.', 'ninja-forms' ) ] ) );
+
+  $plugin = \WPN_Helper::sanitize_text_field($_REQUEST['plugin']);
+  $install_path = \WPN_Helper::sanitize_text_field($_REQUEST['install_path']);
+
+  // If we aren't remotely installing the add-on manager or SendWP, die.
+  if ( 'sendwp' !== $plugin && 'ninja-forms-addon-manager' !== $plugin )
+    die( json_encode( [ 'error' => esc_html__( 'Sorry, you are not allowed to install plugins on this site.', 'ninja-forms' ) ] ) );
 
   include_once( ABSPATH . 'wp-admin/includes/plugin-install.php' ); //for plugins_api..
   $api = plugins_api( 'plugin_information', array(
@@ -179,3 +174,34 @@ add_filter( 'http_request_args', function( $args, $url ){
   return $args;
 }, 10, 2 );
 */
+add_action( 'wp_ajax_nf_update_cache_mode', function() {
+  $use_cache = false;
+  $response = array();
+
+  check_ajax_referer( 'ninja_forms_dashboard_nonce', 'security' );
+
+  if( ! current_user_can('manage_options') ) {
+    $response[ 'errors' ] = array( "Current user doesn't have permission." );
+
+    echo json_encode( $response );
+    die();
+  }
+
+  
+
+  if(!isset( $_POST[ 'cache_mode' ] ) ) {
+    $response[ 'errors' ] = array( 'No cache mode value given' );
+
+    echo json_encode( $response );
+    die();
+  }
+
+  $use_cache = ( intval($_POST[ 'cache_mode' ]) === 1 ) ? true : false;
+
+  update_option( 'ninja_forms_cache_mode', $use_cache );
+
+  $response['message'] = 'Cache mode successfully saved';
+
+  echo json_encode($response);
+  die();
+});

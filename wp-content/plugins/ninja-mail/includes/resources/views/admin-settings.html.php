@@ -1,6 +1,6 @@
 <div class="wrap">
 
-  <form id="nfTxnmailSettings" action="" method="post">
+  <form id="nfTxnmailSettings" action="" method="post"  style="display:none">
 
     <table class="form-table">
       <tbody>

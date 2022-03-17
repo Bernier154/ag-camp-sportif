@@ -27,5 +27,6 @@ function ninja_mail_override_phpmailer( &$phpmailer ) {
 }
 
 function ninja_mail_log_email( $args, $response ){
+  $args[ 'response' ] =  $response;
   NinjaMail\Logger::add( $args );
 }

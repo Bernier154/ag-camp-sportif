@@ -23,7 +23,7 @@ final class NF_Actions_Redirect extends NF_Abstracts_Action
     /**
     * @var int
     */
-    protected $_priority = 10;
+    protected $_priority = 20;
 
     /**
     * Constructor
@@ -32,7 +32,7 @@ final class NF_Actions_Redirect extends NF_Abstracts_Action
     {
         parent::__construct();
 
-        $this->_nicename = __( 'Redirect', 'ninja-forms' );
+        $this->_nicename = esc_html__( 'Redirect', 'ninja-forms' );
 
         $settings = Ninja_Forms::config( 'ActionRedirectSettings' );
 

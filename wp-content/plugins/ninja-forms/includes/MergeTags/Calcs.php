@@ -12,7 +12,7 @@ final class NF_MergeTags_Calcs extends NF_Abstracts_MergeTags
     public function __construct()
     {
         parent::__construct();
-        $this->title = __( 'Calculations', 'ninja-forms' );
+        $this->title = esc_html__( 'Calculations', 'ninja-forms' );
         add_filter( 'ninja_forms_calc_setting',  array( $this, 'replace' ) );
     }
 
@@ -26,9 +26,14 @@ final class NF_MergeTags_Calcs extends NF_Abstracts_MergeTags
         $callback = ( is_numeric( $key ) ) ? 'calc_' . $key : $key;
 
         try {
-            $value = str_replace($sep, '', $value);
-            $value = str_replace($dec, '.', $value);
-            $calculated_value = Ninja_Forms()->eos()->solve( $value );
+            $locale = new stdClass();
+            $locale->number_format = array(
+                'thousands_sep' => $sep,
+                'decimal_point' => $dec
+            );
+            $handler = new NF_Handlers_LocaleNumberFormatting($locale);
+            $eq = $handler->locale_decode_equation($value);
+            $calculated_value = Ninja_Forms()->eos()->solve( $eq );
         } catch( Exception $e ){
             $calculated_value = FALSE;
         }
@@ -36,7 +41,6 @@ final class NF_MergeTags_Calcs extends NF_Abstracts_MergeTags
         $this->merge_tags[ $callback ] = array(
             'id' => $key,
             'tag' => "{calc:$key}",
-//            'label' => __( '', 'ninja_forms' ),
             'callback' => $callback,
             'calc_value' => number_format( $calculated_value, $round, '.', '' )
         );
@@ -46,7 +50,6 @@ final class NF_MergeTags_Calcs extends NF_Abstracts_MergeTags
         $this->merge_tags[ $callback ] = array(
             'id' => $key,
             'tag' => "{calc:$key:2}",
-//            'label' => __( '', 'ninja_forms' ),
             'callback' => $callback,
             'calc_value' => number_format( $calculated_value, 2, '.', '' )
         );
@@ -57,9 +60,16 @@ final class NF_MergeTags_Calcs extends NF_Abstracts_MergeTags
         return $this->merge_tags[ $key ][ 'calc_value' ];
     }
     
+    // @TODO: $round is no longer necessary in this context.
     public function get_formatted_calc_value( $key, $round = 2, $dec = '.', $sep = ',')
     {
-        return number_format( $this->merge_tags[ $key ][ 'calc_value' ], $round, $dec, $sep );        
+        $locale = new stdClass();
+        $locale->number_format = array(
+            'thousands_sep' => $sep,
+            'decimal_point' => $dec
+        );
+        $handler = new NF_Handlers_LocaleNumberFormatting($locale);
+        return $handler->locale_encode_number( $this->merge_tags[ $key ][ 'calc_value' ] );
     }
 
 } // END CLASS NF_MergeTags_Calcs

@@ -32,7 +32,7 @@ final class NF_Actions_Save extends NF_Abstracts_Action
     {
         parent::__construct();
 
-        $this->_nicename = __( 'Store Submission', 'ninja-forms' );
+        $this->_nicename = esc_html__( 'Record Submission', 'ninja-forms' );
 
         $settings = Ninja_Forms::config( 'ActionSaveSettings' );
 
@@ -46,6 +46,7 @@ final class NF_Actions_Save extends NF_Abstracts_Action
 
     public function save( $action_settings )
     {
+        if( ! isset( $_POST[ 'form' ] ) ) return;
         // Get the form data from the Post variable and send it off for processing.
         $form = json_decode( stripslashes( $_POST[ 'form' ] ) );
         $this->submission_expiration_processing( $action_settings, $form->id );
@@ -156,6 +157,7 @@ final class NF_Actions_Save extends NF_Abstracts_Action
 
     public function process( $action_settings, $form_id, $data )
     {
+
         if( isset( $data['settings']['is_preview'] ) && $data['settings']['is_preview'] ){
             return $data;
         }

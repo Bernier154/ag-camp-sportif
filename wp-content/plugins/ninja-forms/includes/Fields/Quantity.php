@@ -7,7 +7,7 @@ class NF_Fields_Quantity extends NF_Fields_Number
 {
     protected $_name = 'quantity';
 
-    protected $_section = 'pricing';
+    protected $_section = '';
 
     protected $_icon = 'hashtag';
 
@@ -27,6 +27,6 @@ class NF_Fields_Quantity extends NF_Fields_Number
     {
         parent::__construct();
 
-        $this->_nicename = __( 'Quantity', 'ninja-forms' );
+        $this->_nicename = esc_html__( 'Quantity', 'ninja-forms' );
     }
 }

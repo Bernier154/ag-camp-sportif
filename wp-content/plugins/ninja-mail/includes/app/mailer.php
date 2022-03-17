@@ -46,7 +46,9 @@ class Mailer implements WordPress\Mailer
 
   public function send() {
 
-    $blocking = defined( 'WP_DEBUG' ) && WP_DEBUG;
+    $debug = get_option( 'ninja_forms_transactional_email_debug', false );
+
+    $blocking = $debug || ( defined( 'WP_DEBUG' ) && WP_DEBUG );
 
     $client_id = \NinjaForms\OAuth::get_client_id();
     $client_hash = sha1( \NinjaForms\OAuth::get_client_id() . \NinjaForms\OAuth::get_client_secret() );
@@ -54,6 +56,7 @@ class Mailer implements WordPress\Mailer
     $to_emails = array_map( [ $this, 'format_emails' ], $this->getToAddresses() );
     $cc_emails = array_map( [ $this, 'format_emails' ], $this->getCcAddresses() );
     $bcc_emails = array_map( [ $this, 'format_emails' ], $this->getBccAddresses() );
+    $replyto = array_values( array_map( [ $this, 'format_emails' ], $this->getReplyToAddresses() ) );
 
     $args = [
       'blocking' => $blocking,
@@ -64,14 +67,20 @@ class Mailer implements WordPress\Mailer
         'cc' => (array) $cc_emails,
         'bcc' => (array) $bcc_emails,
         'from' => $this->From,
+        'from_name' => $this->FromName,
         'subject' => $this->Subject,
         'message' => $this->Body,
-        'text' => $this->AltBody
+        'text' => $this->AltBody,
+        'debug' => $debug
       ],
     ];
 
     if( $attachments = $this->getAttachments() ) {
       $args[ 'body' ][ 'attachments' ] = $attachments;
+    }
+
+    if ( isset( $replyto[ 0 ] ) ) {
+      $args[ 'body' ][ 'replyto' ] = $replyto[ 0 ];
     }
 
     $response = wp_remote_post( $this->server_url, $args );

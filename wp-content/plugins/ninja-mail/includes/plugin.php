@@ -19,7 +19,7 @@ class Plugin extends WordPress\Plugin
         add_action( 'ninja_mail_send', 'ninja_mail_log_email', 10, 2 );
       }
 
-      if( ! self::is_ninja_forms_installed() || ! self::is_ninja_forms_compatible( \Ninja_Forms::VERSION, self::NINJA_FORMS_MIN_VERSION ) ){
+      if( ! self::is_ninja_forms_installed() || ! defined('\Ninja_Forms::VERSION') || ! self::is_ninja_forms_compatible( \Ninja_Forms::VERSION, self::NINJA_FORMS_MIN_VERSION ) ){
         add_action( 'admin_notices', [ $this, 'ninja_forms_min_version' ] );
       }
 

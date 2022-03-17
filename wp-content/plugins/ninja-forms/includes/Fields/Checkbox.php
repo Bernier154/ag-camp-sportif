@@ -31,7 +31,7 @@ class NF_Fields_Checkbox extends NF_Abstracts_Input
     {
         parent::__construct();
 
-        $this->_nicename = __( 'Single Checkbox', 'ninja-forms' );
+        $this->_nicename = esc_html__( 'Single Checkbox', 'ninja-forms' );
 
         $this->_settings[ 'label_pos' ][ 'value' ] = 'right';
 
@@ -71,7 +71,7 @@ class NF_Fields_Checkbox extends NF_Abstracts_Input
      * Custom Columns
      * Creates what is displayed in the columns on the submissions page.
      * @since 3.0
-     *
+     *nf_subs_export_pre_value
      * @param $value checkbox value
      * @param $field field model.
      * @return $value string|void
@@ -82,17 +82,19 @@ class NF_Fields_Checkbox extends NF_Abstracts_Input
         if( 'checkbox' == $field->get_setting( 'type' ) ) {
             // Backwards compatibility check for the new checked value setting.
             if( null == $field->get_setting( 'checked_value' ) && 1 == $value || 'on' == $value ) {
-                return __( 'Checked', 'ninja-forms' );
+                return esc_html__( 'Checked', 'ninja-forms' );
             } elseif( null == $field->get_setting( 'unchecked_value' ) && 0 == $value ) {
-                return __( 'Unchecked', 'ninja-forms');
+                return esc_html__( 'Unchecked', 'ninja-forms');
             }
 
             // If the field value is set to 1....
-            if( 1 == $value || 'on' == $value) {
+            if( 1 == $value || 'on' == $value ) {
                 // Set the value to the checked value setting.
                 $value = $field->get_setting( 'checked_value' );
-            } else {
-                // Else set the value to the unchecked value setting.
+            }
+            // Unless we've somehow gotten the display value in here...
+            elseif ( $field->get_setting( 'checked_value' ) != $value ) {
+                // Set the value to the unchecked value setting.
                 $value = $field->get_setting( 'unchecked_value' );
             }
         }
@@ -148,16 +150,23 @@ class NF_Fields_Checkbox extends NF_Abstracts_Input
      */
     public function export_value( $value, $field )
     {
+        // @TODO: Why were these values translated in the first place?
         // If value is equal to checked or unchecked return the value
         if ( __( 'checked', 'ninja-forms' ) == $value ||
             __( 'unchecked', 'ninja-forms' ) == $value ) return $value;
 
         // Creating settings variables for our check.
-        $checked_setting    = $field->get_setting( 'checked_value' );
-        $unchecked_setting  = $field->get_setting( 'unchecked_value' );
+        if( is_array( $field ) ) {
+            // The email action sends teh field variable as an array
+            $checked_setting    = $field[ 'setting' ][ 'checked_value' ];
+            $unchecked_setting  = $field[ 'setting' ][ 'unchecked_value' ];
+        } else {
+            $checked_setting    = $field->get_setting( 'checked_value' );
+            $unchecked_setting  = $field->get_setting( 'unchecked_value' );
+        }
 
         // If the the value and check to see if we have checked and unchecked settings...
-        if ( 1 == $value && ! empty( $checked_setting ) ) {
+        if ( ( 1 == $value || 'on' == $value ) && ! empty( $checked_setting ) ) {
             // ...if we do return checked setting
             return $checked_setting;
         } elseif ( 0 == $value && ! empty( $unchecked_setting ) ) {
@@ -166,10 +175,10 @@ class NF_Fields_Checkbox extends NF_Abstracts_Input
         /*
          * These checks are for checkbox fields that were created before version 3.2.7.
          */
-        } elseif ( 1 == $value  ) {
-            return __( 'checked', 'ninja-forms' );
+        } elseif ( 1 == $value || 'on' == $value ) {
+            return esc_html__( 'checked', 'ninja-forms' );
         } elseif ( 0 == $value ) {
-            return __( 'unchecked', 'ninja-forms' );
+            return esc_html__( 'unchecked', 'ninja-forms' );
         }
     }
 }

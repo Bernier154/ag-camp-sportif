@@ -1,13 +1,13 @@
 <div class="wrap">
 
-    <h1><?php _e( 'Import / Export', 'ninja-forms' ); ?></h1>
+    <h1><?php esc_html_e( 'Import / Export', 'ninja-forms' ); ?></h1>
 
     <h2 class="nav-tab-wrapper">
         <?php foreach( $tabs as $tab => $name ): ?>
             <?php if( $tab == $active_tab ): ?>
                 <span class="nav-tab nav-tab-active"><?php echo esc_html( $name ) ?></span>
             <?php else: ?>
-                <a href="<?php echo add_query_arg( 'tab', $tab );?>" target="" class="nav-tab "><?php echo $name ?></a>
+                <a href="<?php echo esc_url( add_query_arg( 'tab', $tab) ); ?>" target="" class="nav-tab "><?php echo $name ?></a>
             <?php endif; ?>
         <?php endforeach; ?>
     </h2>

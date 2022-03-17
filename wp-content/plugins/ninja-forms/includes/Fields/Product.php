@@ -7,7 +7,7 @@ class NF_Fields_Product extends NF_Abstracts_Input
 {
     protected $_name = 'product';
 
-    protected $_section = 'pricing';
+    protected $_section = '';
 
     protected $_icon = 'tag';
 
@@ -29,7 +29,7 @@ class NF_Fields_Product extends NF_Abstracts_Input
     {
         parent::__construct();
 
-        $this->_nicename = __( 'Product', 'ninja-forms' );
+        $this->_nicename = esc_html__( 'Product', 'ninja-forms' );
 
         $this->_settings[ 'product_price' ][ 'width' ] = 'full';
 

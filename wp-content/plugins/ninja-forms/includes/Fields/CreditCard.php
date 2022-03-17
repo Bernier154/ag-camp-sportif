@@ -9,7 +9,7 @@ class NF_Fields_CreditCard extends NF_Abstracts_Field
 
     protected $_type = 'creditcard';
 
-    protected $_section = 'pricing';
+    protected $_section = 'misc';
 
     protected $_icon = 'credit-card';
 
@@ -23,6 +23,6 @@ class NF_Fields_CreditCard extends NF_Abstracts_Field
     {
         parent::__construct();
 
-        $this->_nicename = __( 'Credit Card', 'ninja-forms' );
+        $this->_nicename = esc_html__( 'Credit Card', 'ninja-forms' );
     }
 }

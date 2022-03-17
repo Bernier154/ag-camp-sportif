@@ -39,6 +39,7 @@
         <th>Message</th>
         <th>Attachments</th>
         <th>Request</th>
+        <th>Response</th>
       </tr>
     </thead>
     <tbody>
@@ -54,6 +55,7 @@
           $attachments = [];
         }
         $raw_request = htmlspecialchars( json_encode( $log[ 'data' ][ 'body' ] ) );
+        $response = htmlspecialchars( json_encode( $log[ 'data' ][ 'response' ] ) );
       ?>
       <tr>
         <td><?php echo date_i18n( $datetime_format, $log[ 'timestamp' ] ); ?></td>
@@ -64,10 +66,13 @@
           <button type="button" onclick="alert('<?php echo $message; ?>');">View Message</button>
         </td>
         <td>
-          <button type="button" onclick="alert('<?php echo $attachments; ?>');">View Attachments</button>
+          <button type="button" onclick="alert('<?php echo json_encode( $attachments ); ?>');">View Attachments</button>
         </td>
         <td>
           <button type="button" onclick="alert('<?php echo $raw_request; ?>');">View Request</button>
+        </td>
+        <td>
+          <button type="button" onclick="alert('<?php echo $response; ?>');">View Response</button>
         </td>
       </tr>
       <?php endforeach; ?>

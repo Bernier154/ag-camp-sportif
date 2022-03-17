@@ -9,7 +9,9 @@ class NF_Admin_AddFormModal {
     
     function __construct() {
         // Add a tinyMCE button to our post and page editor
-        add_filter( 'media_buttons_context', array( $this, 'insert_form_tinymce_buttons' ) );
+        if( ! apply_filters( 'ninja_forms_hide_add_form_button', false ) ) {
+            add_action( 'media_buttons', array( $this, 'insert_form_tinymce_buttons' ) );
+        }
     }
 
     /**
@@ -23,7 +25,7 @@ class NF_Admin_AddFormModal {
         global $pagenow;
 
         if( ! in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ){
-            return $context;
+            return;
         }
         
         $html = '<style>
@@ -38,8 +40,12 @@ class NF_Admin_AddFormModal {
                 vertical-align: text-top;
                 margin: 0 2px 0 0;
             }
+
+            .ui-autocomplete li {
+                white-space: normal;
+            }
         </style>';
-        $html .= '<a href="#" class="button nf-insert-form"><span class="nf-insert-form dashicons dashicons-feedback"></span> ' . __( 'Add Form', 'ninja-forms' ) . '</a>';
+        $html .= '<a href="#" class="button nf-insert-form"><span class="nf-insert-form dashicons dashicons-feedback"></span> ' . esc_html__( 'Add Form', 'ninja-forms' ) . '</a>';
 
         wp_enqueue_script( 'nf-combobox', Ninja_Forms::$url . 'assets/js/lib/combobox.min.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-button', 'jquery-ui-autocomplete' ) );
 
@@ -70,12 +76,12 @@ class NF_Admin_AddFormModal {
                 ?>
             </p>
             <p>
-                <input type="button" id="nf-insert-form" class="button-primary" value="<?php _e( 'Insert', 'ninja-forms' )?>" />
+                <input type="button" id="nf-insert-form" class="button-primary" value="<?php esc_attr_e( 'Insert', 'ninja-forms' )?>" />
             </p>
         </div>
         <?php
         add_action( 'admin_footer', array( $this, 'output_tinymce_button_js' ) );
-        return $context . ' ' . $html;
+        echo $html;
     }
 
     /**
@@ -90,7 +96,7 @@ class NF_Admin_AddFormModal {
         <script type="text/javascript">
             jQuery( document ).ready( function( $ ) {
                 var jBox = jQuery( '.nf-insert-form' ).jBox( 'Modal', {
-                    title: '<?php _e( 'Insert Form', 'ninja-forms' )?>',
+                    title: '<?php esc_html_e( 'Insert Form', 'ninja-forms' )?>',
                     position: {
                         x: 'center',
                         y: 'center'
@@ -102,9 +108,13 @@ class NF_Admin_AddFormModal {
                     content: jQuery( '#nf-insert-form-modal' ),
                     onOpen: function() {
                         jQuery( '.nf-forms-combobox' ).combobox();
-                        jQuery( this )[0].content.find( '.ui-autocomplete-input' ).attr( 'placeholder', '<?php _e( 'Select a form or type to search', 'ninja-forms' )?>' );
+                        jQuery( this )[0].content.find( '.ui-autocomplete-input' ).attr( 'placeholder', '<?php esc_attr_e( 'Select a form or type to search', 'ninja-forms' )?>' )
+                            .css( 'margin-right', 0 );
+                        jQuery( this )[0].content.find( '.ui-combobox-button' ).css( 'position', 'relative' ).css( 'top', '-3px' );
+                        
+                        jQuery( this )[0].content.find( 'ul.ui-autocomplete' ).css( 'max-height', '175px' ).css( 'overflow', 'scroll' );
                         jQuery( this )[0].content.css( 'overflow', 'visible' );
-                        jQuery( this )[0].content.find( '.ui-icon-triangle-1-s' ).addClass( 'dashicons dashicons-arrow-down' ).css( 'margin-left', '-7px' );
+                        jQuery( this )[0].content.find( '.ui-icon-triangle-1-s' ).addClass( 'dashicons dashicons-arrow-down' ).css( 'margin-left', '-3px' );
                     },
                     onClose: function() {
                         jQuery( '.nf-forms-combobox' ).combobox( 'destroy'  );

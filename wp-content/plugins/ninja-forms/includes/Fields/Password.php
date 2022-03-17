@@ -19,9 +19,10 @@ class NF_Fields_Password extends NF_Abstracts_Input
     {
         parent::__construct();
 
-        $this->_nicename = __( 'Password', 'ninja-forms' );
+        $this->_nicename = esc_html__( 'Password', 'ninja-forms' );
 
         add_filter( 'nf_sub_hidden_field_types', array( $this, 'hide_field_type' ) );
+        add_filter( 'ninja_forms_csv_ignore_fields', array( $this, 'hide_field_type' ) );
     }
 
     function hide_field_type( $field_types )

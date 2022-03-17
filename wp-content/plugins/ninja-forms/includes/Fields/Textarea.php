@@ -23,14 +23,32 @@ class NF_Fields_Textarea extends NF_Abstracts_Input
     {
         parent::__construct();
 
-        $this->_nicename = __( 'Paragraph Text', 'ninja-forms' );
+        $this->_nicename = esc_html__( 'Paragraph Text', 'ninja-forms' );
 
         $this->_settings[ 'default' ][ 'type' ] = 'textarea';
         $this->_settings[ 'placeholder' ][ 'type' ] = 'textarea';
+
+        add_filter( 'ninja_forms_subs_export_field_value_' . $this->_name, array( $this, 'filter_csv_value' ), 10, 2 );
     }
 
     public function admin_form_element( $id, $value )
     {
         return "<textarea class='widefat' name='fields[$id]'>$value</textarea>";
+    }
+
+    public function filter_csv_value( $field_value, $field ) {
+
+        /*
+         * sanitize this in case someone tries to inject data that runs in
+         * Excel and similar apps
+         * */
+        if( 0 < strlen($field_value ) ) {
+            $first_char = substr( $field_value, 0, 1 );
+            if( in_array( $first_char, array( '=', '@', '+', '-' ) ) ) {
+                return "'" . $field_value;
+            }
+        }
+
+        return $field_value;
     }
 }
