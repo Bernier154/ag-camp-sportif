@@ -1,5 +1,7 @@
 <?php
 
+include __DIR__.'/inscriptions/core.php';
+
 /**
  * Set les couleurs du thème dans gutenberg et désactive les options superflu.
  *
