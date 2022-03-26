@@ -1,0 +1,90 @@
+form.form-enfant{
+    h3{
+        font-size: 2rem;
+        font-weight: 600;
+        &:not(:first-child){
+            margin-top: 2em;
+        }
+    }
+    input{
+        outline:none!important;
+    }
+    .form-row{
+        display: flex;
+        flex-wrap: wrap;
+        &>label{
+            margin:10px 18px;
+            flex-basis: calc(50% - 18px);
+            @include media-screen(880px){
+                flex-basis: 100%;
+                margin: 10px 0;
+            }
+            &:first-child{
+                margin-left: 0;
+            }
+            &:last-child{
+                margin-right: 0;
+            }
+            &.full-width{
+                flex-basis: 100%;
+            }
+
+            fieldset {
+                border:none;
+                display: flex;
+                flex-direction: column;
+                padding-left: 0;
+                &.is-grid{
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    span.checkbox-wrap{
+                        flex-basis: 50%;
+                        
+                    }
+                }
+                span.checkbox-wrap{
+                    flex-shrink: 0;
+                    flex-basis: 50%;
+                    display: flex;
+                    align-items: center;
+                    label{
+                        margin-bottom: 0;
+                        margin-left: 0.5em;
+                        
+                    }
+                    input:after{
+                        display: none;
+                    }
+                    input[type="text"]{
+                        // margin-top: 0.3em;
+                        // width: 100%;
+                        // display: block;
+                        vertical-align: middle;
+                        border:1px solid #909090;
+                        border-radius: 0.25em;
+                        margin-bottom: 0;
+                        margin-left: 1em;
+                    }
+                    input{
+                        -webkit-appearance: revert;
+                        -moz-appearance: revert;
+                        position: revert;
+                        width: revert;
+                        height: revert;
+                        border: revert;
+                        background: revert;
+                    }
+                }
+            }
+            &>textarea,
+            &>input[type="date"],
+            &>input[type="text"]{
+                margin-top: 0.3em;
+                width: 100%;
+                display: block;
+                border:1px solid #909090;
+                border-radius: 0.25em;
+            }
+        }
+    }
+}

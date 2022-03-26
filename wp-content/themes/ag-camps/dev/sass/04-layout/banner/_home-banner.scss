@@ -20,7 +20,7 @@ section.banner{
     figure{
         height: 600px;
         background-color: $color_block_palet1;
-
+        
         img{
             object-fit: cover;
             width: 100% !important;
@@ -28,6 +28,14 @@ section.banner{
             opacity: 0.75;
         }
     }
+
+    &.is-small figure {
+        height: 300px;
+        img{
+            object-position: center;
+        }
+    }
+
     .content-on-image{
         position: absolute;
         top: 50%;

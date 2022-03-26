@@ -36,8 +36,13 @@
 @import '04-layout/header/navbar';
 @import '04-layout/header/topbar';
 
+@import '05-shop/my-account';
+
 
 @import '06-blocks/general-blocks-style';
+
+@import 'inscriptions/inscriptions';
+
 // montre la page quand loadé
 #page{visibility:visible;}
 
