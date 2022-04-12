@@ -1,0 +1,16 @@
+
+@import 'evenements';
+@import 'page-participant';
+@import 'single-camps'; 
+@import 'my-account'; 
+@import 'wc_cart'; 
+
+.menu-item.border a{
+    border: 1px solid #000;
+    padding: 0.4em 0.8em;
+    border-radius: 0.8em;
+    transition:border 0.25s, color 0.25s;
+    &:hover{
+        border: 1px solid var(--wp--preset--color--color-1);
+    }
+}

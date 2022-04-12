@@ -136,3 +136,11 @@ select:disabled:hover, select[aria-disabled=true] {
 	display: flex;
 	justify-content: center;
 }
+
+.wpcf7-form-control-wrap{
+	display: block;
+	width: 100%;
+	input{
+		width: 100%;
+	}
+}

@@ -4,16 +4,46 @@ namespace Agcsi\Endpoints;
 class CampsEndpoint {
 
     public static function response($data, $post, $context ){
+        $camp = \Agcsi\CPT\Camp::from_post($post);
+        
         return [
             'resourceId'=>$post->ID,
             'title'=>$post->post_title,
             'start'=>date_i18n('c',strtotime('+1 hour',strtotime(get_field('date_de_debut',$post)))),
             'end'=>date_i18n('c',strtotime('+1 hour',strtotime(get_field('date_de_fin',$post)))),
+            'past'=>strtotime(get_field('date_de_fin',$post)) < time(),
             'color'=>get_field('couleur',$post),
             'borderColor'=>get_field('couleur',$post),
-            'description'=>get_field('description',$post),
-            'url'=>get_the_permalink($post)
+            'description'=>self::build_description($post),
+            'url'=>get_the_permalink($post),
+            'max_places'=>$camp->get_highest_disponibility(),
+            'display'=>'block'
         ];
+    }
+
+    public static function build_description($post){
+        $image = get_post_thumbnail_id($post);
+        $description = get_field('description',$post);
+        ob_start(); ?>
+            <?php if($image): ?>
+                <figure>
+                    <img src="<?php echo wp_get_attachment_url( $image ) ?>" alt="">
+                </figure>
+            <?php endif; ?>
+            <p>
+                <?php if($description): ?>
+                    <?php echo $description ?>
+                <?php else: ?>
+                    Ce camp n'a pas de description.
+                <?php endif; ?>
+            </p>
+        <?php 
+        return ob_get_clean();
+    }
+
+    public static function get_price_for_one_day($post,$days_in_cart = 1 , $nb_enfants = 1){
+        
+
     }
 
     public static function collection_params( $query_params ) {

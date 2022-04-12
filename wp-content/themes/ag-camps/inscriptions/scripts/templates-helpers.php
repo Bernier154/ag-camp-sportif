@@ -12,12 +12,6 @@ function agcsi_is_edit_page($new_edit = null){
         return in_array( $pagenow, array( 'post.php', 'post-new.php' ) );
 }
 
-function agcsi_is_get_valid_days_for_camp($post){
-    $start = get_field('date_de_debut',$post);
-    $end = get_field('date_de_fin',$post);
-    $period = asgsi_get_dates_from_range($start,$end);
-    return $period;
-}
 
 function asgsi_get_dates_from_range($start, $end, $format = 'Y-m-d') {
     $array = array();
@@ -36,8 +30,10 @@ function asgsi_get_dates_from_range($start, $end, $format = 'Y-m-d') {
 }
 
 function agcsi_check_radio($key, $cursor, $val = null) {
-    if ($val == $cursor) {
-        echo 'checked';
+    if ($val ) {
+        if(strtolower($val) == strtolower($cursor)){
+            echo 'checked';
+        }
     } else {
         if (isset($_POST[$key])) {
             if ($_POST[$key] == $cursor) {
@@ -56,9 +52,26 @@ function agcsi_check_radio($key, $cursor, $val = null) {
     }
 }
 
+function agcsi_check_autre_maladie($possibles, $maladies) {
+    if($maladies){
+        foreach($maladies as $maladie){
+            if(!in_array($maladie,$possibles)){
+                return $maladie;
+            }
+        }
+    }
+    return null;
+}
+
 function agcsi_check_checkbox($key, $checkboxvalue, $val = null) {
     if ($val) {
-        echo 'checked';
+        if(is_array($val)){
+            if(in_array($checkboxvalue,$val)){
+                echo 'checked';
+            }
+        }else{
+            echo 'checked';
+        }
     } else {
         if (isset($_POST[$key])) {
             if (is_array($_POST[$key])) {
@@ -70,6 +83,13 @@ function agcsi_check_checkbox($key, $checkboxvalue, $val = null) {
             }
         }
     }
+}
+
+function agcsi_truth_to_bool($truth){
+    if(strtolower($truth) == 'oui'){
+        return true;
+    }
+    return false;
 }
 
 function agcsi_fill_text($key, $val = null) {
@@ -98,4 +118,14 @@ function agcsi_validate_checkbox_array($maladies, $autres, $autre_txt) {
         $sanitized[] = sanitize_text_field($autre_txt);
     }
     return $sanitized;
+}
+
+function price_to_int_notation($price){
+    $val = explode('.',$price);
+    if(!isset($val[1])){
+        $val[1] = '00';
+    }else if(strlen($val [1]) == 1){
+        $val[1].=0;
+    }
+    return implode('',$val);
 }

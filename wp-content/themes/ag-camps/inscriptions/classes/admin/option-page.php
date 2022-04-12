@@ -22,6 +22,14 @@ class OptionPage {
             null,
             'page-options-agcsi'
         );
+
+        add_settings_field(
+            'produit_inscription',
+            'Produit woocommerce vendu lors d\'une vente. Ne pas toucher.',
+            __NAMESPACE__.'\OptionPage::setting_produit_inscription',
+            'page-options-agcsi',
+            'section_options_generales_agcsi'
+        );
     
         add_settings_field(
             'note_sous_calendrier',
@@ -30,11 +38,23 @@ class OptionPage {
             'page-options-agcsi',
             'section_options_generales_agcsi'
         );
+        register_setting( 'page-options-agcsi', 'produit_inscription' );
         register_setting( 'page-options-agcsi', 'note_sous_calendrier' );
     }
 
     public static function page_content() {
         include(AGCSI_TEMPLATES.'admin/options-form.php');
+    }
+
+    public static function setting_produit_inscription() {
+        ?>
+        <select name="produit_inscription" id="">
+            <option value=""   <?php echo get_option('produit_inscription') == null ?'selected':'' ?> >Choisir...</option>
+            <?php foreach(get_posts(['post_type'=>'product','post_per_page'=>-1]) as $prod): ?>
+                <option value="<?php echo $prod->ID ?>"  <?php echo get_option('produit_inscription') == $prod->ID?'selected':'' ?> ><?php  echo $prod->post_title ?></option>
+            <?php endforeach; ?>
+        </select>
+        <?php
     }
 
     public static function setting_note_calendrier() {

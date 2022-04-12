@@ -1,6 +1,8 @@
 <?php 
 namespace Agcsi\Admin;
 
+use Agcsi\CPT\Enfant;
+
 class MetaBoxEnfantsFiche {
 
     public static function add_meta_box(){
@@ -8,6 +10,8 @@ class MetaBoxEnfantsFiche {
     }
 
     public static function meta_box_content(){
+        global $post;
+        $enfant = $post?Enfant::get($post->ID):new Enfant();
         include(AGCSI_TEMPLATES.'admin/meta-box-enfants-fiche.php');
     }
 

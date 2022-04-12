@@ -12,26 +12,31 @@ document.addEventListener('DOMContentLoaded', function() {
         displayEventTime:false,
         events:'https://agcampsportif.lan/wp-json/wp/v2/camps',
         eventContent: renderEventsContent,
-        eventDidMount: addEventsTooltip
+        eventDidMount: addEventsTooltip,
     });
     calendrier.render();
 });
 
 function addEventsTooltip(info){
     var tooltip = new tippy(info.el, {
-        content: info.event.extendedProps.description,
-        placement: 'top-end'
+        interactive:true,
+        theme:'dark content-camp',
+        allowHTML:true,
+        content:info.event.extendedProps.description,
+        placement: 'top-end',
+        zIndex:99999,
+        appendTo: () => document.body
     });
 }
 
 function renderEventsContent(info){
-    console.log(info)
     return {
         html:`  <div class="fc-content-flex fc-sticky ">
                     <span>${info.event.title}</span>
-                    <span>12 places disponibles  <span class="btn">inscription</span><i class="fa-solid fa-right-long"></i></span>
+                    <span><span class="places" >${info.event.extendedProps.max_places} places disponibles</span>  <span class="btn">inscription</span><i class="fa-solid fa-right-long"></i></span>
                 </div>
         `
     };
 }
+
 

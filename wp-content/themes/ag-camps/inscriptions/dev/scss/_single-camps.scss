@@ -1,0 +1,354 @@
+body.add-to-cart-open{
+    @media screen and (max-width:900px){
+        overflow: hidden;
+        .camp-reservation {
+            overflow-y: auto;
+            h2:after{
+                content:"\f107"!important;
+            }
+        }
+    }
+}
+.single-camps {
+    main {
+        &>.content {
+            padding-bottom: 9rem;
+            padding-top: 9rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr; 
+            grid-template-rows: 1fr 1fr; 
+            gap: 75px; 
+            grid-template-areas: 
+              "a a a b"
+              "a a a b"
+            ;
+            @media screen and (max-width:900px){
+                padding-top: 3rem;
+                grid-template-areas: 
+                  "a a a a"
+                  "a a a a"
+                ;
+            }
+            .info-camp {
+                overflow-x: auto;
+                grid-area: a;
+                .camp-banner {
+                    height: 300px;
+                    width: 100%;
+                    margin-bottom: 1em;
+                    img{
+                        object-fit: cover;
+                        height: 100%;
+                        width: 100%;
+                    }
+                }
+                table{
+                    border:none;
+                    tr{
+                        border-bottom:1px solid #000;
+                        th,td {
+                            font-size: 1.2rem;
+                            border:none;
+                            font-weight: 500;
+                            &.right{
+                                text-align: right;
+                            }
+                            &:not(:first-child){
+                                text-align: center;
+                            }
+                        }
+                        th{
+                            padding-top: 0;
+                        }
+                        td{
+                            min-width: 25%;
+                            padding-top: 2em;
+                            padding-bottom: 2em;
+                            
+                            
+                        }
+                    }
+                }
+            }
+
+            .camp-reservation {
+                grid-area: b;
+                position: relative;
+                @media screen and (max-width:900px){
+                    position: fixed;
+                    bottom: 0;
+                    right: 0;
+                    left: 0;
+                    background-color: #fff;
+                    max-height:calc(100vh - 100px);
+                    z-index: 1;
+                }
+
+                &:not(.open){
+                    @media screen and (max-width:900px){
+                        .section{
+                            max-height: 0;
+                        }
+                    }
+                }
+                .section{
+                    @media screen and (max-width:900px){
+                        max-height: 100vh;
+                        transition:max-height 0.25s;
+                    }
+                }
+                
+                &.need-login {
+                    &>*:not(.need-login-container){
+                        opacity: 0.05;
+                        pointer-events: none;
+                    }
+                }
+                .need-login-container{
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    padding:1em;
+                    display: flex;
+                    .contenu{
+                        padding:0.7em;
+                        
+                        p{
+                            font-size: 14px;
+                        }
+                        background-color: #ffffff99;
+                        align-self: center;
+                        text-align: center;
+                        border:1px solid #0009
+                    }
+
+                }
+                h2{
+                    position: sticky;
+                    top: 0;
+                    background-color: #fff;
+                    // margin-bottom: 0;
+                    @media screen and (max-width:900px){
+                        border-top: 1px solid #000;
+                        border-bottom: 1px solid #000;
+                        margin-bottom: 0;
+                        padding: 0.8em;
+                        z-index: 999;
+                        &:after{
+                            content:"\f106";
+                            position: absolute;
+                            font-family: "Font Awesome 6 Free";
+                            right: 1em;
+                            font-weight: 700;
+                        }
+                    }
+                }
+                label {
+                    font-size:1.6rem;
+                }
+                .calendar-wrapper{
+                    display: inline-block;
+                    display: flex;
+                    flex-direction: column;
+                    @media screen and (max-width:900px){
+                        align-items: center;
+                    }
+                
+                    .date-picker-input {
+                        display: none;
+                    }
+                    
+                    .flatpickr-calendar {
+                        box-sizing: content-box;
+                        border: 1px solid #000;
+                        border-radius:0;
+                        box-shadow: none;
+                        
+                        .flatpickr-day{
+                            position: relative;
+                            &:not(.flatpickr-disabled){
+                                border:1px solid #000 ;
+                                &.selected{
+                                    border:1px solid var(--wp--preset--color--color-1) ;
+                                    background: var(--wp--preset--color--color-1);
+                                    span {
+                                        color:#000;
+                                    }
+                                }
+                            }
+                            &.flatpickr-disabled {
+                                color:#CACACA;
+                            }
+                            &.date-full {
+                                border:1px solid #999 ;
+                                background-color: #eee;
+                            }
+                            span {
+                                border:1px solid var(--wp--preset--color--color-1) ;
+
+                                position: absolute;
+                                background-color: #fff;
+                                // color:#fff;
+                                top: -0.4em;
+                                right: -0.4em;
+                                font-size: 0.7em;
+                                width: 1.8em;
+                                height: 1.8em;
+                                line-height: 1.8em;
+                                text-align: center;
+                                border-radius: 50%;
+                            }
+
+                        }
+                        
+                    }
+                    button{
+                        margin-top: 1em;
+                        align-self: center;
+                        justify-self: center;
+                    }
+                    legend {
+                        padding-top: 0.4em;
+                        p{
+                            margin: 0;
+                            margin-left: 2.2rem;
+                            margin-bottom: 0.3em;
+                            font-size: 13px; 
+                            position: relative;
+                            line-height: 1.4;
+                            color: #444;
+
+                            &::before{
+                                content:"1";
+                                display:inline-block;
+                                position: absolute;
+                                font-size: 0.7em;
+                                width: 1.8em;
+                                height: 1.8em;
+                                line-height: 1.8em;
+                                text-align: center;
+                                border-radius: 50%;
+                                vertical-align: middle;
+                                left: -2.2rem;
+                                top:5px;
+                                
+                            }
+                            &.dispo::before{
+                                border:1px solid var(--wp--preset--color--color-1) ;
+                                background-color: #fff;
+                            }
+                            &.indispo::before{
+                                border:1px solid #999 ;
+                                background-color: #eee;
+                            }
+                        }
+                        
+                    }
+                }
+                .section {
+                    @media screen and (max-width:900px){
+                        padding-left: 15px;
+                        padding-right: 15px;
+                    }
+                    &:not(:nth-of-type(1)){
+                        margin-top: 2.4rem;
+                        @media screen and (max-width:900px){
+                            margin-top: 0;
+                        }
+                    }
+                    h4{
+                        border-top:1px solid #0001;
+                        padding-top: 2.4rem;
+                        // cursor: pointer;
+                        font-weight: 500;
+                        font-size: 2rem;
+                        // margin-bottom: 1.6rem;
+                        list-style: none;
+                        @media screen and (max-width:900px){
+                            // background-color: var(--wp--preset--color--color-1);
+                        }
+                    }
+                }
+                .liste-enfants {
+                    padding-top: 0.8em;
+                    display: flex;
+                    flex-direction: column;
+                    label{
+                        input{
+                            appearance: checkbox;
+                            width: 1em;
+                            height: 1em;
+                            margin-right: 0.8em;
+                        }
+                    }
+                }
+                #add-to-cart {
+                    position: relative;
+                    h4{
+                        margin-bottom: 1em;
+                        display: flex;
+                        justify-content: space-between;
+                        span:first-child{
+                            align-self: flex-end;
+                        }
+                        span:last-child{
+                            font-size: 1.2em;
+                            font-weight: 600;
+                        }
+                    }
+                    .hide {
+                        display: none!important;
+                    }
+      
+                    .loader{
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        right: 0;
+                        left: 0;
+                        background-color: #ffffffbb;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        i{
+                            font-size: 2em;
+                        }
+                    }
+                    p.error {
+                        color:var(--wp--preset--color--color-1);
+                        font-size: 1em;
+                    }
+                }
+            }
+        }
+        h2{
+            font-weight: 500;
+            font-size: 2.4rem;
+            margin-bottom: 1.6rem;
+            &+p {
+                margin-top: 0;
+                font-size: 1.4rem;
+                font-size: 400; 
+                line-height: 1.5;
+                margin-bottom: 5rem;
+            }
+
+        }
+        button.ins-btn,
+        a.ins-btn {
+            align-self: stretch;
+            width: 100%;
+            font-size: 1.4rem;
+            font-weight: 600;
+            background: var(--wp--preset--color--color-1)!important;
+            background-color: var(--wp--preset--color--color-1)!important;
+            color: #fff!important;
+            display: block;
+            padding: 1em ;
+            border-radius: 1em;
+            margin: 0 auto;
+        }
+    }
+}

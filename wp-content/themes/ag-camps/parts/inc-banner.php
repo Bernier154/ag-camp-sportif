@@ -1,7 +1,7 @@
-<section class="banner <?php echo get_field('small')?'is-small':''; ?>">
+<section class="banner <?php echo apply_filters('banner_size',get_field('small'))?'is-small':''; ?>">
     <figure>
         <?php 
-            $image = get_field('image_heros');
+            $image = apply_filters('banner_image',get_field('image_heros'));
             $size = 'full'; // (thumbnail, medium, large, full or custom size)
             if( $image ) {
                 echo wp_get_attachment_image( $image, $size );

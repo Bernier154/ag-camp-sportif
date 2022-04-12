@@ -41,7 +41,10 @@
 
 @import '06-blocks/general-blocks-style';
 
-@import 'inscriptions/inscriptions';
+:root{
+    --global--font-primary : #{$font__main};
+    --global--font-secondary : #{$font__main};
+}
 
 // montre la page quand loadé
 #page{visibility:visible;}

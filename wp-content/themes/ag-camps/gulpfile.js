@@ -25,7 +25,8 @@ var reportError = function (error) {
 // minify CSS
 gulp.task('minify:css', function (err) {
 		return gulp.src([
-				'./dev/sass/**/*.scss'
+				'./dev/sass/**/*.scss',
+				'./inscriptions/dev/scss/**/*.scss'
 		])
 		.pipe(sourcemaps.init())
 		.pipe(sass().on('error', reportError))
@@ -61,7 +62,9 @@ gulp.task('minify:gutenberg-css', function (err) {
 gulp.task('minify:js', function (err) {
 		return gulp.src([
 				'./dev/js/**/*.js',
-			'!./dev/js/**/*min.js'
+			'!./dev/js/**/*min.js',
+			'./inscriptions/dev/js/**/*.js',
+			'!./inscriptions/dev/js/**/*min.js'
 		])
 		.pipe(sourcemaps.init())
 		.pipe(babel({
@@ -79,7 +82,10 @@ gulp.task('minify:js', function (err) {
 
 // watch for sass file change and compile on save.
 gulp.task('sass:watch', gulp.series(['minify:css'], function () {
-		gulp.watch('./dev/sass/**/*.scss', gulp.series(['minify:css']));
+		gulp.watch([
+			'./dev/sass/**/*.scss',
+			'./inscriptions/dev/scss/**/*.scss'
+		], gulp.series(['minify:css']));
 }));
 
 // watch for js file change and compile on save.
@@ -87,7 +93,10 @@ gulp.task('js:watch', gulp.series(['minify:js', 'minify:gutenberg-css'], functio
 		gulp.watch([
 			'./dev/js/**/*.js',
 		'./dev/js/**/**/*.scss',
-		'!./dev/js/**/*min.js'
+		'!./dev/js/**/*min.js',
+		'./inscriptions/dev/js/**/*.js',
+		'./inscriptions/dev/js/**/**/*.scss',
+		'!./inscriptions/dev/js/**/*min.js'
 	], gulp.series(['minify:js', 'minify:gutenberg-css']));
 }));
 
