@@ -1,5 +1,6 @@
 <div class="info-box full">
     <i class="fa-solid fa-circle-user"></i>
+    <h3>Participants</h3>
     <div class="table-overflow">
         <table class="wc-table participants">
             <tr>

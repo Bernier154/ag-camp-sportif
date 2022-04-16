@@ -47,7 +47,7 @@ add_action('wp_enqueue_scripts', 'theme_client_scripts', 11);
 if (!function_exists('theme_client_setup')):
     function theme_client_setup() {
         add_theme_support('post-thumbnails');
-        register_nav_menus(['menu-1' => esc_html__('Primary', 'theme-client')]);
+        register_nav_menus(['menu-1' => esc_html__('Primary', 'theme-client'),'menu-footer' => esc_html__('Footer', 'theme-client')]);
         add_theme_support('html5', [
             'search-form',
             'comment-form',

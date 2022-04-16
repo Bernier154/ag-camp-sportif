@@ -64,7 +64,7 @@
                     </datalist>
                     <datalist id="full-days">
                         <?php foreach($camp->get_valid_days() as $day): ?>
-                            <?php if($camp->get_disponibility_for_day($day,true) == 0 ): ?>
+                            <?php if($camp->get_disponibility_for_day($day,true) == 0  ): ?>
                                 <option value="<?php echo $day ?>"></option>
                             <?php endif; ?>
                         <?php endforeach; ?>
@@ -76,8 +76,12 @@
                     
                     <button id="all-week" class="ins-btn" >Sélectionner la période complète</button>
                 </div>
-                        </div>
+            </div>
             <?php if(is_user_logged_in()): ?>
+                <div class="section">
+                <h4>Heures:</h4>
+                <p class="heures">Ce camp se déroule de <?php echo $camp->heures_html(false) ?></p>
+                </div>
                 <div class="section">
                     <h4>Participants à inscrire: </h4>
                     <div class="liste-enfants">

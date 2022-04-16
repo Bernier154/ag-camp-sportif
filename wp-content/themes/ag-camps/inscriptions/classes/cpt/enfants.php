@@ -53,10 +53,10 @@ class Enfant {
             return false;
         }
         $args = [
-            'post_type'  => 'enfants',
-            'post_status'=>'publish',
-            'post_title' => $this->prenom . ' ' . $this->nom,
-            'meta_input' => $this->return_fillable_as_meta(),
+            'post_type'   => 'enfants',
+            'post_status' => 'publish',
+            'post_title'  => $this->prenom . ' ' . $this->nom,
+            'meta_input'  => $this->return_fillable_as_meta(),
         ];
         if ($this->post) {
             $args['ID'] = $this->post->ID;
@@ -69,6 +69,7 @@ class Enfant {
         foreach (self::$fillables as $fillable) {
             $array[self::$meta_prefix . $fillable] = $this->{$fillable};
         }
+        
         return $array;
     }
 
@@ -76,21 +77,40 @@ class Enfant {
         foreach (self::$fillables as $fillable) {
             $this->{$fillable} = get_post_meta($this->post->ID, self::$meta_prefix . $fillable, true);
         }
+        $this->parent = get_userdata($this->parentID);
     }
 
-    public function has_complete_info(){
-        return  $this->prenom != '' &&
-                $this->nom != '' &&
-                $this->date_naissance != '' &&
-                $this->assurance_maladie != '' &&
-                strtolower($this->autorisation_urgence) == 'oui' &&
-                strtolower($this->consent_frais_urgence) == 'oui';
+    public function has_complete_info($return_errors = false) {
+        $errors = [];
+        if( $this->prenom == ''){
+            $errors['prenom'] = 'Le prénom du participant.';
+        }
+        if($this->nom == ''){
+            $errors['nom'] = 'Le nom du participant.';
+        }
+        if($this->date_naissance == ''){
+            $errors['date_naissance'] = 'La date de naissance du participant.';
+        }
+        if($this->assurance_maladie == ''){
+            $errors['assurance_maladie'] = 'Le numéro d\'assurance maladie du participant.';
+        }
+        if(strtolower($this->autorisation_urgence) == 'non'){
+            $errors['autorisation_urgence'] = 'L\'autorisation de fournir les soins infirmiers nécessaires.';
+        }
+        if(strtolower($this->consent_frais_urgence) == 'non'){
+            $errors['consent_frais_urgence'] = 'La confirmation d\'avoir lu et compris la fiche médicale d\'AG Camp Sportif';
+        }
+
+        if(!$return_errors){
+            return count($errors)==0;
+        }
+        return $errors;
     }
 
-    public static function from_post($post){
-        $enfant = new Enfant();
+    public static function from_post($post) {
+        $enfant       = new Enfant();
         $enfant->post = $post;
-        $enfant->ID = $enfant->post->ID;
+        $enfant->ID   = $enfant->post->ID;
         $enfant->fill_fillable_from_meta();
         return $enfant;
     }
@@ -98,7 +118,7 @@ class Enfant {
     public static function get($ID) {
         $post = get_post($ID);
         if ($post) {
-            if($post->post_type == 'enfants'){
+            if ($post->post_type == 'enfants') {
                 return Enfant::from_post($post);
             }
         }
@@ -107,21 +127,21 @@ class Enfant {
 
     public static function get_from_parent_ID($parentID) {
         $enfants = [];
-        if(is_int($parentID)){
+        if (is_int($parentID)) {
             $posts = get_posts([
-                'post_type'=>'enfants',
-                'post_status'=>'publish',
-                'meta_query'=>[
+                'post_type'     => 'enfants',
+                'post_status'   => 'publish',
+                'meta_query'    => [
                     [
-                        'key'=>self::$meta_prefix.'parentID',
-                        'value'=>$parentID
-                    ]
+                        'key'   => self::$meta_prefix . 'parentID',
+                        'value' => $parentID,
+                    ],
                 ],
-                'orderby'=>'title',
-                'order'=>'ASC',
-                'post_per_page' => -1
+                'orderby'       => 'title',
+                'order'         => 'ASC',
+                'post_per_page' => -1,
             ]);
-            foreach($posts as $post){
+            foreach ($posts as $post) {
                 $enfants[] = Enfant::from_post($post);
             }
         }

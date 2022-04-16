@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
             right: ''
         },
         displayEventTime:false,
-        events:'https://agcampsportif.lan/wp-json/wp/v2/camps',
+        events:siteData.home_url+'wp-json/wp/v2/camps',
         eventContent: renderEventsContent,
         eventDidMount: addEventsTooltip,
     });
@@ -22,7 +22,7 @@ function addEventsTooltip(info){
         interactive:true,
         theme:'dark content-camp',
         allowHTML:true,
-        content:info.event.extendedProps.description,
+        content:`<span>${info.event.title}</span>${info.event.extendedProps.description}`,
         placement: 'top-end',
         zIndex:99999,
         appendTo: () => document.body

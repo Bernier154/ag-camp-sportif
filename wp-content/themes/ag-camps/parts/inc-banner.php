@@ -1,3 +1,15 @@
+<?php 
+    $title = '';
+    if(is_404()){
+        $title = '<h1>404</h1>';
+        add_filter('banner_size','__return_true');
+    }else if(get_field('titre_formate')){
+        $title = get_field('titre_formate');
+    }else{
+        $title = '<h1>'.get_the_title().'</h1>';
+    }
+
+?>
 <section class="banner <?php echo apply_filters('banner_size',get_field('small'))?'is-small':''; ?>">
     <figure>
         <?php 
@@ -9,10 +21,7 @@
         ?>
     </figure>
     <div class="content-on-image content">
-        <?php if(get_field('titre_formate')):  ?>
-            <?php the_field('titre_formate'); ?>
-        <?php else: ?>
-            <h1><?php the_title() ?></h1>
-        <?php endif; ?>
+        <?php echo $title; ?>
     </div>
 </section>
+

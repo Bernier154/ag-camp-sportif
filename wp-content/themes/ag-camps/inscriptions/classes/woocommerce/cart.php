@@ -17,13 +17,17 @@ class Cart{
         if ( did_action( 'woocommerce_before_calculate_totals' ) >= 2 ){ return; }
 
         foreach ( $cart->get_cart() as $cart_item ) {
-            $camp = Camp::get($cart_item['camp']);
-            $dates = $cart_item['dates'];
-            $participants = $cart_item['participants'];
-
-            $calculated_price = $camp->price_for_one_day(count($cart->get_cart()),count($participants), count($dates) ) / 100;
-        
-            $cart_item['data']->set_price( $calculated_price  ); 
+            if(!isset($cart_item['camp'])){
+                $cart->remove_cart_item( $cart_item['key'] );
+            }else{
+                $camp = Camp::get($cart_item['camp']);
+                $dates = $cart_item['dates'];
+                $participants = $cart_item['participants'];
+    
+                $calculated_price = $camp->price_for_one_day(count($cart->get_cart()),count($participants), count($dates) ) / 100;
+            
+                $cart_item['data']->set_price( $calculated_price  ); 
+            }
         }
     }
     
@@ -202,13 +206,13 @@ class Cart{
         $html = '<p>'.$camp->post->post_title.'</p>';
         $html.= '<div class="metas">';
         $html.= '<h5>Journée(s):</h5>';
-        foreach($cart_item['dates'] as $date):
-            $html.= '<p>'.$date.'</p>';
-        endforeach;
+        $html.= '<p>'.implode(' ',array_map(function($date){
+            return '<span class="pastille">'.date_i18n('j F Y',strtotime($date)).'</span>';
+        },$cart_item['dates'])).'</p>';
         $html.= '<h5>Participant(s):</h5>';
-        foreach($cart_item['participants'] as $enfant_id):
-            $html.= '<p>'.(Enfant::get($enfant_id))->prenom.'</p>';
-        endforeach;
+        $html.= '<p>'.implode(', ',array_map(function($enfant_id){
+            return '<span class="pastille">'.(Enfant::get($enfant_id))->prenom.'</span>';
+        },$cart_item['participants'])).'</p>';
         $html.= '</div>';
         return $html;
     }
@@ -233,5 +237,10 @@ class Cart{
                 "args"=>["dates","enfants","campId"]
             ));
         });
+        add_filter( 'woocommerce_return_to_shop_redirect', function(){ return home_url('/').'inscriptions'; });
+        add_filter( 'woocommerce_return_to_shop_text', function(){ return 'Retour au calendrier'; });
+
+        remove_action('woocommerce_thankyou','woocommerce_order_details_table');
     }
 }
+

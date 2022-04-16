@@ -19,13 +19,12 @@ class Checkout{
         }
         if( ! get_post_meta( $order_id, '_inscription_for_order_made', true ) ) {
             $order = wc_get_order( $order_id );
+            $inscription = new Inscription();
             foreach ( $order->get_items() as $item_id => $item ) {
                 $camp = Camp::get($item->get_meta('camp'));
                 $participants = $item->get_meta('participants');
                 $dates = $item->get_meta('dates');
                 $parent = $order->get_user_id();
-
-                $inscription = new Inscription();
 
                 $inscription->camp = $camp;
                 $inscription->participants = $participants;
@@ -36,7 +35,13 @@ class Checkout{
             }
             
             $order->update_meta_data( '_inscription_for_order_made', true );
+            $order->update_meta_data( '_inscription_ID_order', $inscription->ID );
+            $order->update_status( 'wc-completed' );
             $order->save();
+        }
+
+        if(get_post_meta( $order_id, '_inscription_ID_order', true )){
+            echo '<p class="checkout-footer">Vous pouvez consulter vos inscriptions dans la page <a href="'.wc_get_page_permalink( 'myaccount' ).'inscriptions/" >mon compte</a>.</p><p class="checkout-footer" ><a target="_blank" href="'.get_permalink(get_post_meta( $order_id, '_inscription_ID_order', true )).'">Imprimer la fiche d\'inscription</a></p>';
         }
 
     }

@@ -13,7 +13,6 @@ class Camp {
 
     }
 
-    
     public function get_disponibility_for_day($date,$remove_cart_disponibility = false){
         $nb_max = $this->max_disponibilite;
         $nb_participants = count($this->get_participants_for_day($date));
@@ -33,9 +32,30 @@ class Camp {
                 }
             }
         }
+        if(strtotime($date) < strtotime(date("Y-m-d"))){
+            $disponibility = 0;
+        }
         return $disponibility;
     }
 
+    public function heures_html($abrege = true){
+        $debut = get_field('heure_debut',$this->post) ?? '7:30';
+        $fin = get_field('heure_fin',$this->post) ?? '17:00';
+        if($abrege){
+            return $debut.'@'.$fin;
+        }else{
+            return $debut.' à '.$fin;
+        }
+        
+    }
+
+    public function adresse(){
+        $adresse = "";
+        if(get_field('lieu',$this->post)){
+            $adresse = get_field('lieu',$this->post);
+        }
+        return $adresse;
+    }
 
     public function get_highest_disponibility(){
         $val = 0;
@@ -152,9 +172,13 @@ class Camp {
      */
     public static function single_page_small_banner($is_small){
         global $post;
-        if($post->post_type == 'camps'){
-            return true;
+
+        if($post){
+            if($post->post_type == 'camps'){
+                return true;
+            }
         }
+        
         return $is_small;
     }
     
@@ -166,9 +190,12 @@ class Camp {
      */
     public static function single_page_banner_image($image){
         global $post;
-        if($post->post_type == 'camps'){
-            return get_post_thumbnail_id($post->ID);
+        if($post){
+            if($post->post_type == 'camps'){
+                return get_post_thumbnail_id($post->ID);
+            }
         }
+        
         return $image;
     }
         

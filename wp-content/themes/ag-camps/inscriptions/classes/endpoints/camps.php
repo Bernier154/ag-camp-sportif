@@ -83,11 +83,13 @@ class CampsEndpoint {
     
         return $args;
     }
+
    
     public static function register(){
         add_filter( 'rest_prepare_camps', __NAMESPACE__ .'\CampsEndpoint::response', 10, 3 );
         add_filter( 'rest_camps_collection_params', __NAMESPACE__ .'\CampsEndpoint::collection_params', 10, 3 );
         add_filter( 'rest_camps_query', __NAMESPACE__ .'\CampsEndpoint::query' , 10, 2 );
+
     }
 }
 

@@ -1,0 +1,34 @@
+.meta-camp{
+    h2 {
+        font-size: 21px!important;
+        font-weight: 600!important;
+        padding-left: 0!important;
+    }
+    .horaire {
+        display: flex;
+        flex-wrap: wrap;
+        .jour{
+            flex-basis: calc(20% - 1px);
+            border-right: 1px solid #eee;
+            &:first-child{
+                flex-basis: calc(20% - 2px);
+                border-left: 1px solid #eee;
+            }
+            .nom{
+                padding:1em;
+                background-color: #eee;
+                margin-top: 0;
+            }
+            .participants{
+                padding: 1em;
+                display: flex;
+                flex-wrap: wrap;
+                min-width: 100px;
+                p{
+                    flex-basis: 50%;
+                    
+                }
+            }
+        }
+    }
+} 

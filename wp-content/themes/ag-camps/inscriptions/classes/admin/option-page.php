@@ -24,9 +24,25 @@ class OptionPage {
         );
 
         add_settings_field(
+            'adresse_contact',
+            'Adresse courriel de contact',
+            __NAMESPACE__.'\OptionPage::setting_adresse_contact',
+            'page-options-agcsi',
+            'section_options_generales_agcsi'
+        );
+
+        add_settings_field(
             'produit_inscription',
             'Produit woocommerce vendu lors d\'une vente. Ne pas toucher.',
             __NAMESPACE__.'\OptionPage::setting_produit_inscription',
+            'page-options-agcsi',
+            'section_options_generales_agcsi'
+        );
+
+        add_settings_field(
+            'note_sous_impression_inscription',
+            'Note sous la feuille de confirmation d\'inscription',
+            __NAMESPACE__.'\OptionPage::note_sous_impression_inscription',
             'page-options-agcsi',
             'section_options_generales_agcsi'
         );
@@ -38,7 +54,9 @@ class OptionPage {
             'page-options-agcsi',
             'section_options_generales_agcsi'
         );
+        register_setting( 'page-options-agcsi', 'adresse_contact' );
         register_setting( 'page-options-agcsi', 'produit_inscription' );
+        register_setting( 'page-options-agcsi', 'note_sous_impression_inscription' );
         register_setting( 'page-options-agcsi', 'note_sous_calendrier' );
     }
 
@@ -55,6 +73,16 @@ class OptionPage {
             <?php endforeach; ?>
         </select>
         <?php
+    }
+
+    public static function setting_adresse_contact() {
+        ?>
+        <input type="email" name="adresse_contact" value="<?php echo get_option('adresse_contact') ?>" >
+        <?php
+    }
+
+    public static function note_sous_impression_inscription() {
+        wp_editor( get_option( 'note_sous_impression_inscription' ), 'note_sous_impression_inscription', $settings = array('textarea_name'=>'note_sous_impression_inscription') );
     }
 
     public static function setting_note_calendrier() {

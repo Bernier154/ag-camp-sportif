@@ -19,6 +19,7 @@ class AccountParticipants {
             $nouvel_items['participants/'.$enfant->ID] =  $enfant->prenom;
         }
         $nouvel_item = array_merge(array_slice($items, 0, 1, true),$nouvel_items,array_slice($items, 1, count($items), true));
+        unset($nouvel_item['downloads']);
         return $nouvel_item;
     }
     

@@ -9,7 +9,8 @@ class MetaBoxInscriptions {
     }
 
     public static function meta_box_content(){
-        include(AGCSI_TEMPLATES.'admin/meta-box-inscriptions.php');
+        global $post;
+        include AGCSI_TEMPLATES.'single-inscription.php';
     }
 
 }

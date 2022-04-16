@@ -34,4 +34,13 @@
     .legal-wrapper{
         margin-top: 20px;
     }
+
+    #footer-menu{
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        li:first-child::after{
+            content: "\00a0|\00a0";
+        }
+    }
 }

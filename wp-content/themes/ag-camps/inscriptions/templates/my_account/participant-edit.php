@@ -1,5 +1,15 @@
 <div class="info-box">
     <i class="fa-solid fa-circle-info"></i>
+    <?php if(!$enfant->has_complete_info() && $enfant->ID): ?>
+        <div class="error-box">
+            <p>Pour obtenir le statut complet de la fiche, il vous manque les informations suivantes:</p>
+            <ul>
+                <?php foreach($enfant->has_complete_info(true) as $key=>$info):?>
+                    <li><a href="#<?php echo $key ?>"><?php echo $info ?></a></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
     <form action="" method="POST" class="form-enfant">
         <h3>Général</h3>
         <input type="hidden" name="agcsi_enfant_id" value="<?php agcsi_fill_text('agcsi_enfant_id',$enfant->ID) ?>">
@@ -19,9 +29,9 @@
                 Date de naissance
                 <input type="date" name="agcsi_enfant_date_naissance" id="date-de-naissance" value="<?php agcsi_fill_text('agcsi_enfant_date_naissance',$enfant->date_naissance) ?>" />
             </label>
-            <label for="num-assurances-maladie">
+            <label for="assurance_maladie">
                 Numéro d'assurance maladie
-                <input type="text" name="agcsi_enfant_assurance_maladie" id="num-assurances-maladie" value="<?php agcsi_fill_text('agcsi_enfant_assurance_maladie',$enfant->assurance_maladie) ?>">
+                <input type="text" name="agcsi_enfant_assurance_maladie" id="assurance_maladie" value="<?php agcsi_fill_text('agcsi_enfant_assurance_maladie',$enfant->assurance_maladie) ?>">
             </label>
         </div>
         <div class="form-row">

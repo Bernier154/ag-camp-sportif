@@ -44,6 +44,8 @@
 :root{
     --global--font-primary : #{$font__main};
     --global--font-secondary : #{$font__main};
+    --responsive--aligndefault-width:1200px;
+    --wp--style--block-gap:0;
 }
 
 // montre la page quand loadé
@@ -57,6 +59,10 @@ html,body{
     margin-top: 0 !important;
 }
 
+.page-404 {
+    padding-top: 9em;
+    padding-bottom: 9em;
+}
 
 
 

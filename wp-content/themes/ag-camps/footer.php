@@ -10,6 +10,14 @@
                 <li><a rel="noopener" href="https://www.facebook.com/campsportifAG"><i class="fab fa-facebook-square"></i></a></li>
                 <li><a rel="noopener" href="https://www.instagram.com/ag_campsportif/?hl=fr"><i class="fab fa-instagram"></i></a></li>
             </ul>
+            <div class="footer-nav">
+                <?php 
+                wp_nav_menu( array(
+                    'theme_location' => 'menu-footer',
+                    'menu_id'        => 'footer-menu',
+                ) );
+                ?>
+            </div>
             <div class="legal-wrapper">
                 <span>&copy; Camp Sportif AG , <?php echo date('Y'); ?>. Tous droits réservés</span>
             </div>

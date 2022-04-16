@@ -104,11 +104,11 @@ class Inscription {
         $enfants = [];
         if(is_int($parentID)){
             $posts = get_posts([
-                'post_type'=>'enfants',
+                'post_type'=>'inscriptions',
                 'post_status'=>'publish',
                 'meta_query'=>[
                     [
-                        'key'=>self::$meta_prefix.'parentID',
+                        'key'=>self::$meta_prefix.'parent',
                         'value'=>$parentID
                     ]
                 ],
@@ -117,7 +117,7 @@ class Inscription {
                 'post_per_page' => -1
             ]);
             foreach($posts as $post){
-                $enfants[] = Enfant::from_post($post);
+                $enfants[] = Inscription::from_post($post);
             }
         }
         return $enfants;
@@ -143,11 +143,12 @@ class Inscription {
             'description'         => 'Affiche les inscriptions',
             'taxonomies'          => [],
             'public'              => true,
+            'has_archive'          => false,
             'show_in_rest'        => true,
             'menu_position'       => 5,
             'menu_icon'         => 'dashicons-clipboard',
-            'show_in_nav_menus'   => true,
-            'publicly_queryable'  => false,
+            'show_in_nav_menus'   => false,
+            'publicly_queryable'  => true,
             'exclude_from_search' => false,
             'has_archive'         => false,
             'query_var'           => true,

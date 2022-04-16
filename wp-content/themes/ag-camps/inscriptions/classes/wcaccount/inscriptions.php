@@ -1,7 +1,7 @@
 <?php 
 namespace Agcsi\WcAccount;
 
-use Agcsi\CPT\Enfant;
+use Agcsi\CPT\Inscription;
 
 class AccountInscriptions {
     
@@ -34,6 +34,7 @@ class AccountInscriptions {
      * @hooked woocommerce_account_participants_endpoint
      */
     public static function participants_endpoint_content(){
+        $inscriptions = Inscription::get_from_parent_ID(get_current_user_id());
         include(AGCSI_ROOT.'/templates/my_account/inscriptions.php');
     }
 

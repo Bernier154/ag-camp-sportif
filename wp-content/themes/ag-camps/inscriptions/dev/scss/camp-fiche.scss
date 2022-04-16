@@ -1,0 +1,139 @@
+
+html,body{
+    background-color: #1e1e1e;
+    font-family: Arial;
+}
+
+
+main{
+    margin:0 auto;
+    padding: 15mm;
+    width:210mm;
+    background-color: #fff;
+    box-shadow: 0 5px 50px 2px #000;
+    header{
+        margin-bottom: 50px;
+        .no-insc {
+            font-weight:600;
+            text-align:right;
+        }
+    }
+    td{
+        vertical-align:top
+    }
+    
+    h2{
+        font-size:18px;
+    }
+    .participants{
+        display:flex;
+        flex-wrap:wrap;
+        .participant{
+            flex-basis:50%;
+            flex-shrink:0;
+            flex-grow:0;
+            
+        }
+        p{
+            margin-bottom: 5px;
+            margin-top: 0;
+            
+        }
+    }
+    .content-presence{
+        padding-top: 50px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            tr {
+                @media print {
+                    page-break-inside: avoid;
+                }
+            }
+            th,td{
+                padding: 0.1em;
+                text-align:center;
+                border:1px solid #ccc;
+                font-size: 11px;
+                vertical-align: middle;
+                @media print {
+                    page-break-inside: avoid;
+                }
+                &.left{
+                    text-align: left;
+                }
+                &.important {
+                    font-weight: 600;
+                    color:#ce4141;
+                }
+                &.small{
+                    width: 1%;
+                    white-space: nowrap;
+                }
+                &.limit {
+                    max-width: 100px;
+                    
+                }
+                &.table{
+                    padding: 0.3em;
+                    table{
+                        th,td{
+                            border:none;
+                            text-align: left;
+                            vertical-align: top;
+                        }
+                    }
+                }
+            }
+    
+        }
+    }
+}
+
+
+
+
+
+.print-btn{
+    text-align:center;
+    padding:1em;
+    button{
+        font-size: 1rem;
+        font-weight: 600;
+        border:none;
+        background-color: #ce4141;
+        color: #fff!important;
+        display: inline-block;
+        padding: 1em ;
+        border-radius: 1em;
+        margin: 0 auto;
+        cursor: pointer;
+    }
+}
+@media print {
+    body{
+        width: 22cm;
+        height: 28cm;
+        margin-bottom: 10mm;
+        background-color: unset;
+
+        main {
+            box-shadow: none;
+        }
+    }
+    
+    .no-print {
+        display: none;
+    }
+
+    .print-break {
+        page-break-after: always;
+    }
+
+    article {
+        width: 8.5in;
+        height: 11in;
+        page-break-inside: avoid;
+    }
+}
+
