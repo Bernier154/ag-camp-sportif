@@ -286,6 +286,9 @@ body.add-to-cart-open{
                             margin-right: 0.8em;
                         }
                     }
+                    &+small {
+                        font-size: 1.4rem!important;
+                    }
                 }
                 #add-to-cart {
                     position: relative;
@@ -323,6 +326,17 @@ body.add-to-cart-open{
                         color:var(--wp--preset--color--color-1);
                         font-size: 1em;
                     }
+                    .no-choice{
+                        p{
+                            border:1px solid var(--wp--preset--color--color-1);
+                            padding: 1em;
+                            border-radius:1em;
+                            margin-top: 1em;
+                            color:var(--wp--preset--color--color-1);
+                            line-height: 1.2;
+                            font-size: 1.6rem;
+                        }
+                    }
                 }
             }
         }
@@ -352,6 +366,9 @@ body.add-to-cart-open{
             padding: 1em ;
             border-radius: 1em;
             margin: 0 auto;
+            &.grey{
+                opacity:0.25;
+            }
         }
     }
 }

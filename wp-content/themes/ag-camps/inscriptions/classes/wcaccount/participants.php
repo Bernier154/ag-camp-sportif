@@ -163,7 +163,7 @@ class AccountParticipants {
         }
 
         $enfant->save();
-        wp_redirect(wc_get_endpoint_url('participants'));
+        wp_redirect(wc_get_endpoint_url('participants').'/'.$enfant->ID);
     }
 
     public static function validate_form(){

@@ -127,7 +127,7 @@
         </div>
         <div class="form-row">
             <label class="full-width" for="particularite">
-                Veuillez inscrire s'il y a des particularités que nous devrions savoir à propos de votre enfant.
+                Veuillez inscrire s'il y a des particuliarités que nous devrions savoir à propos de votre enfant.
                 <textarea name="agcsi_enfant_particularite" id="particularite" rows="3"><?php agcsi_fill_text('agcsi_enfant_particularite',$enfant->particularite) ?></textarea>
             </label>
         </div>

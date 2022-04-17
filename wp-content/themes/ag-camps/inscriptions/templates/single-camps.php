@@ -100,6 +100,7 @@
                         </div>
                         <div class="no-choice">
                             <p>Veuillez choisir une date et au moins un participant.</p>
+                            <button class="ins-btn grey" disabled>Ajouter au panier</button>
                         </div>
                         <div class="loader hide"><i class="fa-solid fa-circle-notch fa-spin"></i></div>
                         <p class="error"></p>

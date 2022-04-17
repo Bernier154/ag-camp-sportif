@@ -27,6 +27,11 @@ import { ENTER, SPACE, DOWN } from '@wordpress/keycodes';
 import { speak } from '@wordpress/a11y';
 
 /**
+ * iThemes dependencies
+ */
+import { SearchControl } from '@ithemes/ui';
+
+/**
  * Internal dependencies
  */
 import { useFocusOutside, useMergeRefs } from '@ithemes/security-hocs';
@@ -103,16 +108,14 @@ export default forwardRef( function Search(
 			{ ...useFocusOutside( () => setIsSearching( false ) ) }
 		>
 			<div>
-				<TextControl
-					type="search"
-					placeholder={ __( 'Search', 'better-wp-security' ) }
-					label={ __( 'Search', 'better-wp-security' ) }
-					hideLabelFromVision
+				<SearchControl
 					value={ query }
 					onChange={ onChange }
 					onFocus={ () => setIsSearching( true ) }
 					onKeyDown={ onKeyDown }
 					ref={ useMergeRefs( [ ref, searchRef ] ) }
+					placeholder={ __( 'Search for feature, settings, and more', 'better-wp-security' ) }
+					omitSeparators
 				/>
 				{ ( isSearching || showResults ) && query.length >= 3 && (
 					<SearchResults
@@ -130,7 +133,7 @@ export default forwardRef( function Search(
 	);
 } );
 
-const SearchResults = forwardRef( function (
+const SearchResults = forwardRef( function(
 	{ results, exitSearch, onPick },
 	ref
 ) {

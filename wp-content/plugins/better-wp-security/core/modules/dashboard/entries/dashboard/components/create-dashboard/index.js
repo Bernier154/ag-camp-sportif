@@ -3,8 +3,9 @@
  */
 import { __ } from '@wordpress/i18n';
 import { TextControl, Button } from '@wordpress/components';
-import { compose, withInstanceId, withState } from '@wordpress/compose';
-import { withSelect, withDispatch } from '@wordpress/data';
+import { useInstanceId } from '@wordpress/compose';
+import { useSelect, useDispatch } from '@wordpress/data';
+import { useState } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -13,17 +14,27 @@ import DefaultLayout from './default-layout.svg';
 import ScratchLayout from './scratch-layout.svg';
 import './style.scss';
 
-function CreateDashboard( {
-	instanceId,
-	defaultLabel,
-	scratchLabel,
-	setState,
-	addingScratch,
-	addingDefault,
-	add,
-	canCreate,
-	canCreateLoaded,
-} ) {
+export default function CreateDashboard() {
+	const instanceId = useInstanceId( CreateDashboard );
+
+	const [ defaultLabel, setDefaultLabel ] = useState( '' );
+	const [ scratchLabel, setStratchLabel ] = useState( '' );
+
+	const { canCreate, canCreateLoaded, addingScratch, addingDefault } = useSelect( ( select ) => ( {
+		canCreate: select( 'ithemes-security/dashboard' ).canCreateDashboards(),
+		canCreateLoaded: select(
+			'ithemes-security/dashboard'
+		).isCanCreateDashboardsLoaded(),
+		addingScratch: select( 'ithemes-security/dashboard' ).isAddingDashboard(
+			'create-dashboard-scratch'
+		),
+		addingDefault: select( 'ithemes-security/dashboard' ).isAddingDashboard(
+			'create-dashboard-default'
+		),
+	} ) );
+
+	const { addDashboard: add } = useDispatch( 'ithemes-security/dashboard' );
+
 	if ( ! canCreate && canCreateLoaded ) {
 		return (
 			<div className="itsec-create-dashboard">
@@ -78,7 +89,7 @@ function CreateDashboard( {
 						id={ `itsec-create-dashboard__name--default-${ instanceId }` }
 						value={ defaultLabel }
 						onChange={ ( label ) =>
-							setState( { defaultLabel: label } )
+							setDefaultLabel( label )
 						}
 						disabled={ addingDefault || addingScratch }
 					/>
@@ -117,7 +128,7 @@ function CreateDashboard( {
 						id={ `itsec-create-dashboard__name--name-${ instanceId }` }
 						value={ scratchLabel }
 						onChange={ ( label ) =>
-							setState( { scratchLabel: label } )
+							setStratchLabel( label )
 						}
 						disabled={ addingDefault || addingScratch }
 					/>
@@ -136,23 +147,3 @@ function CreateDashboard( {
 		</div>
 	);
 }
-
-export default compose( [
-	withInstanceId,
-	withState( { defaultLabel: '', scratchLabel: '' } ),
-	withSelect( ( select ) => ( {
-		canCreate: select( 'ithemes-security/dashboard' ).canCreateDashboards(),
-		canCreateLoaded: select(
-			'ithemes-security/dashboard'
-		).isCanCreateDashboardsLoaded(),
-		addingScratch: select( 'ithemes-security/dashboard' ).isAddingDashboard(
-			'create-dashboard-scratch'
-		),
-		addingDefault: select( 'ithemes-security/dashboard' ).isAddingDashboard(
-			'create-dashboard-default'
-		),
-	} ) ),
-	withDispatch( ( dispatch ) => ( {
-		add: dispatch( 'ithemes-security/dashboard' ).addDashboard,
-	} ) ),
-] )( CreateDashboard );
