@@ -43,8 +43,11 @@ class Module {
                 wp_enqueue_script('popper', get_stylesheet_directory_uri() . '/inscriptions/vendors/tippy/popper.js', [], '5.10.2', false);
                 wp_enqueue_script('tippy', get_stylesheet_directory_uri() . '/inscriptions/vendors/tippy/tippy.js', ['popper'], '5.10.2', false);
                 wp_enqueue_style('flatpickr', get_stylesheet_directory_uri() . '/inscriptions/vendors/flatpickr/flatpickr.min.css', [], '5.10.2');
+                wp_enqueue_script('flatpickr-fr', get_stylesheet_directory_uri() . '/inscriptions/vendors/flatpickr/fr.js', ['flatpickr'], '5.10.2', false);
                 wp_enqueue_script('flatpickr', get_stylesheet_directory_uri() . '/inscriptions/vendors/flatpickr/flatpickr.min.js', [], '5.10.2', false);
                 wp_enqueue_script('camps', get_stylesheet_directory_uri() . '/js/camps.min.js', ['wp-api-fetch'], '5.10.2', false);
+                wp_enqueue_script('google-map-api', 'https://maps.googleapis.com/maps/api/js?key='.GOOGLE_MAP_API, ['wp-api-fetch'], '5.10.2', false);
+
             }
         }
     }

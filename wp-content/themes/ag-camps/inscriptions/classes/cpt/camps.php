@@ -39,8 +39,8 @@ class Camp {
     }
 
     public function heures_html($abrege = true){
-        $debut = get_field('heure_debut',$this->post) ?? '7:30';
-        $fin = get_field('heure_fin',$this->post) ?? '17:00';
+        $debut = get_field('heure_debut',$this->post) == null || get_field('heure_debut',$this->post) == "" ?'7:30':get_field('heure_debut',$this->post);
+        $fin = get_field('heure_fin',$this->post) == null || get_field('heure_fin',$this->post) == "" ?'17:00':get_field('heure_fin',$this->post);
         if($abrege){
             return $debut.'@'.$fin;
         }else{
@@ -52,7 +52,7 @@ class Camp {
     public function adresse(){
         $adresse = "";
         if(get_field('lieu',$this->post)){
-            $adresse = get_field('lieu',$this->post);
+            $adresse = get_field('lieu',$this->post)['address'];
         }
         return $adresse;
     }

@@ -24,12 +24,13 @@
             button {
                 background-color: var(--wp--preset--color--color-1);
                 border-color: var(--wp--preset--color--color-1);
+                transition: opacity 0.25s;
                 span.fc-icon {
                     font-size: 1.8rem;
                 }
                 &:hover{
                     background-color: var(--wp--preset--color--color-1); 
-                    opacity: 90%;
+                    opacity: 0.5;
                 }
             }
         }

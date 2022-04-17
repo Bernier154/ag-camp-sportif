@@ -11,8 +11,14 @@
                     <img src="<?php echo wp_get_attachment_image_url( get_post_thumbnail_id($post->ID), 'full' ); ?>" alt="">
                 </figure>
             <?php endif; ?>
-            <h2>Description</h2>
-            <p><?php echo get_field('description') ?></p>
+            <?php if(get_field('description')): ?>
+                <h2>Description</h2>
+                <p><?php echo get_field('description') ?></p>
+            <?php endif; ?>
+            <?php if(get_field('lieu')): ?>
+                <h2>Lieu</h2>
+                <div id="map" data-lieu="<?php echo get_field('lieu')['address'] ?>" data-lat="<?php echo get_field('lieu')['lat'] ?>" data-lng="<?php echo get_field('lieu')['lng'] ?>" ></div>
+            <?php endif; ?>
             <h2>Tarification</h2>
             <div class="grille-tarification">
                 <table>

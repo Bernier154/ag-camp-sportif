@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    initmap();
+
     var tooltip = new tippy('#add-kid', {
         interactive:true,
         theme:'dark',
@@ -22,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
         inline: true,
         mode: "multiple",
         dateFormat: "Y-m-d",
+        locale:"fr",
         enable:  Array.from(document.querySelector('#valid-days').options).map((x)=>x.value),
         onChange: function(selectedDates, dateStr, instance) {
             debouceFetch()
@@ -38,6 +41,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+        },
+        onReady: function(){
+            if(this.config._enable.length>0){
+                this.jumpToDate(this.config._enable[0]);
+            }else if(fulldates.length>0){
+                this.jumpToDate(fulldates[0]);
+            }
         }
     });
 
@@ -171,4 +181,29 @@ function addToCart(){
         }
         
     });
+}
+
+function initmap(){
+    const container = document.getElementById('map');
+    if(!container) return 
+    const lat = parseFloat(container.getAttribute('data-lat'));
+    const lng = parseFloat(container.getAttribute('data-lng'));
+    const address = container.getAttribute('data-address');
+
+    const map = new google.maps.Map( container,{
+        zoom: 16,
+        center: {lat:lat,lng:lng},
+        scrollwheel : false,
+        zoomControl: true,
+        disableDefaultUI: true,
+    });
+
+    const marker = new google.maps.Marker({
+        position: {lat:lat,lng:lng},
+        map: map,
+        
+      });
+    
+    
+    
 }
