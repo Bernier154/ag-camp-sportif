@@ -13,7 +13,8 @@ class AccountInscriptions {
      * @hooked woocommerce_account_menu_items
      */
     public static function add_menu_item($items){
-        $nouvel_items = ['inscriptions'   => 'Inscriptions'];
+        $nouvel_items = ['reservations'   => 'Réservations'];
+        
         $nouvel_item = array_merge(array_slice($items, 0, 1, true),$nouvel_items,array_slice($items, 1, count($items), true));
         return $nouvel_item;
     }
@@ -24,7 +25,7 @@ class AccountInscriptions {
      * @return void
      */
     public static function add_endpoint_wc(){
-        add_rewrite_endpoint('inscriptions', EP_PAGES);
+        add_rewrite_endpoint('reservations', EP_PAGES);
     }
     
     /**
@@ -47,7 +48,7 @@ class AccountInscriptions {
     public static function register(){
         self::add_endpoint_wc();
         add_filter('woocommerce_account_menu_items', __NAMESPACE__.'\AccountInscriptions::add_menu_item', 99, 1);
-        add_action('woocommerce_account_inscriptions_endpoint', __NAMESPACE__.'\AccountInscriptions::participants_endpoint_content');
+        add_action('woocommerce_account_reservations_endpoint', __NAMESPACE__.'\AccountInscriptions::participants_endpoint_content');
     }
 
 }

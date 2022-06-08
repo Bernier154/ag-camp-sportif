@@ -19,6 +19,21 @@
             font-weight: 400;
             text-transform: capitalize;
         }
+        .fc-toolbar-title i {
+            display: none;
+        }
+        .fc-view-harness {
+            transition:opacity 0.25s;
+        }
+        &.loading{
+            .fc-toolbar-title i {
+                display: inline-block;
+            }
+            .fc-view-harness {
+                opacity: 0.5;
+            }
+        }
+
         
         .fc-button-group{
             button {

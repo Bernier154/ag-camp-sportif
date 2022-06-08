@@ -58,8 +58,8 @@ class Inscription {
                 break;
             }
         }
-
     }
+
 
     public static function from_post($post){
         $inscription = new Inscription();

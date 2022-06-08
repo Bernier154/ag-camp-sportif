@@ -84,6 +84,17 @@ main{
                         }
                     }
                 }
+                &.presence {
+                    &>div{
+                        padding: 0 1em ;
+                        display: flex;
+                        justify-content: center;
+                        &>div {
+                            display: flex;
+                            flex-direction: column;
+                        }
+                    }
+                }
             }
     
         }

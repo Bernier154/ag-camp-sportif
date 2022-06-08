@@ -165,7 +165,7 @@ class ITSEC_Site_Scanner_API {
 	 *
 	 * @return array|mixed|WP_Error
 	 */
-	public static function register_site( $site_id = 0 ) {
+	public static function register_site( int $site_id = 0 ) {
 		$site_id  = $site_id ?: get_main_site_id();
 		$pid      = ITSEC_Log::add_process_start( 'site-scanner', 'register-site', compact( 'site_id' ) );
 		$key_pair = self::generate_key_pair();
@@ -260,14 +260,16 @@ class ITSEC_Site_Scanner_API {
 	 * @return string|WP_Error|null The authorization header, a WP_Error if generation failed, null if none is available.
 	 */
 	private static function get_authorization_header( int $site_id, string $json ) {
-		$signature = self::generate_signature( $json );
+		if ( is_main_site( $site_id ) ) {
+			$signature = self::generate_signature( $json );
 
-		if ( ! is_wp_error( $signature ) ) {
-			return $signature;
-		}
+			if ( ! is_wp_error( $signature ) ) {
+				return $signature;
+			}
 
-		if ( 'non_active_license' !== $signature->get_error_code() ) {
-			return $signature;
+			if ( 'non_active_license' !== $signature->get_error_code() ) {
+				return $signature;
+			}
 		}
 
 		$key = self::get_registered_site_key( $site_id );

@@ -129,3 +129,35 @@ function price_to_int_notation($price){
     }
     return implode('',$val);
 }
+
+
+function user_has_complete_info($user_ID,$return_errors = false) {
+    $user = get_userdata( $user_ID );
+    $errors = [];
+    if( get_user_meta($user_ID,'first_name',true) == '' || get_user_meta($user_ID,'first_name',true) == null){
+        $errors['first_name'] = 'Le prénom du parent prinçipal.';
+    }
+    if( get_user_meta($user_ID,'last_name',true) == '' || get_user_meta($user_ID,'last_name',true) == null){
+        $errors['last_name'] = 'Le nom du parent prinçipal.';
+    }
+    if( get_user_meta($user_ID,'billing_phone',true) == '' || get_user_meta($user_ID,'billing_phone',true) == null){
+        $errors['billing_phone'] = 'Le téléphone du parent prinçipal.';
+    }
+    if( get_user_meta($user_ID,'urgent_first_name',true) == '' || get_user_meta($user_ID,'urgent_first_name',true) == null){
+        $errors['urgent_first_name'] = 'Le prénom du contact d\'urgence.';
+    }
+    if( get_user_meta($user_ID,'urgent_last_name',true) == '' || get_user_meta($user_ID,'urgent_last_name',true) == null){
+        $errors['urgent_last_name'] = 'Le nom du contact d\'urgence.';
+    }
+    if( get_user_meta($user_ID,'urgent_phone',true) == '' || get_user_meta($user_ID,'urgent_phone',true) == null){
+        $errors['urgent_phone'] = 'Le téléphone du contact d\'urgence.';
+    }
+    if( get_user_meta($user_ID,'urgent_link',true) == '' || get_user_meta($user_ID,'urgent_link',true) == null){
+        $errors['urgent_link'] = 'Le lien entre le participant et le contact d\'urgence.';
+    }
+
+    if(!$return_errors){
+        return count($errors)==0;
+    }
+    return $errors;
+}

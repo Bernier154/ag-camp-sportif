@@ -1,16 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     initmap();
-
-    var tooltip = new tippy('#add-kid', {
-        interactive:true,
-        theme:'dark',
-        allowHTML:true,
-        content:document.querySelector('#enfantinputs'),
-        placement: 'top',
-        showOnCreate: true,
-    });
-    // document.querySelector('#enfantinputs').remove();
+    addPriceBracketTooltip();
 
     const fulldates = Array.from(document.querySelector('#full-days').options).map((x)=>x.value)
     let date_qty = {};
@@ -144,7 +135,17 @@ function renderAddToCart(data){
     container.insertAdjacentHTML('afterbegin',`
         <h4><span>Prix:</span> <span>${data.price}$</span></h4>
         <button id="bouton-add-to-cart" class="ins-btn">Ajouter au panier</button>
-    `)
+        <p><small>Cumul des journées inscrites: ${data.cumulative}</small></p>
+    `);
+    const old_bracket_el = document.querySelector(`.selected_bracket`);
+    if(old_bracket_el){
+        old_bracket_el.classList.remove('selected_bracket');
+    }
+
+    const bracket_el = document.querySelector(`[data-bracket="${data.price_bracket}"]`);
+    if(bracket_el){
+        bracket_el.classList.add('selected_bracket');
+    }
 
 }
 
@@ -205,5 +206,21 @@ function initmap(){
       });
     
     
+    
+}
+
+
+function addPriceBracketTooltip(info){
+    document.querySelectorAll('td i.fa-circle-info').forEach(el=>{
+        var tooltip = new tippy(el, {
+            interactive:true,
+            theme:'dark content-camp',
+            allowHTML:true,
+            content:`Le prix est calculé selon le nombre de journée inscrite cumulative de l'année en cours.`,
+            placement: 'top',
+            zIndex:99999,
+            appendTo: () => document.body
+        });
+    })
     
 }

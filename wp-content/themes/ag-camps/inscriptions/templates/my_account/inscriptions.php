@@ -1,6 +1,6 @@
 <div class="info-box full">
     <i class="fa-solid fa-circle-check"></i>
-    <h3>Inscriptions</h3>
+    <h3>Réservations</h3>
     <div class="table-overflow">
         <table class="wc-table participants">
             <tr>

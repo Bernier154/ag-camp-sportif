@@ -8,7 +8,7 @@ import { isEmpty, map, noop } from 'lodash';
 /**
  * WordPress dependencies
  */
-import { TextControl, VisuallyHidden } from '@wordpress/components';
+import { VisuallyHidden } from '@wordpress/components';
 import { __, _n, sprintf } from '@wordpress/i18n';
 import {
 	useState,

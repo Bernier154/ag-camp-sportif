@@ -68,7 +68,11 @@ body.add-to-cart-open{
                             min-width: 25%;
                             padding-top: 2em;
                             padding-bottom: 2em;
-                            
+                            &.selected_bracket {
+                                color: var(--wp--preset--color--color-1);
+                                font-weight: 800;
+                                font-size: 1.1em;;
+                            }
                             
                         }
                     }
@@ -116,6 +120,9 @@ body.add-to-cart-open{
                     right: 0;
                     padding:1em;
                     display: flex;
+                    @media screen and (max-width:900px){
+                        position: relative;
+                    }
                     .contenu{
                         padding:0.7em;
                         
@@ -123,7 +130,7 @@ body.add-to-cart-open{
                             font-size: 14px;
                         }
                         background-color: #ffffff99;
-                        align-self: center;
+                        align-self: flex-start;
                         text-align: center;
                         border:1px solid #0009
                     }

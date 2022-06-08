@@ -16,7 +16,9 @@ if(agcsi_is_edit_page('new')): ?>
 
 <div class="meta-camp">
     <h2>Horaire</h2>
+    <p><a target="_blank" href="<?php echo home_url('/').'camps/fiche/'.$camp->ID.'/all' ?>" class="button button-primary">Imprimer la fiche de tout les jours.</a></p>
     <div class="horaire">
+        
         <?php foreach($participations as $date=>$participants): ?>
             <div class="jour">
                 <p class="nom"><?php echo date_i18n('j F Y',strtotime($date)) ?></p>

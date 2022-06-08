@@ -20,6 +20,7 @@ require_once AGCSI_ROOT.'classes/woocommerce/checkout.php';
 require_once AGCSI_ROOT.'classes/woocommerce/cart_icon.php';
 require_once AGCSI_ROOT.'classes/woocommerce/my_account.php';
 
+require_once AGCSI_ROOT.'classes/helpers/days-counter.php';
 require_once AGCSI_ROOT.'classes/helpers/editor-disable.php';
 
 require_once AGCSI_ROOT.'classes/admin/option-page.php';

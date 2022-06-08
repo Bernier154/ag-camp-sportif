@@ -17,6 +17,10 @@ class ITSEC_Site_Scanner_Mail {
 		$nc   = ITSEC_Core::get_notification_center();
 		$mail = static::get_mail( $scan );
 
+		if ( ! $mail ) {
+			return true;
+		}
+
 		return $nc->send( 'malware-scheduling', $mail );
 	}
 

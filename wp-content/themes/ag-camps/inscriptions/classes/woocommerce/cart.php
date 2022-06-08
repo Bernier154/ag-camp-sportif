@@ -2,6 +2,7 @@
 namespace Agcsi\WooCommerce;
 use Agcsi\CPT\Camp;
 use Agcsi\CPT\Enfant;
+use Agcsi\Helpers\DaysCounter;
 
 
 class Cart{
@@ -30,7 +31,8 @@ class Cart{
             }
         }
     }
-    
+
+
     /**
      * validate_camp_ajax
      *
@@ -61,6 +63,8 @@ class Cart{
         
         $valid_days = $validated["camp"]->get_valid_days();
         $request_days = explode(', ',$validated['dates']);
+        $total_days = count($request_days)+DaysCounter::fromUser(get_current_user_id());
+        $total_childs = count($validated['enfants']);
 
         foreach($request_days as $date){
             if(!in_array($date,$valid_days)){
@@ -68,7 +72,21 @@ class Cart{
             }
         }
         $response = ['success'=>true];
-        $response['price'] = $validated['camp']->price_for_one_day(count($request_days)+0,count($validated['enfants']), count($request_days) ) / 100;
+
+        $response['price'] = $validated['camp']->price_for_one_day(
+            count($request_days)+DaysCounter::fromUser(get_current_user_id()),
+            $total_childs, 
+            count($request_days) 
+        ) / 100;
+        
+        if($total_childs >= 3){
+            $response['price_bracket'] = '7,'.$total_childs;
+        }else{
+            $response['price_bracket'] = Camp::get_price_bracket($total_days).','.$total_childs;
+        }
+
+        $response['cumulative'] = DaysCounter::fromUser(get_current_user_id()) .' + '.count($request_days);
+
         return $response;
     }
     
@@ -210,7 +228,7 @@ class Cart{
             return '<span class="pastille">'.date_i18n('j F Y',strtotime($date)).'</span>';
         },$cart_item['dates'])).'</p>';
         $html.= '<h5>Participant(s):</h5>';
-        $html.= '<p>'.implode(', ',array_map(function($enfant_id){
+        $html.= '<p>'.implode(' ',array_map(function($enfant_id){
             return '<span class="pastille">'.(Enfant::get($enfant_id))->prenom.'</span>';
         },$cart_item['participants'])).'</p>';
         $html.= '</div>';

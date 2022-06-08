@@ -1,0 +1,107 @@
+.info-box {
+    border:2px solid rgba(var(--wp--preset--color--color-3),0.75);
+    display: inline-block;
+    padding: 2em;
+    padding-top: 0;
+    border-radius:1em;
+    margin: 0 auto;
+    width: auto;
+    box-shadow: 0px 2px 30px #00000011;
+    &.full {
+        display: block;
+    }
+    &>i{
+        color: var(--wp--preset--color--color-3);
+        font-size: 4em;
+        margin-top: -2em;
+    }
+    &.danger{
+        border:2px solid var(--wp--preset--color--color-1);
+        i {
+            color:var(--wp--preset--color--color-1); 
+        }
+    }
+
+    h3{
+        padding-top: 0.5em;
+        font-size:2.5rem;
+        font-weight: 600;
+        line-height: 1;
+        &:not(:first-child){
+            margin-top: 1.5em;
+        }
+        small {
+            opacity: 0.75;
+            font-weight: 300;
+            font-size: 1.6rem;;
+        }
+    }
+    h2{
+        text-align: center;
+        padding-top: 0.5em;
+        font-size:2.5rem;
+        font-weight: 600;
+    }
+    .error-box{
+        border:1px solid var(--wp--preset--color--color-1);
+        padding: 2em;
+        border-radius:1em;
+        margin-top: 1em;
+        &.good{
+            border:1px solid var(--wp--preset--color--vivid-green-cyan);
+            p{
+                color:var(--wp--preset--color--vivid-green-cyan);
+                margin-bottom: 0.2em!important;
+            }
+            ul{
+                padding-left: 0;
+                color:var(--wp--preset--color--vivid-green-cyan);
+            }
+        }
+        p{
+            color:var(--wp--preset--color--color-1);
+            margin-bottom: 0.2em!important;
+        }
+        ul{
+            padding-left: 0;
+            color:var(--wp--preset--color--color-1);
+        }
+    }
+    .boutons {
+        display: flex;
+        justify-content: center;
+        a,input[type="submit"]{
+            align-self: center;
+            display: block;
+            margin: 0 1em;
+            border:2px solid var(--wp--preset--color--color-1);
+            background-color:var(--wp--preset--color--color-1);
+            padding: 0.5em 1em;
+            color:#fff;
+            font-weight: 400;
+            font-size: 1.4rem;
+            border-radius: 0.5em;
+            transition:color 0.25s, background-color 0.25s;
+            &:hover{
+                background-color: transparent;
+                color:var(--wp--preset--color--color-1) ;
+            }
+            &.danger {
+                border:2px solid var(--wp--preset--color--color-1);
+                background-color:var(--wp--preset--color--color-1);
+                &:hover{
+                    background-color:transparent;
+                    color:var(--wp--preset--color--color-1) ;
+                }
+            }
+            &.positive{
+                border:2px solid var(--wp--preset--color--color-3);
+                background-color:var(--wp--preset--color--color-3);
+                &:hover{
+                    background-color:transparent;
+                    color:var(--wp--preset--color--color-3) ;
+                }
+            }
+        }
+    }
+}

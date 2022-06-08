@@ -12,48 +12,52 @@
                 </figure>
             <?php endif; ?>
             <?php if(get_field('description')): ?>
-                <h2>Description</h2>
+                <h2>Description: </h2>
                 <p><?php echo get_field('description') ?></p>
             <?php endif; ?>
             <?php if(get_field('lieu')): ?>
-                <h2>Lieu</h2>
+                <h2>Lieu: <small><?php echo get_field('lieu')['address'] ?></small></h2>
                 <div id="map" data-lieu="<?php echo get_field('lieu')['address'] ?>" data-lat="<?php echo get_field('lieu')['lat'] ?>" data-lng="<?php echo get_field('lieu')['lng'] ?>" ></div>
             <?php endif; ?>
-            <h2>Tarification</h2>
+            <br>
+            <h2>Tarification: </h2>
             <div class="grille-tarification">
                 <table>
                     <tr>
-                        <th>switch</th>
+                        <th></th>
                         <th>1 enfant</th>
                         <th>2 enfants<br><small>(2 Enfants 15% de réduction sur le 2e enfant)</small></th>
                         <th>3 enfants<br><small>(Et plus)</small></th>
                     </tr>
                     <tr>
                         <td>1 journée </i> </td>
-                        <td><?php echo $camp->price_for_one_day(1) / 100 ?>$</td>
-                        <td><?php echo $camp->price_for_one_day(1,2) / 100 ?>$</td>
-                        <td><?php echo $camp->price_for_one_day(1,3) / 100 ?>$</td>
+                        <td data-bracket="1,1" ><?php echo $camp->price_for_one_day(1) / 100 ?>$</td>
+                        <td data-bracket="1,2" ><?php echo $camp->price_for_one_day(1,2) / 100 ?>$</td>
+                        <td data-bracket="1,3" ><?php echo $camp->price_for_one_day(1,3) / 100 ?>$</td>
                     </tr>
                     <tr>
                         <td>1 semaine <i class="fa-solid fa-circle-info"></i> </td>
-                        <td><?php echo $camp->price_for_one_day(7,1,7) / 100 ?>$/sem</td>
-                        <td><?php echo $camp->price_for_one_day(7,2,7) / 100 ?>$/sem</td>
-                        <td rowspan="3">3 enfants et plus d'une même famille à <?php echo $camp->price_for_one_day(7,3,7) / 100 ?>$/sem</td>
+                        <td data-bracket="7,1" ><?php echo $camp->price_for_one_day(7,1,7) / 100 ?>$/sem</td>
+                        <td data-bracket="7,2" ><?php echo ($camp->price_for_one_day(7,2,7) * 2) / 100 ?>$/sem</td>
+                        <td rowspan="3" data-bracket="7,3" >3 enfants et plus d'une même famille à <?php echo ($camp->price_for_one_day(7,3,7) / 3) / 100 ?>$/sem</td>
                     </tr>
                     <tr>
                         <td>3 semaines <i class="fa-solid fa-circle-info"></i> </td> 
-                        <td><?php echo $camp->price_for_one_day(21,1,7) / 100 ?>$/sem</td>
-                        <td><?php echo $camp->price_for_one_day(21,2,7) / 100 ?>$/sem</td>
+                        <td data-bracket="21,1" ><?php echo $camp->price_for_one_day(21,1,7) / 100 ?>$/sem</td>
+                        <td data-bracket="21,2" ><?php echo ($camp->price_for_one_day(21,2,7) * 2) / 100 ?>$/sem</td>
                     </tr>
                     <tr>
                         <td>6 semaines <i class="fa-solid fa-circle-info"></i> </td>
-                        <td><?php echo $camp->price_for_one_day(42,1,7) / 100 ?>$/sem</td>
-                        <td><?php echo $camp->price_for_one_day(42,2,7) / 100 ?>$/sem</td>
+                        <td data-bracket="42,1" ><?php echo $camp->price_for_one_day(42,1,7) / 100 ?>$/sem</td>
+                        <td data-bracket="42,2" ><?php echo ($camp->price_for_one_day(42,2,7) * 2) / 100 ?>$/sem</td>
                     </tr>
                 </table>
             </div>
+            <?php if(get_field('note_tarification')): ?>
+                <p><small><?php echo get_field('note_tarification') ?></small></p>
+            <?php endif; ?>
         </div>
-        <form id="inscription" class="camp-reservation <?php echo is_user_logged_in()?'':'need-login' ?>">
+        <form id="inscription" class="camp-reservation <?php echo (is_user_logged_in() && user_has_complete_info(get_current_user_id()) )?'':'need-login' ?>">
             <input type="hidden" name="campId" value="<?php echo $camp->post->ID ?>">
             <h2>Inscription</h2>
             <div class="section">
@@ -83,7 +87,21 @@
                     <button id="all-week" class="ins-btn" >Sélectionner la période complète</button>
                 </div>
             </div>
-            <?php if(is_user_logged_in()): ?>
+            <?php if(!is_user_logged_in()): ?>
+                <div class="need-login-container">
+                    <div class="contenu">
+                        <p>Veuillez vous connecter avant de créer une inscription.</p>
+                        <p><a class="ins-btn" href="<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?>">Connexion</a></p>
+                    </div>
+                </div>
+            <?php elseif(!user_has_complete_info(get_current_user_id())): ?>
+                <div class="need-login-container">
+                    <div class="contenu">
+                        <p>Veuillez remplir les information de contact d'urgence avant d'inscrire un participant.</p>
+                        <p><a class="ins-btn" href="<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?>">Mon compte</a></p>
+                    </div>
+                </div>
+            <?php else: ?>
                 <div class="section">
                 <h4>Heures:</h4>
                 <p class="heures">Ce camp se déroule de <?php echo $camp->heures_html(false) ?></p>
@@ -112,13 +130,6 @@
                         <p class="error"></p>
                     </div>
                     
-                </div>
-            <?php else: ?>
-                <div class="need-login-container">
-                    <div class="contenu">
-                        <p>Veuillez vous connecter avant de créer une inscription.</p>
-                        <p><a class="ins-btn" href="<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?>">Connexion</a></p>
-                    </div>
                 </div>
             <?php endif; ?>
         </div>

@@ -3,7 +3,7 @@ Contributors: ithemes, chrisjean, mattdanner, timothyblynjacobs
 Tags: security plugin, malware scanner, security, malware prevention, two-factor authentication, brute force protection, scanner, password protection, ban, bad bots, audit log
 Requires at least: 5.8
 Tested up to: 6.0
-Stable tag: 8.1.1
+Stable tag: 8.1.2
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -150,6 +150,10 @@ Manage more than one WordPress site? Release lockouts and keep your themes, plug
 7. Advanced Security Tools
 
 == Changelog ==
+
+= 8.1.2 =
+* Tweak: Require a Title when creating a new Dashboard.
+* Bug Fix: Don't attempt to send a Site Scan notification for Clean scans preventing a fatal error after scheduled site scans.
 
 = 8.1.1 =
 * Bug Fix: Error when visiting the Notifications page after activating a module with notifications for the first time.
@@ -657,5 +661,5 @@ Manage more than one WordPress site? Release lockouts and keep your themes, plug
 
 == Upgrade Notice ==
 
-= 8.1.1 =
+= 8.1.2 =
 Version 8.1.0 includes new features and important bug fixes.

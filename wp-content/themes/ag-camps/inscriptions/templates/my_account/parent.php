@@ -3,6 +3,16 @@
 ?><div class="info-box full">
     <i class="fa-solid fa-circle-user"></i>
     <h3>Information du parent</h3>
+    <?php if(!user_has_complete_info(get_current_user_id())): ?>
+        <div class="error-box">
+            <p>Pour obtenir le statut complet de la fiche, il vous manque les informations suivantes:</p>
+            <ul>
+                <?php foreach(user_has_complete_info(get_current_user_id(),true) as $key=>$info):?>
+                    <li><a href="#<?php echo $key ?>"><?php echo $info ?></a></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
     <form action="" method="POST" class="form-enfant">
         <?php wp_nonce_field( 'edit_parent', 'edit_parent_nonce' ); ?>
         <div class="form-row">

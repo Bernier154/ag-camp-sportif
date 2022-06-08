@@ -102,34 +102,67 @@ class Camp {
     /**
      * Retourne le prix d'une journée selon le nombre de jour achetés
      *
-     * @param  mixed $days_in_cart
+     * @param  mixed $cumulative_days
      * @param  mixed $nb_participants
      * @param  mixed $nb_jours
      * @return void
      */
-    public function price_for_one_day($days_in_cart = 1,$nb_participants = 1 , $nb_jours = 1 ){
-        $prix_base = price_to_int_notation(get_field('prix',$this->ID));
-        
-
-        if($days_in_cart >= 7 && $nb_participants >= 3){
-            $prix_base = $prix_base * 0.29;
-        }else if($days_in_cart >=42){
-            $prix_base = $prix_base * 0.53;
-        }else if($days_in_cart >=21){
-            $prix_base = $prix_base * 0.57;
-        }else if($days_in_cart >=7){
-            $prix_base = $prix_base * 0.62;
+    public function price_for_one_day($cumulative_days = 1,$nb_participants = 1 , $nb_jours = 1 ){
+        $acf_tarifs = get_field('tarif',$this->ID);
+        $level = 0;
+        $child_level = 0;
+        //Créer la grille de tarifs
+        $tarifs = [
+            '1'=>[
+                '1'=>$acf_tarifs['prix_1_jour_1_enfant'],
+                '2'=>$acf_tarifs['prix_1_jour_2_enfant'],
+                '3'=>$acf_tarifs['prix_1_jour_3_enfant']
+            ],
+            '7'=>[
+                '1'=>$acf_tarifs['prix_7_jour_1_enfant'] / 7,
+                '2'=>$acf_tarifs['prix_7_jour_2_enfant'] / 7,
+                '3'=>$acf_tarifs['prix_7_jour_3_enfant'] / 7
+            ],
+            '21'=>[
+                '1'=>$acf_tarifs['prix_21_jour_1_enfant'] / 7,
+                '2'=>$acf_tarifs['prix_21_jour_2_enfant'] / 7,
+                '3'=>$acf_tarifs['prix_21_jour_3_enfant'] / 7
+            ],
+            '42'=>[
+                '1'=>$acf_tarifs['prix_42_jour_1_enfant'] / 7,
+                '2'=>$acf_tarifs['prix_42_jour_2_enfant'] / 7,
+                '3'=>$acf_tarifs['prix_42_jour_3_enfant'] / 7
+            ]
+        ];
+        // set tarif level
+        foreach($tarifs as $key=>$val){
+            if($cumulative_days >= intval($key)){
+                $level = $key;
+            }
         }
-
-        $prix_total = $prix_base;
-
-        if($nb_participants == 2 || ($nb_participants >= 2 && $days_in_cart < 7)){
-            $prix_total += $prix_base * 0.8183 ;
+        foreach($tarifs[$level] as $key=>$val){
+            if($nb_participants >= intval($key)){
+                $child_level = $key;
+            }
         }
         
-
-
-        return (int) $prix_total * $nb_jours;
+        return (int) ((($tarifs[$level][$child_level]  * 100 ) * $nb_jours) * $nb_participants) ;
+    }
+    
+    /**
+     * get_price_bracket
+     *
+     * @return void
+     */
+    public static function get_price_bracket($days){
+        $level = 1;
+        $brackets = ['1','7','21','42'];
+        foreach($brackets as $key){
+            if($days >= intval($key)){
+                $level = $key;
+            }
+        }
+        return $level;
     }
     
     /**
@@ -163,7 +196,55 @@ class Camp {
         }
         return null;
     }
+
+    /**
+     * all
+     *
+     * @return array[Camp]
+     */
+    public static function all() {
+        $posts = get_posts([
+            'post_type'=>'camps',
+            'post_per_page'=>-1
+        ]);
+        $arr = [];
+        if ($posts) {
+            foreach($posts as $post){
+                if($post->post_type == 'camps'){
+                    $arr[]= Camp::from_post($post);
+                }
+            } 
+        }
+        return $arr;
+    }
     
+
+    /**
+     * all_not_past
+     *
+     * @return array[Camp]
+     */
+    public static function all_not_past() {
+        $posts = get_posts([
+            'post_type'=>'camps',
+            'post_per_page'=>-1
+        ]);
+        $arr = [];
+        if ($posts) {
+            foreach($posts as $post){
+                if($post->post_type == 'camps'){
+                    $camp = Camp::from_post($post);
+                    $days = $camp->get_valid_days();
+                    if(strtotime(end($days)) > strtotime('now')){
+                        $arr[]= Camp::from_post($post);
+                    }
+                    
+                }
+            } 
+        }
+        return $arr;
+    }
+
     /**
      * single_page_small_banner
      *

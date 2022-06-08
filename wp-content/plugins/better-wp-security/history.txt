@@ -979,3 +979,6 @@
 8.1.1 - 2022-04-14 - Timothy Jacobs, Lisa Canini
 	Bug Fix: Error when visiting the Notifications page after activating a module with notifications for the first time.
 	Bug Fix: Update deprecated withState usages to useState.
+8.1.2 - 2022-04-26 - Timothy Jacobs, Lisa Canini
+	Tweak: Require a Title when creating a new Dashboard.
+	Bug Fix: Don't attempt to send a Site Scan notification for Clean scans preventing a fatal error after scheduled site scans.

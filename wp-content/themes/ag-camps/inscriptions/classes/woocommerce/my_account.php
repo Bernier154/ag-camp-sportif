@@ -12,14 +12,27 @@ class MyAccount{
         echo '<div class="info-box full"><i class="fa-solid fa-map"></i>';
     }
     public static function add_header_orders(){
-        echo '<div class="info-box full"><i class="fa-solid fa-basket-shopping"></i></i><h3>Commandes</h3>';
+        echo '<div class="info-box full"><i class="fa-solid fa-basket-shopping"></i></i><h3>Factures</h3>';
     }
     public static function add_footer(){
         echo '</div><br>';
     }
+
+    public static function edit_orders_menu_label($items){
+        $items['orders'] = 'Factures';
+        return $items;
+    }
+
+    public static function dashboard_content($items){
+        include(AGCSI_ROOT.'/templates/my_account/dashboard.php');
+    }
     
 
     public static function register(){
+
+        add_action('woocommerce_account_page_endpoint', __NAMESPACE__.'\MyAccount::dashboard_content');
+
+        add_filter('woocommerce_account_menu_items', __NAMESPACE__.'\MyAccount::edit_orders_menu_label', 99, 1);
 
         add_action( 'woocommerce_before_account_payment_methods', __NAMESPACE__."\MyAccount::add_header_paiements" );
         add_action( 'woocommerce_after_account_payment_methods', __NAMESPACE__."\MyAccount::add_footer" ); 
@@ -34,3 +47,5 @@ class MyAccount{
         add_action( 'woocommerce_after_account_orders', __NAMESPACE__."\MyAccount::add_footer" ); 
     }
 }
+
+

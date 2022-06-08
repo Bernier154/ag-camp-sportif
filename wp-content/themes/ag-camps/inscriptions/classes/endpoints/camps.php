@@ -41,10 +41,6 @@ class CampsEndpoint {
         return ob_get_clean();
     }
 
-    public static function get_price_for_one_day($post,$days_in_cart = 1 , $nb_enfants = 1){
-        
-
-    }
 
     public static function collection_params( $query_params ) {
         $query_params['start'] = [
