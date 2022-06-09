@@ -14,6 +14,7 @@ class Enfant {
     public $maladies;
     public $maladie_debut;
     public $alergie;
+    public $allergies_details;
     public $epipen;
     public $vaccination;
     public $medicament;
@@ -38,6 +39,7 @@ class Enfant {
         'maladies',
         'maladie_debut',
         'alergie',
+        'allergies_details',
         'epipen',
         'vaccination',
         'medicament',

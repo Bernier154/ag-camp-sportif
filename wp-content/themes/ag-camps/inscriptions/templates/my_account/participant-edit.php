@@ -93,6 +93,12 @@
                     <span class="checkbox-wrap"><input type="radio" name="agcsi_enfant_alergie" value="Non" id="non-allergie" <?php  agcsi_check_radio('agcsi_enfant_alergie','Non',$enfant->alergie) ?> /><label for="non-allergie">Non</label></span>
                 </fieldset>
             </label>
+            <label for="agcsi_allergies_details">
+            Si oui, spécifier l'allergie(s)
+                <input type="text" name="agcsi_allergies_details" id="agcsi_allergies_details" value="<?php agcsi_fill_text('agcsi_allergies_details',$enfant->allergies_details) ?>" />
+            </label>
+        </div>
+        <div class="form-row">
             <label for="epipen">
                 Est-ce que votre enfant a son épipen avec lui?
                 <fieldset>
@@ -101,8 +107,6 @@
                     <span class="checkbox-wrap"><input type="radio" name="agcsi_enfant_epipen" value="n/a" id="nd-epipen"  <?php  agcsi_check_radio('agcsi_enfant_epipen','n/a',$enfant->epipen) ?> /><label for="nd-epipen">Mon enfant n'a pas d'allergies</label></span>
                 </fieldset>
             </label>
-        </div>
-        <div class="form-row">
             <label for="vaccination">
             En fonction des allergies de votre enfant, son carnet de vaccination est-il à jour?
                 <fieldset>

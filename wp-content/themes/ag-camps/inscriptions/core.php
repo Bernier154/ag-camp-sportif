@@ -30,7 +30,6 @@ require_once AGCSI_ROOT.'classes/admin/meta-box-inscriptions.php';
 
 require_once AGCSI_ROOT.'classes/module.php';
 
-
 add_action('init','\Agcsi\Module::init');
 if(defined('GOOGLE_MAP_API') && GOOGLE_MAP_API != ''){
     acf_update_setting('google_api_key', GOOGLE_MAP_API);

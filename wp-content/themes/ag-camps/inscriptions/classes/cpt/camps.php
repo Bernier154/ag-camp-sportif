@@ -227,7 +227,7 @@ class Camp {
     public static function all_not_past() {
         $posts = get_posts([
             'post_type'=>'camps',
-            'post_per_page'=>-1
+            'posts_per_page'=>-1
         ]);
         $arr = [];
         if ($posts) {

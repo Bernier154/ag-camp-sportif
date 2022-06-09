@@ -179,6 +179,7 @@ class AccountParticipants {
             "maladies"              => agcsi_validate_checkbox_array((isset($_POST['agcsi_enfant_maladie']) ? $_POST['agcsi_enfant_maladie'] : []), isset($_POST['agcsi_enfant_autre_maladie']), $_POST['agcsi_enfant_maladie_autre_data']),
             "maladie_debut"         => sanitize_text_field($_POST['agcsi_enfant_maladie_debut']),
             "alergie"               => agcsi_validate_yes_no($_POST['agcsi_enfant_alergie']),
+            "allergies_details" => sanitize_text_field($_POST['agcsi_allergies_details']),
             "epipen"                => agcsi_validate_yes_no($_POST['agcsi_enfant_epipen']),
             "vaccination"           => agcsi_validate_yes_no($_POST['agcsi_enfant_vaccination']),
             "medicament"            => agcsi_validate_yes_no($_POST['agcsi_enfant_medicament']),
