@@ -2,26 +2,70 @@
 # This file is distributed under the same license as the Plugins - iThemes Security - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-04-15 10:10:02+0000\n"
+"PO-Revision-Date: 2022-05-22 07:54:33+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: GlotPress/3.0.0\n"
+"X-Generator: GlotPress/4.0.0-alpha.1\n"
 "Language: fr\n"
 "Project-Id-Version: Plugins - iThemes Security - Stable (latest release)\n"
 
-#: core/modules/site-scanner/mail.php:195
+#: core/admin-pages/init.php:46
+msgid "Get More Security"
+msgstr "Plus de sécurité"
+
+#: core/modules/site-scanner/mail.php:199
 msgid "In the Known Vulnerabilities section of the report, click “Show Details.” If a security fix is available, the report will indicate the latest version number."
 msgstr "Dans la section des vulnérabilités connues du rapport, cliquez sur « Afficher les détails ». Si un correctif est disponible, le rapport indiquera le numéro de la dernière version."
 
-#: core/modules/site-scanner/mail.php:196
+#: core/modules/site-scanner/mail.php:200
 msgid "If a security fix is available, update the vulnerable plugin or theme as soon as possible from Your WordPress admin dashboard > Updates page."
 msgstr "Si un correctif de sécurité est disponible, mettez à jour le thème ou l’extension vulnérable le plus vite possible depuis l’administration de votre site WordPress dans Tableau de bord > Mises à jour."
 
-#: core/modules/site-scanner/mail.php:197
+#: core/modules/site-scanner/mail.php:201
 msgid "Log in now to update."
 msgstr "Connectez-vous pour mettre à jour."
+
+#: core/modules/user-groups/Module/Module.php:159
+msgid "List of created User Groups"
+msgstr "Liste des groupes utilisateurs créés"
+
+#: core/modules/user-groups/Module/Module.php:267
+msgid "Could not import '%1$s' User Group: %2$s"
+msgstr "Échec de l’importation du groupe utilisateur « %1$s » : %2$s"
+
+#: core/rest.php:200
+msgid "Cannot connect to site: %l."
+msgstr "Impossible de se connecter au site : %l."
+
+#: core/rest.php:210
+msgid "No Link header was found."
+msgstr "Aucun en-tête de lien n’a été trouvé."
+
+#: core/rest.php:230
+msgid "Could not find a REST API URL in the Link header."
+msgstr "Aucune URL d’API REST n’a été trouvé dans l’en-tête de lien."
+
+#: core/rest.php:243 core/rest.php:276
+msgid "Cannot connect to index: %l."
+msgstr "Impossible de se connecter à l’index : %l."
+
+#: core/rest.php:253
+msgid "REST API index returned a non-200 status code (%d)."
+msgstr "L’index d’API REST a renvoyé un code d’état non-200 (%d)."
+
+#: core/rest.php:286
+msgid "iThemes Security REST API index returned a non-200 status code (%d)."
+msgstr "L’index d’API REST d’iThemes Security a renvoyé un code d’état non-200 (%d)."
+
+#: core/rest.php:296
+msgid "iThemes Security REST API index returned no data."
+msgstr "L’index d’API REST d’iThemes Security n’a renvoyé aucune donnée."
+
+#: core/rest.php:263
+msgid "REST API index returned no data."
+msgstr "L’index d’API REST n’a renvoyé aucune donnée."
 
 #: core/modules/malware-scheduling/class-itsec-malware-scheduling.php:148
 msgid "Site Scan Results"
@@ -35,7 +79,7 @@ msgstr "Le module %1$sPlanification d’analyse de site%2$s envoie un e-mail s�
 msgid "iThemes Security Pro’s most popular and powerful feature is now free in iThemes Security 8.1!"
 msgstr "La fonctionnalité la plus populaire et la plus puissante d’iThemes Security Pro est maintenant gratuite dans iThemes Security 8.1 !"
 
-#: core/modules/site-scanner/mail.php:180
+#: core/modules/site-scanner/mail.php:184
 msgid "What Actions Should I Take?"
 msgstr "Que dois-je faire ?"
 
@@ -47,19 +91,19 @@ msgstr "Tableaux de bord et cartes de sécurité."
 msgid "Could not create \"%1$s\" dashboard for \"%2$s\": %3$s"
 msgstr "Impossible de créer le tableau de bord « %1$s » pour « %2$s » : %3$s"
 
-#: core/modules/site-scanner/mail.php:182
+#: core/modules/site-scanner/mail.php:186
 msgid "Vulnerable WordPress plugins and themes are the #1 reason WordPress sites get hacked."
 msgstr "Les extensions et thèmes vulnérables sont la 1ère cause des piratages de sites WordPress."
 
-#: core/modules/site-scanner/mail.php:183
+#: core/modules/site-scanner/mail.php:187
 msgid "Either quickly update the vulnerable theme, plugin or WordPress version immediately to the newest version or immediately deactivate the plugin or theme until a fix is available."
 msgstr "Mettez immédiatement à jour les éléments vulnérables ou désactivez-les tant en attendant la sortie d’un correctif."
 
-#: core/modules/site-scanner/mail.php:188
+#: core/modules/site-scanner/mail.php:192
 msgid "How to View the Report & See Available Updates"
 msgstr "Comment voir le rapport et les mises à jour disponibles"
 
-#: core/modules/site-scanner/mail.php:191
+#: core/modules/site-scanner/mail.php:195
 msgid "%1$sView the Site Scan Report%2$s available now from your WordPress admin dashboard."
 msgstr "%1$sConsultez le rapport d’analyse de site%2$s disponible depuis votre tableau de bord d’administration WordPress."
 
@@ -2260,12 +2304,12 @@ msgstr "Seuil de blocage"
 msgid "iThemes Security Pro couldn't verify the license for this site. An active license is required to authenticate the Site Scanner."
 msgstr "iThemes Security Pro n’a pas vu vérifier la licence de ce site. Une licence active est requise pour authentifier l’analyse de site."
 
-#: core/modules/site-scanner/mail.php:106
-#: core/modules/site-scanner/mail.php:173
+#: core/modules/site-scanner/mail.php:110
+#: core/modules/site-scanner/mail.php:177
 msgid "View Report"
 msgstr "Voir le rapport"
 
-#: core/modules/site-scanner/api.php:304 core/modules/site-scanner/api.php:316
+#: core/modules/site-scanner/api.php:306 core/modules/site-scanner/api.php:318
 msgid "iThemes Security Pro is not activated."
 msgstr "iThemes Security Pro n’est pas activé."
 
@@ -2281,50 +2325,50 @@ msgstr "Mettre à jour le thème"
 msgid "Update Plugin"
 msgstr "Mettre à jour l’extension"
 
-#: core/modules/site-scanner/mail.php:46
+#: core/modules/site-scanner/mail.php:50
 msgid "Site Scan for %s"
 msgstr "Analyse de site pour %s"
 
-#: core/modules/site-scanner/mail.php:69
+#: core/modules/site-scanner/mail.php:73
 msgid "Scheduled site scan resulted in an error"
 msgstr "Une analyse de site planifiée a provoqué une erreur"
 
-#: core/modules/site-scanner/mail.php:71
+#: core/modules/site-scanner/mail.php:75
 msgid "Scheduled site scan found no issues."
 msgstr "Une analyse de site planifiée n’a trouvé aucun problème."
 
-#: core/modules/site-scanner/mail.php:76
+#: core/modules/site-scanner/mail.php:80
 msgid "Scheduled site scan report: %l"
 msgstr "Rapport d’analyse de site planifiée : %l"
 
-#: core/modules/site-scanner/mail.php:79
+#: core/modules/site-scanner/mail.php:83
 msgid "Scheduled site scan found warnings"
 msgstr "Une analyse de site planifiée a trouvé des avertissements"
 
 #. translators: 1. Site name.
-#: core/modules/site-scanner/mail.php:100
+#: core/modules/site-scanner/mail.php:104
 msgid "An error occurred while running the scheduled site scan on %s:"
 msgstr "Une erreur est survenue lors de l’analyse de site planifiée de %s :"
 
-#: core/modules/site-scanner/mail.php:119
+#: core/modules/site-scanner/mail.php:123
 msgid "The scheduled site scan found %1$s issue when scanning %2$s."
 msgid_plural "The scheduled site scan found %1$s issues when scanning %2$s."
 msgstr[0] "L’analyse de site planifiée a trouvé %1$s problème %2$s."
 msgstr[1] "L’analyse de site planifiée a trouvé %1$s problèmes %2$s."
 
-#: core/modules/site-scanner/mail.php:131
+#: core/modules/site-scanner/mail.php:135
 msgid "The scanner encountered %s additional error."
 msgid_plural "The scanner encountered %s additional errors."
 msgstr[0] "L’analyse a rencontré %s erreur additionnelle."
 msgstr[1] "L’analyse a rencontré %s erreurs additionnelles."
 
-#: core/modules/site-scanner/mail.php:140
+#: core/modules/site-scanner/mail.php:144
 msgid "The scheduled site scan encountered %1$s error when scanning %2$s."
 msgid_plural "The scheduled site scan encountered %1$s errors when scanning %2$s."
 msgstr[0] "L’analyse de site planifiée a rencontré %1$s erreur %2$s."
 msgstr[1] "L’analyse de site planifiée a rencontré %1$s erreurs %2$s."
 
-#: core/modules/site-scanner/mail.php:166
+#: core/modules/site-scanner/mail.php:170
 msgid "Scan Errors"
 msgstr "Erreurs d’analyse"
 
@@ -2460,27 +2504,27 @@ msgstr "Analyse de site"
 msgid "Please %1$sconfirm%2$s your licensing details."
 msgstr "Veuillez %1$sconfirmer%2$s les détails de licence."
 
-#: core/modules/site-scanner/api.php:291
+#: core/modules/site-scanner/api.php:293
 msgid "Not an iThemes Security Pro install."
 msgstr "Pas une installation d’iThemes Security Pro."
 
-#: core/modules/site-scanner/api.php:295
+#: core/modules/site-scanner/api.php:297
 msgid "Could not find the iThemes updater."
 msgstr "Impossible de trouver le module de mise à jour d’iThemes."
 
-#: core/modules/site-scanner/api.php:310
+#: core/modules/site-scanner/api.php:312
 msgid "Failed to calculate hmac."
 msgstr "Échec du calcul hmac."
 
-#: core/modules/site-scanner/api.php:358
+#: core/modules/site-scanner/api.php:360
 msgid "Unknown Error"
 msgstr "Erreur inconnue"
 
-#: core/modules/site-scanner/api.php:353
+#: core/modules/site-scanner/api.php:355
 msgid "Invalid JSON."
 msgstr "JSON invalide."
 
-#: core/modules/site-scanner/api.php:390
+#: core/modules/site-scanner/api.php:392
 msgid "Invalid JSON: %s."
 msgstr "JSON invalide : %s."
 
@@ -2688,7 +2732,7 @@ msgstr "Votre compte utilisateur n’a pas les droits pour installer ou activer 
 msgid "Or"
 msgstr "Ou"
 
-#: core/modules/site-scanner/logs.php:18 core/modules/site-scanner/mail.php:44
+#: core/modules/site-scanner/logs.php:18 core/modules/site-scanner/mail.php:48
 msgid "Site Scan"
 msgstr "Analyse du site"
 
@@ -2780,7 +2824,7 @@ msgid "Gradually rolling out."
 msgstr "Sortie progressive."
 
 #: core/lib/class-itsec-lib-remote-messages.php:92
-#: core/modules/site-scanner/api.php:383
+#: core/modules/site-scanner/api.php:385
 msgid "Empty response body."
 msgstr "Corps de réponse vide."
 
@@ -3136,7 +3180,7 @@ msgid "Remind Me Later"
 msgstr "Me le rappeler ultérieurement"
 
 #. translators: 1. Error code.
-#: core/modules/site-scanner/mail.php:102
+#: core/modules/site-scanner/mail.php:106
 #: core/modules/site-scanner/template.php:109
 #: core/packages/components/src/site-scan-results/wp-error-details.js:33
 #: dist/dashboard/dashboard--settings--go-pro.js:1
@@ -4609,13 +4653,13 @@ msgstr "Connectez-vous avec une adresse de messagerie ou un identifiant"
 msgid "By default, WordPress allows users to log in using either an email address or username. This setting allows you to restrict logins to only accept email addresses or usernames."
 msgstr "Par défaut, WordPress permet aux utilisateurs de se connecter à l’aide d’une adresse e-mail ou d’un identifiant. Ce réglage vous permet de restreindre les connexions pour n’accepter que les adresses e-mail ou que les identifiants."
 
-#: core/modules/wordpress-tweaks/class-itsec-wordpress-tweaks.php:187
-msgid "<strong>ERROR</strong>: Invalid email address or incorrect password."
-msgstr "<strong>Erreur</strong> : e-mail invalide ou mot de passe incorrect."
-
 #: core/modules/wordpress-tweaks/class-itsec-wordpress-tweaks.php:189
 msgid "<strong>ERROR</strong>: Invalid username or incorrect password."
-msgstr "<strong>Erreur</strong> : identifiant invalide ou mot de passe incorrect."
+msgstr "<strong>Erreur</strong> : identifiant invalide ou mot de passe incorrect."
+
+#: core/modules/wordpress-tweaks/class-itsec-wordpress-tweaks.php:187
+msgid "<strong>ERROR</strong>: Invalid email address or incorrect password."
+msgstr "<strong>Erreur</strong> : adresse e-mail invalide ou mot de passe incorrect."
 
 #: module-strings.php:273
 msgid "Require SSL"
@@ -5470,7 +5514,7 @@ msgstr "Journaux d’iThemes Security"
 
 #: core/admin-pages/page-logs.php:60 core/lib.php:1290
 msgid "An \"invalid format\" error prevented the request from completing as expected. The format of data returned could not be recognized. This could be due to a plugin/theme conflict or a server configuration issue."
-msgstr "Une erreur de « format invalide » a empêché la requête d’aboutir comme prévu. Le format des données renvoyées n’a pas été reconnu. Cela peut être dû à un conflit d’extension / de thème ou à un problème de configuration serveur."
+msgstr "Une erreur de « format non valide » a empêché la requête d’aboutir comme prévu. Le format des données renvoyées n’a pas été reconnu. Cela peut être dû à un conflit d’extension / de thème ou à un problème de configuration serveur."
 
 #: module-strings.php:203
 msgid "Enable Redirection"
@@ -5809,7 +5853,7 @@ msgid "The scan failed to properly scan the site."
 msgstr "L’analyse du site a échoué."
 
 #. translators: 1. Error message.
-#: core/modules/site-scanner/mail.php:101
+#: core/modules/site-scanner/mail.php:105
 #: core/modules/site-scanner/template.php:108
 #: core/packages/components/src/site-scan-results/wp-error-details.js:26
 #: dist/dashboard/dashboard--settings--go-pro.js:1

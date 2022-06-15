@@ -92,7 +92,7 @@ class Inscription {
             ],
             'orderby'=>'title',
             'order'=>'ASC',
-            'post_per_page' => -1
+            'posts_per_page' => -1
         ]);
         foreach($posts as $post){
             $inscriptions[] = Inscription::from_post($post);

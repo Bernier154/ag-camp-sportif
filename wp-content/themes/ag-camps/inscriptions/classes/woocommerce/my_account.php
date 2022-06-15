@@ -1,5 +1,7 @@
 <?php 
 namespace Agcsi\WooCommerce;
+use Agcsi\Cpt\Camp;
+use Agcsi\Cpt\Enfant;
 
 class MyAccount{
     public static function add_header_paiements(){
@@ -29,6 +31,7 @@ class MyAccount{
     
 
     public static function register(){
+        remove_action( 'woocommerce_order_details_after_order_table', 'woocommerce_order_again_button' );
 
         add_action('woocommerce_account_page_endpoint', __NAMESPACE__.'\MyAccount::dashboard_content');
 
@@ -45,6 +48,22 @@ class MyAccount{
 
         add_action( 'woocommerce_before_account_orders', __NAMESPACE__."\MyAccount::add_header_orders" );
         add_action( 'woocommerce_after_account_orders', __NAMESPACE__."\MyAccount::add_footer" ); 
+
+        add_filter( 'woocommerce_display_item_meta', function($html, $item, $args){
+            $camp = Camp::get($item['camp']);
+            $html = '<p>'.$camp->post->post_title.'</p>';
+            $html.= '<div class="metas">';
+            $html.= '<h5>Journée(s):</h5>';
+            $html.= '<p>'.implode(' ',array_map(function($date){
+                return '<span class="pastille">'.date_i18n('j F Y',strtotime($date)).'</span>';
+            },$item['dates'])).'</p>';
+            $html.= '<h5>Participant(s):</h5>';
+            $html.= '<p>'.implode(' ',array_map(function($enfant_id){
+                return '<span class="pastille">'.(Enfant::get($enfant_id))->prenom.'</span>';
+            },$item['participants'])).'</p>';
+            $html.= '</div>';
+            return $html;
+        } ,10,3);
     }
 }
 
