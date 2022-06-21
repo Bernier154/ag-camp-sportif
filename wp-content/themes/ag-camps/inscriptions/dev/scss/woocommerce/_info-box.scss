@@ -67,7 +67,7 @@
             color:var(--wp--preset--color--color-1);
         }
     }
-    .boutons {
+    .boutons,input[type="submit"] {
         display: flex;
         justify-content: center;
         a,input[type="submit"]{

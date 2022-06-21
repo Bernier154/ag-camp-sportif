@@ -54,10 +54,40 @@ class OptionPage {
             'page-options-agcsi',
             'section_options_generales_agcsi'
         );
+
+        
+
         register_setting( 'page-options-agcsi', 'adresse_contact' );
         register_setting( 'page-options-agcsi', 'produit_inscription' );
         register_setting( 'page-options-agcsi', 'note_sous_impression_inscription' );
         register_setting( 'page-options-agcsi', 'note_sous_calendrier' );
+
+
+    }
+
+    public static function add_rebate_settings() {
+
+        add_settings_section(
+            'section_rabais_agcsi',
+            'Pourcentages de rabais',
+            null,
+            'page-options-agcsi'
+        );
+
+        add_settings_field( 'rabais_2_enfants','Rabais pour 2ième enfant (%)', __NAMESPACE__.'\OptionPage::setting_percentage_rebate', 'page-options-agcsi', 'section_rabais_agcsi',['field'=>'rabais_2_enfants']);
+        add_settings_field( 'rabais_3_enfants','Rabais pour 3ième enfant et plus (%)', __NAMESPACE__.'\OptionPage::setting_percentage_rebate', 'page-options-agcsi', 'section_rabais_agcsi',['field'=>'rabais_3_enfants']);
+
+        add_settings_field( 'rabais_5_jours','Rabais appliqué après 5 jours cummulé acheté (%)' , __NAMESPACE__.'\OptionPage::setting_percentage_rebate', 'page-options-agcsi', 'section_rabais_agcsi',['field'=>'rabais_5_jours']);
+        add_settings_field( 'rabais_15_jours','Rabais appliqué après 15 jours cummulé acheté (%)', __NAMESPACE__.'\OptionPage::setting_percentage_rebate', 'page-options-agcsi', 'section_rabais_agcsi',['field'=>'rabais_15_jours']);
+        add_settings_field( 'rabais_30_jours','Rabais appliqué après 30 jours cummulé acheté (%)', __NAMESPACE__.'\OptionPage::setting_percentage_rebate', 'page-options-agcsi', 'section_rabais_agcsi',['field'=>'rabais_30_jours']);
+
+        register_setting( 'page-options-agcsi', 'rabais_2_enfants' );
+        register_setting( 'page-options-agcsi', 'rabais_3_enfants' );
+
+        register_setting( 'page-options-agcsi', 'rabais_5_jours' );
+        register_setting( 'page-options-agcsi', 'rabais_15_jours' );
+        register_setting( 'page-options-agcsi', 'rabais_30_jours' );
+
     }
 
     public static function page_content() {
@@ -89,8 +119,15 @@ class OptionPage {
         wp_editor( get_option( 'note_sous_calendrier' ), 'note_sous_calendrier', $settings = array('textarea_name'=>'note_sous_calendrier') );
     }
 
+    public static function setting_percentage_rebate($args) {
+        ?>
+        <input type="number" name="<?php echo $args['field'] ?>" value="<?php echo get_option($args['field']) ?>" >
+        <?php
+    }
+
     public static function register(){
         add_action( 'admin_menu', __NAMESPACE__.'\OptionPage::add_menu_item' );
+        add_action( 'admin_menu', __NAMESPACE__.'\OptionPage::add_rebate_settings' );
         add_action( 'admin_init', __NAMESPACE__.'\OptionPage::add_settings' );
     }
 

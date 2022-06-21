@@ -73,14 +73,18 @@ class Cart{
         }
         $response = ['success'=>true];
 
-        $response['price'] = $validated['camp']->price_for_one_day(
+        $formatter = new \NumberFormatter('fr_CA', \NumberFormatter::CURRENCY);
+
+        $price = $validated['camp']->price_for_one_day(
             count($request_days)+DaysCounter::fromUser(get_current_user_id()),
             $total_childs, 
             count($request_days) 
         ) / 100;
+
+        $response['price'] = $formatter->formatCurrency($price, 'CAD');
         
         if($total_childs >= 3){
-            $response['price_bracket'] = '7,'.$total_childs;
+            $response['price_bracket'] = Camp::get_price_bracket($total_days).',3';
         }else{
             $response['price_bracket'] = Camp::get_price_bracket($total_days).','.$total_childs;
         }
@@ -108,6 +112,11 @@ class Cart{
         $request_days = explode(', ',$validated['dates']);
 
         foreach($request_days as $date){
+
+            //CHECK: NB jours minimum
+            if(count($request_days) < intval(get_field('minimum_days',$validated['camp']->ID))){
+                return ['success'=>false,'error'=>"Ce camp requière la réservation de ".get_field('minimum_days',$validated['camp']->ID)." jours minimum"];
+            }
 
             //CHECK: si la date est valide dans les jours de camps sélectionnés
             if(!in_array($date,$valid_days)){

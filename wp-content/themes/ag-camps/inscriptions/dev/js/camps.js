@@ -133,9 +133,9 @@ function renderAddToCart(data){
     }
     container.innerHTML = "";
     container.insertAdjacentHTML('afterbegin',`
-        <h4><span>Prix:</span> <span>${data.price}$</span></h4>
+        <h4><span>Prix:</span> <span>${data.price}</span></h4>
         <button id="bouton-add-to-cart" class="ins-btn">Ajouter au panier</button>
-        <p><small>Cumul des journées inscrites: ${data.cumulative}</small></p>
+        <p><small>Cumul des journées inscrites: ${data.cumulative}</small></p> 
     `);
     const old_bracket_el = document.querySelector(`.selected_bracket`);
     if(old_bracket_el){

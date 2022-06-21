@@ -13,6 +13,8 @@ if(agcsi_is_edit_page('new')): ?>
 
 ?>
 
+<?php $parentsID = []; ?>
+
 
 <div class="meta-camp">
     <h2>Horaire</h2>
@@ -27,6 +29,7 @@ if(agcsi_is_edit_page('new')): ?>
                     <?php for($i=0;$i<$nb_places;$i++): ?>
                         <?php if(isset($participant_arr[$i])): ?>
                             <p><?php echo $participant_arr[$i]->prenom.' '.$participant_arr[$i]->nom ?></p>
+                            <?php $parentsID[] = $participant_arr[$i]->parentID; ?>
                         <?php else: ?>
                             <p>Disponible</p>
                         <?php endif; ?>
@@ -38,7 +41,15 @@ if(agcsi_is_edit_page('new')): ?>
             </div>
         <?php endforeach; ?>
     </div>
+    <hr>
+
+    <h2><strong>Email des parents</strong></h2>
+    <p style="width:100%"><?php echo implode(', ',array_map(function($id){
+        $user = get_user_by('id', $id);
+        return $user->user_email;
+    },array_unique($parentsID))) ?></p>
 </div>
+
 
 
 

@@ -21,55 +21,60 @@
             <?php endif; ?>
             <br>
             <h2>Tarification: </h2>
-            <?php if(get_field('tarif_special_bool')): ?>
-                <div class="grille-tarification">
-                    <table>
-                        <tr>
-                            <th></th>
-                            <th>1 enfant</th>
-                            <th>2 enfants<br><small>(Et plus)</small></th>
-                        </tr>
-                        <tr>
-                            <td>1 journée </i> </td>
-                            <td data-bracket="1,1" ><?php echo $camp->price_for_one_day(1) / 100 ?>$</td>
-                            <td data-bracket="1,2" ><?php echo $camp->price_for_one_day(1,2) / 100 ?>$</td>
-                        </tr>
-                    </table>
-                </div>
+            <?php $formatter = new NumberFormatter('fr_CA', NumberFormatter::CURRENCY); ?>
+            <?php if(!get_field('no_rebate')): ?>
+            <div class="grille-tarification">
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>1 enfant</th>
+                        <th>2 enfants<br><small>(2 Enfants <?php echo get_option('rabais_2_enfants',true) ?>% de réduction sur le 2e enfant)</small></th>
+                        <th>3 enfants<br><small>(Et plus)</small><br><small>(<?php echo get_option('rabais_3_enfants',true) ?>% de réduction sur le 3e enfant)</small></th>
+                    </tr>
+                    <tr>
+                        <td>1 journée  </i> </td>
+                        <td data-bracket="1,1" ><?php echo $formatter->formatCurrency(($camp->price_for_one_day(1) / 100),'CAD') ?></td>
+                        <td data-bracket="1,2" ><?php echo $formatter->formatCurrency(($camp->price_for_one_day(1,2) / 100),'CAD') ?></td>
+                        <td data-bracket="1,3" ><?php echo $formatter->formatCurrency(($camp->price_for_one_day(1,3) / 100),'CAD') ?></td>
+                    </tr>
+                    <tr>
+                        <td>1 semaine <br><small>(<?php echo get_option('rabais_5_jours',true) ?>% de réduction)</small> <i class="fa-solid fa-circle-info"></i> </td>
+                        <td data-bracket="5,1" ><?php echo $formatter->formatCurrency(($camp->price_for_one_day(5,1,5) / 100),'CAD') ?>/sem</td>
+                        <td data-bracket="5,2" ><?php echo $formatter->formatCurrency(($camp->price_for_one_day(5,2,5) / 100),'CAD') ?>/sem</td>
+                        <td  data-bracket="5,3" ><?php echo $formatter->formatCurrency(($camp->price_for_one_day(5,3,5) / 100),'CAD') ?>/sem</td>
+                    </tr>
+                    <tr>
+                        <td>3 semaines <br><small>(<?php echo get_option('rabais_15_jours',true) ?>% de réduction)</small> <i class="fa-solid fa-circle-info"></i> </td> 
+                        <td data-bracket="15,1" ><?php echo $formatter->formatCurrency(($camp->price_for_one_day(15,1,5) / 100),'CAD') ?>/sem</td>
+                        <td data-bracket="15,2" ><?php echo $formatter->formatCurrency(($camp->price_for_one_day(15,2,5) / 100),'CAD') ?>/sem</td>
+                        <td data-bracket="15,3" ><?php echo $formatter->formatCurrency(($camp->price_for_one_day(15,3,5) / 100),'CAD') ?>/sem</td>
+                    </tr>
+                    <tr>
+                        <td>6 semaines <br><small>(<?php echo get_option('rabais_30_jours',true) ?>% de réduction)</small> <i class="fa-solid fa-circle-info"></i> </td>
+                        <td data-bracket="30,1" ><?php echo $formatter->formatCurrency(($camp->price_for_one_day(30,1,5) / 100),'CAD') ?>/sem</td>
+                        <td data-bracket="30,2" ><?php echo $formatter->formatCurrency(($camp->price_for_one_day(30,2,5) / 100),'CAD') ?>/sem</td>
+                        <td data-bracket="30,3" ><?php echo $formatter->formatCurrency(($camp->price_for_one_day(30,3,5) / 100),'CAD') ?>/sem</td>
+                    </tr>
+                </table>
+            </div>
             <?php else: ?>
                 <div class="grille-tarification">
-                    <table>
-                        <tr>
-                            <th></th>
-                            <th>1 enfant</th>
-                            <th>2 enfants<br><small>(2 Enfants 15% de réduction sur le 2e enfant)</small></th>
-                            <th>3 enfants<br><small>(Et plus)</small></th>
-                        </tr>
-                        <tr>
-                            <td>1 journée </i> </td>
-                            <td data-bracket="1,1" ><?php echo $camp->price_for_one_day(1) / 100 ?>$</td>
-                            <td data-bracket="1,2" ><?php echo $camp->price_for_one_day(1,2) / 100 ?>$</td>
-                            <td data-bracket="1,3" ><?php echo $camp->price_for_one_day(1,3) / 100 ?>$</td>
-                        </tr>
-                        <tr>
-                            <td>1 semaine <i class="fa-solid fa-circle-info"></i> </td>
-                            <td data-bracket="7,1" ><?php echo $camp->price_for_one_day(7,1,7) / 100 ?>$/sem</td>
-                            <td data-bracket="7,2" ><?php echo ($camp->price_for_one_day(7,2,7)) / 100 ?>$/sem</td>
-                            <td rowspan="3" data-bracket="7,3" >3 enfants et plus d'une même famille à <?php echo ($camp->price_for_one_day(7,3,7) / 3) / 100 ?>$/sem</td>
-                        </tr>
-                        <tr>
-                            <td>3 semaines <i class="fa-solid fa-circle-info"></i> </td> 
-                            <td data-bracket="21,1" ><?php echo $camp->price_for_one_day(21,1,7) / 100 ?>$/sem</td>
-                            <td data-bracket="21,2" ><?php echo ($camp->price_for_one_day(21,2,7)) / 100 ?>$/sem</td>
-                        </tr>
-                        <tr>
-                            <td>6 semaines <i class="fa-solid fa-circle-info"></i> </td>
-                            <td data-bracket="42,1" ><?php echo $camp->price_for_one_day(42,1,7) / 100 ?>$/sem</td>
-                            <td data-bracket="42,2" ><?php echo ($camp->price_for_one_day(42,2,7)) / 100 ?>$/sem</td>
-                        </tr>
-                    </table>
-                </div>
-        <?php endif; ?>
+                <table>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td>1 journée  </i> </td>
+                        <td data-bracket="1,1" ><?php echo $formatter->formatCurrency(($camp->price_for_one_day(1) / 100),'CAD') ?></td>
+                    </tr>
+                    <tr>
+                        <td>1 semaine  </i> </td>
+                        <td data-bracket="1,1" ><?php echo $formatter->formatCurrency(($camp->price_for_one_day(7,1,5) / 100),'CAD') ?></td>
+                    </tr>
+                </table>
+            </div>
+            <?php endif; ?>
             <?php if(get_field('note_tarification')): ?>
                 <p><small><?php echo get_field('note_tarification') ?></small></p>
             <?php endif; ?>
@@ -99,6 +104,9 @@
                     <legend>
                         <p class="indispo">Les journées grisées ne sont plus disponibles.</p>
                         <p class="dispo">Les disponibilités sont inscrites dans les petits cercles rouges.</p>
+                        <?php if(get_field('minimum_days') > 1): ?>
+                            <p class="dispo"><?php echo "Ce camp requière la réservation de ".get_field('minimum_days')." jours minimum" ?></p>
+                        <?php endif; ?>
                     </legend>
                     
                     <button id="all-week" class="ins-btn" >Sélectionner la période complète</button>

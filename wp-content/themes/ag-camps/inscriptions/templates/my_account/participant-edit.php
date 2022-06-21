@@ -146,14 +146,14 @@
         </div>
         <div class="form-row">
             <label class="full-width" for="urgence-frais">
-                Je consens qu'advenant un accident, AG Camp Sportif n'est pas responsable de couvrir les frais relié excepté si l'accident  est relié aux infrastructures. Dans ce cas, la ville de Mirabel couvrira les frais.
+                Je consens qu'advenant un accident, AG Camp Sportif n'est pas responsable de couvrir les frais relié excepté si l'accident  est relié aux infrastructures. Dans ce cas, la ville de Mirabel et Blainville couvrira les frais.
                 <fieldset>
                     <span class="checkbox-wrap"><input type="checkbox" name="agcsi_enfant_consent_frais_urgence" id="consent-urgence" <?php  agcsi_check_checkbox('agcsi_enfant_consent_frais_urgence','',agcsi_truth_to_bool($enfant->consent_frais_urgence)) ?> /><label for="consent-urgence">Je confirme avoir lu et compris la fiche médicale d'AG Camp Sportif</label></span>
                 </fieldset>
             </label>
         </div>
         <div class="boutons">
-            <input class="positive" type="submit" name="agcsi_save_enfant" value="Sauvegarder">
+            <input class="danger" type="submit" name="agcsi_save_enfant" value="Sauvegarder">
             <?php if($enfant->ID): ?>
                 <a class="danger" href="<?php echo wc_get_endpoint_url('participants').'delete/'.$enfant->ID; ?>">Supprimer</a>
             <?php endif; ?>

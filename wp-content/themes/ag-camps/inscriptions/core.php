@@ -35,4 +35,11 @@ if(defined('GOOGLE_MAP_API') && GOOGLE_MAP_API != ''){
     acf_update_setting('google_api_key', GOOGLE_MAP_API);
 }
 
+function custom_shop_page_redirect() {
+    if( is_shop() ){
+        wp_redirect( home_url( '/inscriptions' ) );
+        exit();
+    }
+}
+add_action( 'template_redirect', 'custom_shop_page_redirect' );
 

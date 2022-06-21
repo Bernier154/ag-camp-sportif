@@ -41,7 +41,6 @@ main{
         }
     }
     .content-presence{
-        padding-top: 50px;
         table {
             width: 100%;
             border-collapse: collapse;
@@ -92,6 +91,9 @@ main{
                         &>div {
                             display: flex;
                             flex-direction: column;
+                            input[disabled]{
+                                opacity: 0.4;
+                            }
                         }
                     }
                 }
@@ -145,6 +147,10 @@ main{
         width: 8.5in;
         height: 11in;
         page-break-inside: avoid;
+    }
+    .pagebreak {
+        clear: both;
+        page-break-after: always;
     }
 }
 

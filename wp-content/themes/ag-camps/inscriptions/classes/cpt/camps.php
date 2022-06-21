@@ -108,57 +108,52 @@ class Camp {
      * @return void
      */
     public function price_for_one_day($cumulative_days = 1,$nb_participants = 1 , $nb_jours = 1 ){
+        $prix_total = 0;
+        $prix_base = get_field('prix',$this->ID);
+        $rabais_prix_jour = 0;
+
+        $rabais_nb_enfants = [
+            "1" => 0,
+            "2" => get_option('rabais_2_enfants',true),
+            "3" => get_option('rabais_3_enfants',true)
+        ];
+        $rabais_nb_jours_cumulatif = [
+            "0" => 0,
+            "5" => get_option('rabais_5_jours',true),
+            "15" => get_option('rabais_15_jours',true),
+            "30" => get_option('rabais_30_jours',true)
+        ];
         
-        $level = 0;
-        $child_level = 0;
-        //Créer la grille de tarifs
-        if(get_field('tarif_special_bool',$this->ID)){
-            $acf_tarifs = get_field('tarif_spceial',$this->ID);
-            $tarifs = [
-                '1'=>[
-                    '1'=>$acf_tarifs['prix_1_jour_1_enfant'],
-                    '2'=>$acf_tarifs['prix_1_jour_2_enfant']
-                ]
-            ];
-        }else{
-            $acf_tarifs = get_field('tarif',$this->ID);
-            $tarifs = [
-                '1'=>[
-                    '1'=>$acf_tarifs['prix_1_jour_1_enfant'],
-                    '2'=>$acf_tarifs['prix_1_jour_2_enfant'],
-                    '3'=>$acf_tarifs['prix_1_jour_3_enfant']
-                ],
-                '7'=>[
-                    '1'=>$acf_tarifs['prix_7_jour_1_enfant'] / 7,
-                    '2'=>$acf_tarifs['prix_7_jour_2_enfant'] / 7,
-                    '3'=>$acf_tarifs['prix_7_jour_3_enfant'] / 7
-                ],
-                '21'=>[
-                    '1'=>$acf_tarifs['prix_21_jour_1_enfant'] / 7,
-                    '2'=>$acf_tarifs['prix_21_jour_2_enfant'] / 7,
-                    '3'=>$acf_tarifs['prix_21_jour_3_enfant'] / 7
-                ],
-                '42'=>[
-                    '1'=>$acf_tarifs['prix_42_jour_1_enfant'] / 7,
-                    '2'=>$acf_tarifs['prix_42_jour_2_enfant'] / 7,
-                    '3'=>$acf_tarifs['prix_42_jour_3_enfant'] / 7
-                ]
-            ];
-        }
-        
-        // set tarif level
-        foreach($tarifs as $key=>$val){
-            if($cumulative_days >= intval($key)){
-                $level = $key;
+
+        if(!get_field('no_rebate',$this->ID)){
+            foreach($rabais_nb_jours_cumulatif as $key=>$val){
+                if(($cumulative_days + $nb_jours) >= intval($key)){
+                    $rabais_prix_jour = $val;
+                }
             }
         }
-        foreach($tarifs[$level] as $key=>$val){
-            if($nb_participants >= intval($key)){
-                $child_level = $key;
+
+        for($i = 1; $i<= $nb_participants; $i++){
+            $rabais_prix_enfant = 0;
+            if(!get_field('no_rebate',$this->ID)){
+                foreach($rabais_nb_enfants as $key=>$val){
+                    if($i >= intval($key)){
+                        $rabais_prix_enfant = $val;
+                    }
+                }
             }
+            
+            $rabais_jours_decimal = $rabais_prix_jour > 0 ? 1 - ($rabais_prix_jour/100) : 1;
+            $rabais_enfants_decimal = $rabais_prix_enfant > 0 ? 1 - ($rabais_prix_enfant/100) : 1;
+
+
+            $prix_individuel = (($prix_base * $rabais_jours_decimal) * $rabais_enfants_decimal) ;
+            $prix_total += $prix_individuel * $nb_jours;
+            
         }
+
         
-        return (int) ((($tarifs[$level][$child_level]  * 100 ) * $nb_jours) * $nb_participants) ;
+        return (int) ($prix_total * 100) ;
     }
     
     /**
@@ -168,7 +163,7 @@ class Camp {
      */
     public static function get_price_bracket($days){
         $level = 1;
-        $brackets = ['1','7','21','42'];
+        $brackets = ['1','5','15','30'];
         foreach($brackets as $key){
             if($days >= intval($key)){
                 $level = $key;
