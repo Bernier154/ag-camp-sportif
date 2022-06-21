@@ -43,3 +43,13 @@ function custom_shop_page_redirect() {
 }
 add_action( 'template_redirect', 'custom_shop_page_redirect' );
 
+
+add_action( 'woocommerce_before_cart_table', 'woo_add_continue_shopping_button_to_cart' );
+
+function woo_add_continue_shopping_button_to_cart() {
+ $shop_page_url = home_url('/').'inscriptions';
+ 
+ echo '<div class="woocommerce-message">';
+ echo ' <a href="'.$shop_page_url.'" class="button">Réserver d\'autres dates →</a>';
+ echo '</div>';
+}
